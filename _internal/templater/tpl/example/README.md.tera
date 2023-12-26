@@ -1,7 +1,7 @@
 # {{ config.display.title }}
 
 {% if config.display.preview_file -%}
-![Preview](./media/{{ config.display.preview_file }})
+![Preview](./_media/{{ config.display.preview_file }})
 {% endif %}
 
 {% if config.display.tutorial_url -%}

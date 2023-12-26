@@ -1,6 +1,6 @@
 # Tanks
 
-![Preview](./media/preview.png)
+![Preview](./_media/preview.png)
 
 
 [Visit Tutorial](https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio)

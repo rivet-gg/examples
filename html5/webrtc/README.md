@@ -1,6 +1,6 @@
 # WebRTC
 
-![Preview](./media/preview.png)
+![Preview](./_media/preview.png)
 
 
 
