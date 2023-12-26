@@ -1,7 +1,7 @@
 # Bomber
 
 <p align="center">
-![Preview](./_media/preview_512.png)
+    <img src="./_media/preview_512.png" />
 </p>
 
 

@@ -1,8 +1,13 @@
 mod example;
 
 use anyhow::{Context, Result};
-use std::{fs, path::Path};
+use rayon::prelude::*;
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
 use tera::Tera;
+use walkdir::WalkDir;
 
 fn main() -> Result<()> {
     let mut tera = Tera::default();
@@ -13,18 +18,42 @@ fn main() -> Result<()> {
     tera.add_raw_template("root/README.md", include_str!("../tpl/root/README.md.tera"))?;
 
     // Template examples
-    let mut example_configs = Vec::new();
-    for entry in walkdir::WalkDir::new(".") {
-        let entry = entry?;
-        if entry.file_name() == "example.toml" {
-            let path = entry.path().parent().context("path.parent")?.to_owned();
-            let config = toml::from_str::<example::Config>(&fs::read_to_string(entry.path())?)?;
+    // let mut example_configs = Vec::new();
+    // for entry in walkdir::WalkDir::new(".") {
+    //     let entry = entry?;
+    //     if entry.file_name() == "example.toml" {
+    //         let path = entry.path().parent().context("path.parent")?.to_owned();
+    //         let config = toml::from_str::<example::Config>(&fs::read_to_string(entry.path())?)?;
 
-            template_example(&config, &tera, &path)?;
+    //         template_example(&config, &tera, &path)?;
 
-            example_configs.push((path, config));
-        }
-    }
+    //         example_configs.push((path, config));
+    //     }
+    // }
+
+    let entries: Vec<_> = WalkDir::new(".")
+        .into_iter()
+        .filter_map(Result::ok)
+        .collect();
+
+    let mut example_configs = entries
+        .par_iter()
+        .filter(|entry| entry.file_name() == "example.toml")
+        .filter_map(|entry| {
+            let path = entry
+                .path()
+                .parent()
+                .context("path.parent")
+                .ok()?
+                .to_owned();
+            let config_str = fs::read_to_string(entry.path()).ok()?;
+            let config = toml::from_str::<example::Config>(&config_str).ok()?;
+
+            template_example(&config, &tera, &path).ok()?;
+
+            Some((path, config))
+        })
+        .collect::<Vec<(PathBuf, example::Config)>>();
 
     // Sort examples & template for overview
     example_configs.sort_by_key(|(_, config)| -config.display.overview_weight.unwrap_or(0));
@@ -59,12 +88,14 @@ fn template_example(config: &example::Config, tera: &Tera, path: &Path) -> Resul
     let preview_path = path.join("_media").join("preview.png");
     if preview_path.exists() {
         let img = image::open(&preview_path)?;
-        let resized = img.resize(128, img.height(), image::imageops::FilterType::Lanczos3);
-        resized.save(path.join("_media").join("preview_128.png"))?;
 
-        let img = image::open(&preview_path)?;
-        let resized = img.resize(512, img.height(), image::imageops::FilterType::Lanczos3);
-        resized.save(path.join("_media").join("preview_512.png"))?;
+        let path_clone = preview_path.clone();
+        let (a, b) = rayon::join(
+            || resize_and_save(&img, &path_clone, 128),
+            || resize_and_save(&img, &preview_path, 512),
+        );
+        a?;
+        b?;
     }
 
     // Write README
@@ -84,5 +115,11 @@ fn template_root(tera: &Tera, example_configs: &[example::tpl::TemplateOverview]
     let readme_content = tera.render("root/README.md", &context)?;
     fs::write("README.md", readme_content)?;
 
+    Ok(())
+}
+
+fn resize_and_save(img: &image::DynamicImage, path: &PathBuf, width: u32) -> Result<()> {
+    let resized = img.resize(width, img.height(), image::imageops::FilterType::Lanczos3);
+    resized.save(path.with_file_name(format!("preview_{}.png", width)))?;
     Ok(())
 }

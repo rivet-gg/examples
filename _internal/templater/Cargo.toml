@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.76"
 image = { version = "0.24.7" }
+rayon = "1.8.0"
 # image = { version = "0.24.7", default-features = false, features = ["png"] }
 semver = { version = "1.0.20", features = ["serde"] }
 serde = { version = "1.0.193", features = ["derive"] }
