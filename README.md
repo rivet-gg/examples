@@ -9,14 +9,14 @@
 ♟️ = [Matchmaker](https://rivet.gg/docs/matchmaker)
 
 
-| Name | Tutorial | Engine | Features | Language | Networking | Rendering |
-| ---- | -------- | ------ | -------- | -------- | ---------- | --------- |
-| [Bomber](./godot/bomber) | [Tutorial](https://rivet.gg/learn/godot/tutorials/crash-course) | Godot | ♟️🌐 | GDScript | High-Level Multiplayer |  |
-| [Tanks](./unity/tanks-fishnet) | [Tutorial](https://rivet.gg/learn/unity/tutorials/fishnet/crash-course) | Unity | ♟️🌐 | C# | Fish-Networking |  |
-| [Tanks](./html5/tanks-socketio-canvas) | [Tutorial](https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio) | HTML5 | ♟️🌐 | TypeScript | Socket.IO | Canvas |
-| [Colyseus](./html5/colyseus) |  | HTML5 | ♟️🌐 | TypeScript | Colyseus |  |
-| [WebRTC](./html5/webrtc) |  | HTML5 | 🌐 | TypeScript | WebRTC |  |
-| [CLI WebSocket](./rust/cli-websocket) |  | Custom | 🌐 | Rust | WebSocket |  |
-| [Core dump](./c/coredump) |  | Custom | 🌐 | C |  |  |
+| Name | Tutorial | Engine | Features | Language | Networking | Rendering | Preview |
+| ---- | -------- | ------ | -------- | -------- | ---------- | --------- | ------- |
+| [Bomber](./godot/bomber) | [Tutorial](https://rivet.gg/learn/godot/tutorials/crash-course) | Godot | ♟️🌐 | GDScript | High-Level Multiplayer |  | ![Preview](./godot/bomber/media/preview.png | width = 100) |
+| [Tanks](./unity/tanks-fishnet) | [Tutorial](https://rivet.gg/learn/unity/tutorials/fishnet/crash-course) | Unity | ♟️🌐 | C# | Fish-Networking |  | ![Preview](./unity/tanks-fishnet/media/preview.png | width = 100) |
+| [Tanks](./html5/tanks-socketio-canvas) | [Tutorial](https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio) | HTML5 | ♟️🌐 | TypeScript | Socket.IO | Canvas | ![Preview](./html5/tanks-socketio-canvas/media/preview.png | width = 100) |
+| [Colyseus](./html5/colyseus) |  | HTML5 | ♟️🌐 | TypeScript | Colyseus |  |  |
+| [WebRTC](./html5/webrtc) |  | HTML5 | 🌐 | TypeScript | WebRTC |  | ![Preview](./html5/webrtc/media/preview.png | width = 100) |
+| [CLI WebSocket](./rust/cli-websocket) |  | Custom | 🌐 | Rust | WebSocket |  |  |
+| [Core dump](./c/coredump) |  | Custom | 🌐 | C |  |  |  |
 
 

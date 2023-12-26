@@ -1,6 +1,7 @@
 [display]
 title = "Tanks"
 tutorial_url = "https://rivet.gg/learn/unity/tutorials/fishnet/crash-course"
+preview_file = "preview.png"
 overview_weight = 95
 
 [meta]

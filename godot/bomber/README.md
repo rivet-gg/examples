@@ -1,5 +1,6 @@
 # Bomber
 
+![Preview](./media/preview.png)
 
 
 [Visit Tutorial](https://rivet.gg/learn/godot/tutorials/crash-course)

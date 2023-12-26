@@ -8,6 +8,7 @@ Leverages the [`wrtc`](https://www.npmjs.com/package/wrtc) NodeJS library to run
 extra_steps = [
     "npm install -g node-pre-gyp"
 ]
+preview_file = "preview.png"
 
 [meta]
 engine = "HTML5"
