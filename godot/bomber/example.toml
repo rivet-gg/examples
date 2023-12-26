@@ -1,6 +1,7 @@
 [display]
 title = "Bomber"
 tutorial_url = "https://rivet.gg/learn/godot/tutorials/crash-course"
+overview_weight = 100
 
 [meta]
 engine = "Godot"
