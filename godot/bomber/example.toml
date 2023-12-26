@@ -1,7 +1,6 @@
 [display]
 title = "Bomber"
 tutorial_url = "https://rivet.gg/learn/godot/tutorials/crash-course"
-preview_file = "preview.png"
 overview_weight = 100
 
 [meta]

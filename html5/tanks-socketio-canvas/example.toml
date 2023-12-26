@@ -1,7 +1,6 @@
 [display]
 title = "Tanks"
 tutorial_url = "https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio"
-preview_file = "preview.png"
 overview_weight = 90
 
 [meta]

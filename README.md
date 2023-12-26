@@ -9,14 +9,14 @@
 ♟️ = [Matchmaker](https://rivet.gg/docs/matchmaker)
 
 
-| Name | Tutorial | Engine | Features | Language | Networking | Rendering | Preview |
-| ---- | -------- | ------ | -------- | -------- | ---------- | --------- | ------- |
-| [Bomber](./godot/bomber) | [Tutorial](https://rivet.gg/learn/godot/tutorials/crash-course) | Godot | ♟️🌐 | GDScript | High-Level Multiplayer |  | ![Preview](./godot/bomber/_media/preview.png | width = 100) |
-| [Tanks](./unity/tanks-fishnet) | [Tutorial](https://rivet.gg/learn/unity/tutorials/fishnet/crash-course) | Unity | ♟️🌐 | C# | Fish-Networking |  | ![Preview](./unity/tanks-fishnet/_media/preview.png | width = 100) |
-| [Tanks](./html5/tanks-socketio-canvas) | [Tutorial](https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio) | HTML5 | ♟️🌐 | TypeScript | Socket.IO | Canvas | ![Preview](./html5/tanks-socketio-canvas/_media/preview.png | width = 100) |
-| [Colyseus](./html5/colyseus) |  | HTML5 | ♟️🌐 | TypeScript | Colyseus |  |  |
-| [WebRTC](./html5/webrtc) |  | HTML5 | 🌐 | TypeScript | WebRTC |  | ![Preview](./html5/webrtc/_media/preview.png | width = 100) |
-| [CLI WebSocket](./rust/cli-websocket) |  | Custom | 🌐 | Rust | WebSocket |  |  |
-| [Core dump](./c/coredump) |  | Custom | 🌐 | C |  |  |  |
+| Preview | Name | Tutorial | Engine | Features | Language | Networking | Rendering |
+| ------- | ---- | -------- | ------ | -------- | -------- | ---------- | --------- |
+| ![Preview](./godot/bomber/_media/preview_128.png) | [Bomber](./godot/bomber) | [Tutorial](https://rivet.gg/learn/godot/tutorials/crash-course) | Godot | ♟️🌐 | GDScript | High-Level Multiplayer |  |
+| ![Preview](./unity/tanks-fishnet/_media/preview_128.png) | [Tanks](./unity/tanks-fishnet) | [Tutorial](https://rivet.gg/learn/unity/tutorials/fishnet/crash-course) | Unity | ♟️🌐 | C# | Fish-Networking |  |
+| ![Preview](./html5/tanks-socketio-canvas/_media/preview_128.png) | [Tanks](./html5/tanks-socketio-canvas) | [Tutorial](https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio) | HTML5 | ♟️🌐 | TypeScript | Socket.IO | Canvas |
+| ![Preview](./html5/colyseus/_media/preview_128.png) | [Colyseus](./html5/colyseus) |  | HTML5 | ♟️🌐 | TypeScript | Colyseus |  |
+| ![Preview](./html5/webrtc/_media/preview_128.png) | [WebRTC](./html5/webrtc) |  | HTML5 | 🌐 | TypeScript | WebRTC |  |
+| ![Preview](./rust/cli-websocket/_media/preview_128.png) | [CLI WebSocket](./rust/cli-websocket) |  | Custom | 🌐 | Rust | WebSocket |  |
+| ![Preview](./c/coredump/_media/preview_128.png) | [Core dump](./c/coredump) |  | Custom | 🌐 | C |  |  |
 
 

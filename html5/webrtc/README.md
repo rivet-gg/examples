@@ -1,6 +1,8 @@
 # WebRTC
 
-![Preview](./_media/preview.png)
+<p align="center">
+![Preview](./_media/_preview_512.png)
+</p>
 
 
 
