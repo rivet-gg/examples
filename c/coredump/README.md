@@ -1,17 +1,15 @@
-# Tanks
+# Core dump
 
 
 
-[Visit Tutorial](https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio)
 
 
-|  Language | Networking | Rendering |
-|  --- | --- | --- |
-|  [TypeScript](https://www.typescriptlang.org) | [Socket.IO](https://socket.io) | [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) |
+|  Language |
+|  --- |
+|  [C](https://www.iso.org/standard/74528.html) |
 
 **Rivet Features**
 
-- [♟️ Matchmaker](https://rivet.gg/docs/matchmaker)
 - [🌐 Dynamic Servers](https://rivet.gg/docs/dynamic-servers)
 
 

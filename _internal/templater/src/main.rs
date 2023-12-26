@@ -7,12 +7,17 @@ use tera::Tera;
 #[derive(Clone, Debug, Serialize, Deserialize)]
 enum ConfigMetaEngine {
     HTML5,
+    Custom,
 }
 
 impl ConfigMetaEngine {
     fn deploy_docs_url(&self) -> &'static str {
         match self {
             Self::HTML5 => {
+                // TODO: Build better docs for this
+                "https://rivet.gg/learn/html5/tutorials/crash-course#step-3-publish-your-game"
+            }
+            Self::Custom => {
                 // TODO: Build better docs for this
                 "https://rivet.gg/learn/html5/tutorials/crash-course#step-3-publish-your-game"
             }
@@ -23,12 +28,14 @@ impl ConfigMetaEngine {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 enum ConfigMetaLanguage {
     TypeScript,
+    C,
 }
 
 impl ConfigMetaLanguage {
     fn url(&self) -> &'static str {
         match self {
             Self::TypeScript => "https://www.typescriptlang.org",
+            Self::C => "https://www.iso.org/standard/74528.html",
         }
     }
 }
@@ -37,6 +44,7 @@ impl std::fmt::Display for ConfigMetaLanguage {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::TypeScript => write!(f, "TypeScript"),
+            Self::C => write!(f, "C"),
         }
     }
 }
@@ -118,15 +126,15 @@ struct ConfigMeta {
     engine: ConfigMetaEngine,
     engine_version: Option<SemVer>,
     language: ConfigMetaLanguage,
-    networking: ConfigMetaNetworking,
-    rendering: ConfigMetaRendering,
+    networking: Option<ConfigMetaNetworking>,
+    rendering: Option<ConfigMetaRendering>,
     features: Vec<ConfigMetaFeature>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 struct ConfigDisplay {
     title: String,
-    tutorial_url: String,
+    tutorial_url: Option<String>,
     preview_file: Option<String>,
 }
 
@@ -178,16 +186,20 @@ fn template_dir(tera: &Tera, path: &Path) -> Result<()> {
         value: config.meta.language.to_string(),
         url: Some(config.meta.language.url().to_owned()),
     });
-    meta.push(TemplateMeta {
-        title: "Networking".into(),
-        value: config.meta.networking.to_string(),
-        url: Some(config.meta.networking.url().to_owned()),
-    });
-    meta.push(TemplateMeta {
-        title: "Rendering".into(),
-        value: config.meta.rendering.to_string(),
-        url: Some(config.meta.rendering.url().to_owned()),
-    });
+    if let Some(networking) = &config.meta.networking {
+        meta.push(TemplateMeta {
+            title: "Networking".into(),
+            value: networking.to_string(),
+            url: Some(networking.url().to_owned()),
+        });
+    }
+    if let Some(rendering) = &config.meta.rendering {
+        meta.push(TemplateMeta {
+            title: "Rendering".into(),
+            value: rendering.to_string(),
+            url: Some(rendering.url().to_owned()),
+        });
+    }
     context.insert("meta", &meta);
 
     let features = config

@@ -1,0 +1,9 @@
+[display]
+title = "Core dump"
+
+[meta]
+engine = "Custom"
+language = "C"
+features = ["DynamicServers"]
+
+

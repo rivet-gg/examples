@@ -4,7 +4,9 @@
 ![Preview](./media/{{ config.display.preview_file }})
 {% endif %}
 
+{% if config.display.tutorial_url -%}
 [Visit Tutorial]({{ config.display.tutorial_url }})
+{% endif %}
 
 | {% for x in meta %} {{ x.title }} |{% endfor %}
 | {% for x in meta %} --- |{% endfor %}
