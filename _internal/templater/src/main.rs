@@ -6,6 +6,9 @@ use tera::Tera;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 enum ConfigMetaEngine {
+    Godot,
+    Unity,
+    Unreal,
     HTML5,
     Custom,
 }
@@ -13,6 +16,16 @@ enum ConfigMetaEngine {
 impl ConfigMetaEngine {
     fn deploy_docs_url(&self) -> &'static str {
         match self {
+            // TODO: Build better docs for this
+            Self::Godot => {
+                "https://rivet.gg/learn/godot/tutorials/crash-course#step-4-deploy-to-rivet"
+            }
+            // TODO: Build better docs for this
+            Self::Unity => {
+                "https://rivet.gg/learn/unity/tutorials/fishnet/crash-course#deploying-to-rivet"
+            }
+            // TODO: Build better docs for this
+            Self::Unreal => "https://rivet.gg/learn/unreal/tutorials/crash-course/40-deploy-rivet",
             Self::HTML5 => {
                 // TODO: Build better docs for this
                 "https://rivet.gg/learn/html5/tutorials/crash-course#step-3-publish-your-game"
@@ -29,6 +42,9 @@ impl ConfigMetaEngine {
 enum ConfigMetaLanguage {
     TypeScript,
     C,
+    CPlusPlus,
+    CSharp,
+    Rust,
 }
 
 impl ConfigMetaLanguage {
@@ -36,6 +52,9 @@ impl ConfigMetaLanguage {
         match self {
             Self::TypeScript => "https://www.typescriptlang.org",
             Self::C => "https://www.iso.org/standard/74528.html",
+            Self::CPlusPlus => "https://isocpp.org",
+            Self::CSharp => "https://docs.microsoft.com/en-us/dotnet/csharp/",
+            Self::Rust => "https://www.rust-lang.org",
         }
     }
 }
@@ -45,6 +64,9 @@ impl std::fmt::Display for ConfigMetaLanguage {
         match self {
             Self::TypeScript => write!(f, "TypeScript"),
             Self::C => write!(f, "C"),
+            Self::CPlusPlus => write!(f, "C++"),
+            Self::CSharp => write!(f, "C#"),
+            Self::Rust => write!(f, "Rust"),
         }
     }
 }
@@ -52,12 +74,18 @@ impl std::fmt::Display for ConfigMetaLanguage {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 enum ConfigMetaNetworking {
     SocketIo,
+    GodotHLMultiplayer,
+    FishNet,
+    UnrealReplication,
 }
 
 impl ConfigMetaNetworking {
     fn url(&self) -> &'static str {
         match self {
             Self::SocketIo => "https://socket.io",
+            Self::GodotHLMultiplayer => "https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html",
+            Self::FishNet => "https://fish-networking.gitbook.io/docs/",
+            Self::UnrealReplication => "https://docs.unrealengine.com/en-US/Gameplay/Networking/Actors/Replication/index.html",
         }
     }
 }
@@ -66,6 +94,9 @@ impl std::fmt::Display for ConfigMetaNetworking {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::SocketIo => write!(f, "Socket.IO"),
+            Self::GodotHLMultiplayer => write!(f, "High-Level Multiplayer"),
+            Self::FishNet => write!(f, "Fish-Networking"),
+            Self::UnrealReplication => write!(f, "Actor Replication"),
         }
     }
 }

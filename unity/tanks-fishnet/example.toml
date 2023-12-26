@@ -1,0 +1,12 @@
+[display]
+title = "Tanks"
+tutorial_url = "https://rivet.gg/learn/unity/tutorials/fishnet/crash-course"
+
+[meta]
+engine = "Unity"
+engine_version = "2020.3.0"
+language = "CSharp"
+networking = "FishNet"
+features = ["Matchmaker", "DynamicServers"]
+
+
