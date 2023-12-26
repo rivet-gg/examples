@@ -1,0 +1,10 @@
+[display]
+title = "CLI WebSocket"
+
+[meta]
+engine = "Custom"
+language = "Rust"
+networking = "WebSocket"
+features = ["DynamicServers"]
+
+

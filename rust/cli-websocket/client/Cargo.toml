@@ -1,0 +1,15 @@
+[package]
+name = "example-rivet-barebones-client"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+[dependencies]
+anyhow = "1"
+dotenv = "0.15.0"
+futures-util = "0.3"
+rivet-matchmaker = "0.0.5"
+tokio = { version = "1", features = ["full"] }
+tokio-tungstenite = "0.17"
+tower = "0.4"
+

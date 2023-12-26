@@ -1,0 +1,14 @@
+# Rivet Examples
+
+💾 **Important** To download the assets to run these games, use [Git LFS](https://git-lfs.com/): `git lfs pull`
+
+## Examples
+
+{% for example in examples %}
+### {{ example.title }}
+
+{% if config.display.preview_file -%}
+![Preview]({{ example.path }}/media/{{ config.display.preview_file }})
+{% endif %}
+{% endfor %}
+

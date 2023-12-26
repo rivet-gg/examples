@@ -76,6 +76,7 @@ impl std::fmt::Display for ConfigMetaLanguage {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 enum ConfigMetaNetworking {
+    WebSocket,
     WebRTC,
     SocketIo,
     Colyseus,
@@ -87,6 +88,7 @@ enum ConfigMetaNetworking {
 impl ConfigMetaNetworking {
     fn url(&self) -> &'static str {
         match self {
+            Self::WebSocket => "https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API",
             Self::WebRTC => "https://webrtc.org",
             Self::SocketIo => "https://socket.io",
             Self::Colyseus => "https://github.com/rivet-gg/plugin-colyseus-server'",
@@ -100,6 +102,7 @@ impl ConfigMetaNetworking {
 impl std::fmt::Display for ConfigMetaNetworking {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            Self::WebSocket => write!(f, "WebSocket"),
             Self::WebRTC => write!(f, "WebRTC"),
             Self::SocketIo => write!(f, "Socket.IO"),
             Self::Colyseus => write!(f, "Colyseus"),
@@ -176,6 +179,7 @@ struct ConfigDisplay {
     title: String,
     tutorial_url: Option<String>,
     preview_file: Option<String>,
+    overview_weight: Option<f64>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -193,7 +197,10 @@ struct TemplateFeature {
 
 fn main() -> Result<()> {
     let mut tera = Tera::default();
-    tera.add_raw_template("README.md", include_str!("../tpl/README.md.tera"))?;
+    tera.add_raw_template(
+        "example/README.md",
+        include_str!("../tpl/example/README.md.tera"),
+    )?;
 
     for entry in walkdir::WalkDir::new(".") {
         let entry = entry?;
@@ -256,13 +263,11 @@ fn template_dir(tera: &Tera, path: &Path) -> Result<()> {
     context.insert("deploy_docs_url", &config.meta.engine.deploy_docs_url());
 
     // Write README
-    let readme_content = tera.render("README.md", &context)?;
+    let readme_content = tera.render("example/README.md", &context)?;
     fs::write(path.join("README.md"), readme_content)?;
 
+    // Write LICENSE
     fs::write(path.join("LICENSE"), include_str!("../../../LICENSE"))?;
-
-    // TODO: Write .gitignore
-    // TODO: Write LICENSE
 
     Ok(())
 }
