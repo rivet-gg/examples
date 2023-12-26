@@ -4,6 +4,9 @@
 
 ## Examples
 
+🌐 = [Dynamic Servers)(https://rivet.gg/docs/dynamic-servers)
+♟️ = [Matchmaker](https://rivet.gg/docs/matchmaker)
+
 | Name | Tutorial | Engine | Features | Language | Networking | Rendering |
 | ---- | -------- | ------ | -------- | -------- | ---------- | --------- |
 | [Bomber](./godot/bomber) | [Tutorial](https://rivet.gg/learn/godot/tutorials/crash-course) | Godot | ♟️🌐 | GDScript | High-Level Multiplayer |  |
