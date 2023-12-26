@@ -1,0 +1,6 @@
+[meta]
+language = "TypeScript"
+networking = "Socket.io"
+rendering = "Canvas"
+features = ["Matchmaker"]
+

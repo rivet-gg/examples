@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Watch",
+            "type": "npm",
+            "script": "watch",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run",
+            "type": "npm",
+            "script": "start",
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
+}
