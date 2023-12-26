@@ -1,0 +1,29 @@
+# {{ config.title }}
+
+{% if config.preview %}
+![Preview](./media/preview.gif)
+{% endif %}
+
+[Visit Tutorial](https://rivet.gg/learn/godot/{{ config.tutorial_id | default(value="xxxx") }})
+
+| {% for meta in meta %} {{ key }} |{% endfor %}
+| {% for meta in meta %} --- |{% endfor %}
+| {% for meta in meta %} {{ value }} |{% endfor %}
+
+**Rivet Features**
+
+{% for feature in config.features %}
+- {{ feature }}
+{% endfor %}
+
+## Developing Locally
+
+1. Download repo (gotta cater to the git noobs)
+2. Open project
+3. Login to Rivet in plugin & create game
+4. Click run
+
+## Deploying
+
+[Deploying games with Godot](https://rivet.gg/docs/{{ config.deploying_id | default(value="xxxx") }})
+
