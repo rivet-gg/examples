@@ -1,6 +1,6 @@
 # Rivet Examples
 
-# 💾 Git LFS
+## 💾 Git LFS
 
 **The examples will not run without Git LFS.**
 
@@ -8,11 +8,11 @@ This repository uses Git LFS for serving large game assets. Install it [here](ht
 
 Once installed, run `git lfs pull` inside this folder to download the game assets.
 
-## Examples
+## 🖼️ Examples
 
-🌐 = [Dynamic Servers](https://rivet.gg/docs/dynamic-servers)
-
-♟️ = [Matchmaker](https://rivet.gg/docs/matchmaker)
+> 🌐 = [Dynamic Servers](https://rivet.gg/docs/dynamic-servers)
+>
+> ♟️ = [Matchmaker](https://rivet.gg/docs/matchmaker)
 
 
 | Preview | Name | Features | Engine | Language | Networking | Rendering | Tutorial |
