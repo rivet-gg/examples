@@ -7,6 +7,6 @@
 | Name | Tutorial | Engine | Features | Language | Networking | Rendering |
 | ---- | -------- | ------ | -------- | -------- | ---------- | --------- |
 {% for ex in examples -%}
-| {{ ex.config.display.title }} | [Tutorial]({{ ex.config.display.tutorial_url }}) | {{ ex.engine }} | {{ ex.features }} | {{ ex.language }} | {{ex.networking }} | {{ ex.rendering }} |
+| [{{ ex.config.display.title }}]({{ ex.path }}) | [Tutorial]({{ ex.config.display.tutorial_url }}) | {{ ex.engine }} | {{ ex.features }} | {{ ex.language }} | {{ex.networking }} | {{ ex.rendering }} |
 {% endfor %}
 
