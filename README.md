@@ -1,12 +1,8 @@
 # Rivet Examples
 
-## 💾 Git LFS
-
-**The examples will not run without Git LFS.**
-
-This repository uses Git LFS for serving large game assets. Install it [here](https://git-lfs.github.com/).
-
-Once installed, run `git lfs pull` inside this folder to download the game assets.
+> 💾**The examples will not run without Git LFS.** This repository uses Git LFS for serving large game assets. Install it [here](https://git-lfs.github.com/).
+>
+> Once installed, run `git lfs pull` inside this folder to download the game assets.
 
 ## 🖼️ Examples
 
