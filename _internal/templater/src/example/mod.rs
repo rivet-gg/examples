@@ -1,4 +1,5 @@
 pub mod meta;
+pub mod tpl;
 
 use serde::{Deserialize, Serialize};
 

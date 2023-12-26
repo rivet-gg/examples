@@ -1,0 +1,46 @@
+#[derive(Debug, Serialize, Deserialize)]
+struct TemplateMeta {
+    title: String,
+    value: String,
+    url: Option<String>,
+}
+
+impl super::Config {
+    fn tpl_meta(&self) -> TemplateMeta {
+    let mut meta = Vec::new();
+    if let Some(engine_version) = &config.meta.engine_version {
+        meta.push(TemplateMeta {
+            title: "Engine Version".to_owned(),
+            value: engine_version.to_string(),
+            url: None,
+        });
+    }
+    meta.push(TemplateMeta {
+        title: "Language".into(),
+        value: config.meta.language.to_string(),
+        url: Some(config.meta.language.url().to_owned()),
+    });
+    if let Some(networking) = &config.meta.networking {
+        meta.push(TemplateMeta {
+            title: "Networking".into(),
+            value: networking.to_string(),
+            url: Some(networking.url().to_owned()),
+        });
+    }
+    if let Some(rendering) = &config.meta.rendering {
+        meta.push(TemplateMeta {
+            title: "Rendering".into(),
+            value: rendering.to_string(),
+            url: Some(rendering.url().to_owned()),
+        });
+    }
+        Ok(meta)
+
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct TemplateFeature {
+    name: String,
+    url: String,
+}
