@@ -1,7 +1,7 @@
 use semver::Version as SemVer;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Meta {
     pub engine: Engine,
     pub engine_version: Option<SemVer>,

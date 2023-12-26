@@ -18,18 +18,25 @@ struct TemplateFeature {
     url: String,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+struct TemplateExample {
+    config: example::Config,
+}
+
 fn main() -> Result<()> {
     let mut tera = Tera::default();
     tera.add_raw_template(
         "example/README.md",
         include_str!("../tpl/example/README.md.tera"),
     )?;
+    tera.add_raw_template("root/README.md", include_str!("../tpl/root/README.md.tera"))?;
 
+    // Template examples
     let mut example_configs = Vec::new();
     for entry in walkdir::WalkDir::new(".") {
         let entry = entry?;
         if entry.file_name() == "example.toml" {
-            template_dir(
+            template_example(
                 &mut example_configs,
                 &tera,
                 entry.path().parent().context("path.parent")?,
@@ -37,13 +44,20 @@ fn main() -> Result<()> {
         }
     }
 
+    // Sort examples by weight
+    example_configs.sort_by_key(|x| -x.display.overview_weight.unwrap_or(0));
+
+    // Template root
+    template_root(&tera, &example_configs)?;
+
     Ok(())
 }
 
-fn template_dir(configs: &mut Vec<example::Config>, tera: &Tera, path: &Path) -> Result<()> {
+fn template_example(configs: &mut Vec<example::Config>, tera: &Tera, path: &Path) -> Result<()> {
     // Read config
-    let config: example::Config = toml::from_str(&fs::read_to_string(path.join("example.toml"))?)?;
-    configs.push(config);
+    let config =
+        toml::from_str::<example::Config>(&fs::read_to_string(path.join("example.toml"))?)?;
+    configs.push(config.clone());
 
     let mut context = tera::Context::new();
 
@@ -97,6 +111,16 @@ fn template_dir(configs: &mut Vec<example::Config>, tera: &Tera, path: &Path) ->
 
     // Write LICENSE
     fs::write(path.join("LICENSE"), include_str!("../../../LICENSE"))?;
+
+    Ok(())
+}
+
+fn template_root(tera: &Tera, example_configs: &[example::Config]) -> Result<()> {
+    let mut context = tera::Context::new();
+    context.insert("examples", example_configs);
+
+    let readme_content = tera.render("root/README.md", &context)?;
+    fs::write("README.md", readme_content)?;
 
     Ok(())
 }

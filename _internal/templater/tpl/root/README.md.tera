@@ -5,7 +5,7 @@
 ## Examples
 
 {% for example in examples %}
-### {{ example.title }}
+### {{ example.display.title }}
 
 {% if config.display.preview_file -%}
 ![Preview]({{ example.path }}/media/{{ config.display.preview_file }})
