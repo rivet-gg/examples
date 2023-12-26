@@ -13,7 +13,6 @@ pub struct Config {
 pub struct Display {
     pub title: String,
     pub tutorial_url: Option<String>,
-    pub preview_file: Option<String>,
 
     /// A higher number will show it before other examples.
     pub overview_weight: Option<i64>,

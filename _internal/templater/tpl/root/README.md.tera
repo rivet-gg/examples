@@ -9,9 +9,9 @@
 ♟️ = [Matchmaker](https://rivet.gg/docs/matchmaker)
 
 
-| Name | Tutorial | Engine | Features | Language | Networking | Rendering | Preview |
-| ---- | -------- | ------ | -------- | -------- | ---------- | --------- | ------- |
+| Preview | Name | Tutorial | Engine | Features | Language | Networking | Rendering |
+| ------- | ---- | -------- | ------ | -------- | -------- | ---------- | --------- |
 {% for ex in examples -%}
-| [{{ ex.config.display.title }}]({{ ex.path }}) | {% if ex.config.display.tutorial_url %}[Tutorial]({{ ex.config.display.tutorial_url }}){% endif %} | {{ ex.engine }} | {{ ex.features }} | {{ ex.language }} | {{ex.networking }} | {{ ex.rendering }} | {% if ex.config.display.preview_file %}![Preview]({{ ex.path }}/_media/{{ ex.config.display.preview_file }} | width = 100){% endif %} |
+| ![Preview]({{ ex.path }}/_media/preview_128.png) | [{{ ex.config.display.title }}]({{ ex.path }}) | {% if ex.config.display.tutorial_url %}[Tutorial]({{ ex.config.display.tutorial_url }}){% endif %} | {{ ex.engine }} | {{ ex.features }} | {{ ex.language }} | {{ex.networking }} | {{ ex.rendering }} |
 {% endfor %}
 

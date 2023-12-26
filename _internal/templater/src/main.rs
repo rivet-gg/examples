@@ -44,11 +44,28 @@ fn template_example(config: &example::Config, tera: &Tera, path: &Path) -> Resul
 
     context.insert("config", &config);
 
+    context.insert(
+        "has_preview",
+        &path.join("_media").join("preview.png").exists(),
+    );
+
     context.insert("meta", &config.tpl_meta());
 
     context.insert("features", &config.tpl_features());
 
     context.insert("deploy_docs_url", &config.meta.engine.deploy_docs_url());
+
+    // Resize preview
+    let preview_path = path.join("_media").join("preview.png");
+    if preview_path.exists() {
+        let img = image::open(&preview_path)?;
+        let resized = img.resize(128, img.height(), image::imageops::FilterType::Lanczos3);
+        resized.save(path.join("_media").join("preview_128.png"))?;
+
+        let img = image::open(&preview_path)?;
+        let resized = img.resize(512, img.height(), image::imageops::FilterType::Lanczos3);
+        resized.save(path.join("_media").join("preview_512.png"))?;
+    }
 
     // Write README
     let readme_content = tera.render("example/README.md", &context)?;

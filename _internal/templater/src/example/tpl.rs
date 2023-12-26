@@ -21,6 +21,7 @@ pub struct TemplateFeature {
 pub struct TemplateOverview {
     path: String,
     config: super::Config,
+    has_preview: bool,
     engine: String,
     language: String,
     networking: String,
@@ -76,6 +77,7 @@ impl super::Config {
         Ok(TemplateOverview {
             path: path.display().to_string(),
             config: self.clone(),
+            has_preview: path.join("_media").join("preview.png").exists(),
             engine: self.meta.engine.to_string(),
             language: self.meta.language.to_string(),
             networking: self
