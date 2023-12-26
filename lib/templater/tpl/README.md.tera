@@ -1,29 +1,29 @@
-# {{ config.title }}
+# {{ config.display.title }}
 
-{% if config.preview %}
-![Preview](./media/preview.gif)
+{% if config.display.preview_file -%}
+![Preview](./media/{{ config.display.preview_file }})
 {% endif %}
 
-[Visit Tutorial](https://rivet.gg/learn/godot/{{ config.tutorial_id | default(value="xxxx") }})
+[Visit Tutorial]({{ config.display.tutorial_url }})
 
-| {% for meta in meta %} {{ key }} |{% endfor %}
-| {% for meta in meta %} --- |{% endfor %}
-| {% for meta in meta %} {{ value }} |{% endfor %}
+| {% for x in meta %} {{ x.title }} |{% endfor %}
+| {% for x in meta %} --- |{% endfor %}
+| {% for x in meta %} {% if x.url %}[{{ x.value }}]({{ x.url }}){% else %}{{ x.value }}{% endif %} |{% endfor %}
 
 **Rivet Features**
 
-{% for feature in config.features %}
-- {{ feature }}
+{% for feature in features -%}
+- [{{ feature.name }}]({{ feature.url }})
 {% endfor %}
 
 ## Developing Locally
 
-1. Download repo (gotta cater to the git noobs)
-2. Open project
-3. Login to Rivet in plugin & create game
-4. Click run
+1. [Clone the GitHub repo](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
+2. Open this folder
+3. Run: `rivet init`
+4. Run `yarn start`
 
 ## Deploying
 
-[Deploying games with Godot](https://rivet.gg/docs/{{ config.deploying_id | default(value="xxxx") }})
+[Documentation]({{ deploy_docs_url }})
 

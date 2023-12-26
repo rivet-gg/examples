@@ -1,6 +1,12 @@
+[display]
+title = "Tanks"
+tutorial_url = "https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio"
+
 [meta]
+engine = "HTML5"
 language = "TypeScript"
-networking = "Socket.io"
-rendering = "Canvas"
-features = ["Matchmaker"]
+networking = "SocketIo"
+rendering = "HTML5Canvas"
+features = ["Matchmaker", "DynamicServers"]
+
 
