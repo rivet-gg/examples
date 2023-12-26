@@ -1,0 +1,19 @@
+# Godot 4+ specific ignores
+.godot/
+
+# Godot-specific ignores
+.import/
+
+# Mono-specific ignores
+.mono/
+data_*/
+mono_crash.*.json
+
+# System/tool-specific ignores
+.directory
+.DS_Store
+*~
+
+### Rivet ###
+.rivet/
+.env

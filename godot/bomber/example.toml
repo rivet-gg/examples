@@ -1,0 +1,12 @@
+[display]
+title = "Bomber"
+tutorial_url = "https://rivet.gg/learn/godot/tutorials/crash-course"
+
+[meta]
+engine = "Godot"
+engine_version = "4.0.0"
+language = "GDScript"
+networking = "GodotHLMultiplayer"
+features = ["Matchmaker", "DynamicServers"]
+
+

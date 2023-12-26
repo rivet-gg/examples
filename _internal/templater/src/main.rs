@@ -45,6 +45,7 @@ enum ConfigMetaLanguage {
     CPlusPlus,
     CSharp,
     Rust,
+    GDScript,
 }
 
 impl ConfigMetaLanguage {
@@ -55,6 +56,7 @@ impl ConfigMetaLanguage {
             Self::CPlusPlus => "https://isocpp.org",
             Self::CSharp => "https://docs.microsoft.com/en-us/dotnet/csharp/",
             Self::Rust => "https://www.rust-lang.org",
+            Self::GDScript => "https://docs.godotengine.org/en/stable/getting_started/scripting/gdscript/gdscript_basics.html",
         }
     }
 }
@@ -67,6 +69,7 @@ impl std::fmt::Display for ConfigMetaLanguage {
             Self::CPlusPlus => write!(f, "C++"),
             Self::CSharp => write!(f, "C#"),
             Self::Rust => write!(f, "Rust"),
+            Self::GDScript => write!(f, "GDScript"),
         }
     }
 }
