@@ -1,0 +1,129 @@
+<html>
+	<head>
+		<title>WebRTC Direct Demo</title>
+		<style>
+			body {
+				margin: 0;
+			}
+
+			#canvas {
+				position: fixed;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+			}
+
+			.cursor {
+				position: absolute;
+				transform: translate(-50%, -50%);
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+			}
+
+			#cursor-websocket {
+				background: red;
+			}
+
+			#cursor-webrtc {
+				background: green;
+			}
+
+			#info {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				text-align: center;
+			}
+
+			#legend {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				gap: 8px;
+				margin-bottom: 12px;
+			}
+
+			.legend-item {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+			}
+
+			.legend-color {
+				width: 16px;
+				height: 16px;
+				border-radius: 50%;
+			}
+
+			.codeblock, .legend-item {
+				font-family: monospace;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="info">
+			<div>
+				<h1>WebRTC Direct DataChannel Demo</h1>
+				<p>
+					The circles reflects the cursor position echoed from the server over an <span style="color: green">RTCDataChannel</span> and <span style="color: red">WebSocket</span>.
+				</p>
+
+				<div id="legend">
+					<div class="legend-item">
+						<div class="legend-color" style="background: green"></div>
+						<div>&nbsp;=&nbsp;WebRTC&nbsp<span id="stats-webrtc">[connecting]</span></div>
+					</div>
+					<div class="legend-item">
+						<div class="legend-color" style="background: red"></div>
+						<div>&nbsp;=&nbsp;WebSocket&nbsp<span id="stats-websocket">[connecting]</span></div>
+					</div>
+					<div class="legend-item">
+						<div>Difference&nbsp<span id="stats-diff">[connecting]</span></div>
+					</div>
+				</div>
+
+				<div class="codeblock">
+					<div>
+						WebSocket.connected:
+						<span class="status" id="ws-connected"></span>
+					</div>
+					<div>
+						RTCPeerConnection.connectionState:
+						<span id="peer-connection-state"></span>
+					</div>
+					<div>
+						RTCPeerConnection.iceConnectionState:
+						<span id="ice-connection-state"></span>
+					</div>
+					<div>
+						RTCPeerConnection.iceGatheringState:
+						<span id="ice-gathering-state"></span>
+					</div>
+					<div>
+						RTCDataChannel.readyState:
+						<span id="dc-ready-state"></span>
+					</div>
+					<div>
+						Offer SDP (server):<br /><span id="offer-sdp"></span>
+					</div>
+					<div>
+						Answer SDP (client):<br /><span id="answer-sdp"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="canvas">
+			<div id="cursor-websocket" class="cursor"></div>
+			<div id="cursor-webrtc" class="cursor"></div>
+		</div>
+	</body>
+</html>
