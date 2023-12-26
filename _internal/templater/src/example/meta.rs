@@ -2,17 +2,17 @@ use semver::Version as SemVer;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct ConfigMeta {
-    pub engine: ConfigMetaEngine,
+pub struct Meta {
+    pub engine: Engine,
     pub engine_version: Option<SemVer>,
-    pub language: ConfigMetaLanguage,
-    pub networking: Option<ConfigMetaNetworking>,
-    pub rendering: Option<ConfigMetaRendering>,
-    pub features: Vec<ConfigMetaFeature>,
+    pub language: Language,
+    pub networking: Option<Networking>,
+    pub rendering: Option<Rendering>,
+    pub features: Vec<Feature>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub enum ConfigMetaEngine {
+pub enum Engine {
     Godot,
     Unity,
     Unreal,
@@ -20,7 +20,7 @@ pub enum ConfigMetaEngine {
     Custom,
 }
 
-impl ConfigMetaEngine {
+impl Engine {
     pub fn deploy_docs_url(&self) -> &'static str {
         match self {
             // TODO: Build better docs for this
@@ -46,7 +46,7 @@ impl ConfigMetaEngine {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub enum ConfigMetaLanguage {
+pub enum Language {
     TypeScript,
     C,
     CPlusPlus,
@@ -55,7 +55,7 @@ pub enum ConfigMetaLanguage {
     GDScript,
 }
 
-impl ConfigMetaLanguage {
+impl Language {
     pub fn url(&self) -> &'static str {
         match self {
             Self::TypeScript => "https://www.typescriptlang.org",
@@ -68,7 +68,7 @@ impl ConfigMetaLanguage {
     }
 }
 
-impl std::fmt::Display for ConfigMetaLanguage {
+impl std::fmt::Display for Language {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::TypeScript => write!(f, "TypeScript"),
@@ -82,7 +82,7 @@ impl std::fmt::Display for ConfigMetaLanguage {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub enum ConfigMetaNetworking {
+pub enum Networking {
     WebSocket,
     WebRTC,
     SocketIo,
@@ -92,7 +92,7 @@ pub enum ConfigMetaNetworking {
     UnrealReplication,
 }
 
-impl ConfigMetaNetworking {
+impl Networking {
     pub fn url(&self) -> &'static str {
         match self {
             Self::WebSocket => "https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API",
@@ -106,7 +106,7 @@ impl ConfigMetaNetworking {
     }
 }
 
-impl std::fmt::Display for ConfigMetaNetworking {
+impl std::fmt::Display for Networking {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::WebSocket => write!(f, "WebSocket"),
@@ -121,11 +121,11 @@ impl std::fmt::Display for ConfigMetaNetworking {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub enum ConfigMetaRendering {
+pub enum Rendering {
     HTML5Canvas,
 }
 
-impl ConfigMetaRendering {
+impl Rendering {
     pub fn url(&self) -> &'static str {
         match self {
             Self::HTML5Canvas => "https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API",
@@ -133,7 +133,7 @@ impl ConfigMetaRendering {
     }
 }
 
-impl std::fmt::Display for ConfigMetaRendering {
+impl std::fmt::Display for Rendering {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::HTML5Canvas => write!(f, "Canvas"),
@@ -142,12 +142,12 @@ impl std::fmt::Display for ConfigMetaRendering {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub enum ConfigMetaFeature {
+pub enum Feature {
     Matchmaker,
     DynamicServers,
 }
 
-impl ConfigMetaFeature {
+impl Feature {
     pub fn url(&self) -> &'static str {
         match self {
             Self::Matchmaker => "https://rivet.gg/docs/matchmaker",
@@ -156,7 +156,7 @@ impl ConfigMetaFeature {
     }
 }
 
-impl std::fmt::Display for ConfigMetaFeature {
+impl std::fmt::Display for Feature {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Matchmaker => write!(f, "♟️ Matchmaker"),

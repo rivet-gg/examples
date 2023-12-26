@@ -25,19 +25,25 @@ fn main() -> Result<()> {
         include_str!("../tpl/example/README.md.tera"),
     )?;
 
+    let mut example_configs = Vec::new();
     for entry in walkdir::WalkDir::new(".") {
         let entry = entry?;
         if entry.file_name() == "example.toml" {
-            template_dir(&tera, entry.path().parent().context("path.parent")?)?;
+            template_dir(
+                &mut example_configs,
+                &tera,
+                entry.path().parent().context("path.parent")?,
+            )?;
         }
     }
 
     Ok(())
 }
 
-fn template_dir(tera: &Tera, path: &Path) -> Result<()> {
+fn template_dir(configs: &mut Vec<example::Config>, tera: &Tera, path: &Path) -> Result<()> {
     // Read config
     let config: example::Config = toml::from_str(&fs::read_to_string(path.join("example.toml"))?)?;
+    configs.push(config);
 
     let mut context = tera::Context::new();
 
