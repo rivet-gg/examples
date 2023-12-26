@@ -4,7 +4,7 @@
 
 ## Examples
 
-🌐 = [Dynamic Servers)(https://rivet.gg/docs/dynamic-servers)
+🌐 = [Dynamic Servers](https://rivet.gg/docs/dynamic-servers)
 
 ♟️ = [Matchmaker](https://rivet.gg/docs/matchmaker)
 
