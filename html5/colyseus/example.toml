@@ -1,0 +1,15 @@
+[display]
+title = "Colyseus"
+description = """
+This repository provides examples of running Colyseus with the Rivet plugin.
+
+[**Live demo**](https://colyseus.rivet.game/)
+""""
+
+[meta]
+engine = "HTML5"
+language = "TypeScript"
+networking = "Colyseus"
+features = ["Matchmaker", "DynamicServers"]
+
+

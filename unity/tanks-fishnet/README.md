@@ -2,7 +2,7 @@
 
 
 
-[Visit Tutorial](https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio)
+[Visit Tutorial](https://rivet.gg/learn/unity/tutorials/fishnet/crash-course)
 
 
 |  Engine Version | Language | Networking |
@@ -15,14 +15,14 @@
 - [🌐 Dynamic Servers](https://rivet.gg/docs/dynamic-servers)
 
 
-## Developing Locally
+## Running locally
 
 1. [Clone the GitHub repo](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 2. Open this folder
 3. Run: `rivet init`
 4. Run `yarn start`
 
-## Deploying
+## Deploying to Rivet
 
 [Documentation](https://rivet.gg/learn/unity/tutorials/fishnet/crash-course#deploying-to-rivet)
 

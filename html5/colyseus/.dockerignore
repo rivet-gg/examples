@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+lib
+*.js
+Dockerfile
+
+### Rivet ###
+.rivet/
+.env

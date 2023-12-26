@@ -1,5 +1,5 @@
 [display]
-title = "Tanks"
+title = "WebRTC"
 description = """
 Demonstrates low latency UDP workload using a direct `RTCDataChannel` between the client and the server.
 

@@ -3,6 +3,6 @@
 ## Templating README files
 
 ```
-./scripts/template.sh
+./_internal/scripts/template.sh
 ```
 

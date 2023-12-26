@@ -73,7 +73,9 @@ impl std::fmt::Display for ConfigMetaLanguage {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 enum ConfigMetaNetworking {
+    WebRTC,
     SocketIo,
+    Colyseus,
     GodotHLMultiplayer,
     FishNet,
     UnrealReplication,
@@ -82,7 +84,9 @@ enum ConfigMetaNetworking {
 impl ConfigMetaNetworking {
     fn url(&self) -> &'static str {
         match self {
+            Self::WebRTC => "https://webrtc.org",
             Self::SocketIo => "https://socket.io",
+            Self::Colyseus => "https://github.com/rivet-gg/plugin-colyseus-server'",
             Self::GodotHLMultiplayer => "https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html",
             Self::FishNet => "https://fish-networking.gitbook.io/docs/",
             Self::UnrealReplication => "https://docs.unrealengine.com/en-US/Gameplay/Networking/Actors/Replication/index.html",
@@ -93,7 +97,9 @@ impl ConfigMetaNetworking {
 impl std::fmt::Display for ConfigMetaNetworking {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            Self::WebRTC => write!(f, "WebRTC"),
             Self::SocketIo => write!(f, "Socket.IO"),
+            Self::Colyseus => write!(f, "Colyseus"),
             Self::GodotHLMultiplayer => write!(f, "High-Level Multiplayer"),
             Self::FishNet => write!(f, "Fish-Networking"),
             Self::UnrealReplication => write!(f, "Actor Replication"),

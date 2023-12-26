@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width" />
+
+		<style>
+			body {
+				font-family: Tahoma, Geneva, sans-serif;
+			}
+		</style>
+
+		<!-- colyseus.js client -->
+		<script
+			type="text/javascript"
+			src="https://unpkg.com/@rivet-gg/plugin-colyseus-javascript@0.14.2/dist/colyseus.js"
+		></script>
+	</head>
+	<body>
+		<h1>
+			<a href="https://github.com/colyseus/colyseus-examples"
+				><img
+					src="https://cdn.jsdelivr.net/gh/colyseus/colyseus@master/media/header.png"
+					height="100"
+					alt="colyseus"
+			/></a>
+		</h1>
+
+		<p>
+			This room doesn't use the room's state. It just broadcast messages
+			through "broadcast" method.
+		</p>
+
+		<strong>Messages</strong><br />
+
+		<form id="form">
+			<input type="text" id="input" value="" autofocus />
+			<input type="submit" value="send" />
+		</form>
+
+		<div id="messages"></div>
+
+		<script>
+			var host = window.document.location.host.replace(/:.*/, "");
+
+			if (
+				!localStorage.rivetToken &&
+				(location.hostname == "0.0.0.0" ||
+					location.hostname == "127.0.0.1" ||
+					location.hostname == "localhost")
+			) {
+				localStorage.rivetToken = prompt("Rivet token:");
+			}
+			var client = new Colyseus.Client({
+				rivetToken: localStorage.rivetToken,
+			});
+			client.joinOrCreate("chat").then((room) => {
+				console.log("joined");
+				room.onStateChange.once(function (state) {
+					console.log("initial room state:", state);
+				});
+
+				// new room state
+				room.onStateChange(function (state) {
+					// this signal is triggered on each patch
+				});
+
+				// listen to patches coming from the server
+				room.onMessage("messages", function (message) {
+					var p = document.createElement("p");
+					p.innerText = message;
+					document.querySelector("#messages").appendChild(p);
+				});
+
+				// send message to room on submit
+				document.querySelector("#form").onsubmit = function (e) {
+					e.preventDefault();
+
+					var input = document.querySelector("#input");
+
+					console.log("input:", input.value);
+
+					// send data to room
+					room.send("message", input.value);
+
+					// clear input
+					input.value = "";
+				};
+			});
+		</script>
+	</body>
+</html>

@@ -1,14 +1,26 @@
 # WebRTC
 
-Demonstrates low latency UDP workload using a direct `RTCDataChannel` between the client and the server.
 
-Leverages the [`wrtc`](https://www.npmjs.com/package/wrtc) NodeJS library to run WebRTC on the server.
 
-## Running
 
-```
-$ npm install -g node-pre-gyp
-$ npm install
-$ npm start
-```
+
+|  Language | Networking |
+|  --- | --- |
+|  [TypeScript](https://www.typescriptlang.org) | [WebRTC](https://webrtc.org) |
+
+**Rivet Features**
+
+- [🌐 Dynamic Servers](https://rivet.gg/docs/dynamic-servers)
+
+
+## Running locally
+
+1. [Clone the GitHub repo](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
+2. Open this folder
+3. Run: `rivet init`
+4. Run `yarn start`
+
+## Deploying to Rivet
+
+[Documentation](https://rivet.gg/learn/html5/tutorials/crash-course#step-3-publish-your-game)
 

@@ -1,13 +1,12 @@
-# Tanks
+# Colyseus
 
 
 
-[Visit Tutorial](https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio)
 
 
-|  Language | Networking | Rendering |
-|  --- | --- | --- |
-|  [TypeScript](https://www.typescriptlang.org) | [Socket.IO](https://socket.io) | [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) |
+|  Language | Networking |
+|  --- | --- |
+|  [TypeScript](https://www.typescriptlang.org) | [Colyseus](https://github.com/rivet-gg/plugin-colyseus-server') |
 
 **Rivet Features**
 
