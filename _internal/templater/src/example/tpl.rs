@@ -1,7 +1,10 @@
+use std::path::Path;
+
+use anyhow::*;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct TemplateMeta {
+pub struct Link {
     title: String,
     value: String,
     url: Option<String>,
@@ -13,30 +16,42 @@ pub struct TemplateFeature {
     url: String,
 }
 
+/// Used for an overview of the feature
+#[derive(Debug, Serialize, Deserialize)]
+pub struct TemplateOverview {
+    path: String,
+    config: super::Config,
+    engine: String,
+    language: String,
+    networking: String,
+    rendering: String,
+    features: String,
+}
+
 impl super::Config {
-    pub fn tpl_meta(&self) -> Vec<TemplateMeta> {
+    pub fn tpl_meta(&self) -> Vec<Link> {
         let mut meta = Vec::new();
         if let Some(engine_version) = &self.meta.engine_version {
-            meta.push(TemplateMeta {
+            meta.push(Link {
                 title: "Engine Version".to_owned(),
                 value: engine_version.to_string(),
                 url: None,
             });
         }
-        meta.push(TemplateMeta {
+        meta.push(Link {
             title: "Language".into(),
             value: self.meta.language.to_string(),
             url: Some(self.meta.language.url().to_owned()),
         });
         if let Some(networking) = &self.meta.networking {
-            meta.push(TemplateMeta {
+            meta.push(Link {
                 title: "Networking".into(),
                 value: networking.to_string(),
                 url: Some(networking.url().to_owned()),
             });
         }
         if let Some(rendering) = &self.meta.rendering {
-            meta.push(TemplateMeta {
+            meta.push(Link {
                 title: "Rendering".into(),
                 value: rendering.to_string(),
                 url: Some(rendering.url().to_owned()),
@@ -55,5 +70,33 @@ impl super::Config {
                 url: x.url().to_owned(),
             })
             .collect::<Vec<_>>()
+    }
+
+    pub fn tpl_overview(&self, path: &Path) -> Result<TemplateOverview> {
+        Ok(TemplateOverview {
+            path: path.display().to_string(),
+            config: self.clone(),
+            engine: self.meta.engine.to_string(),
+            language: self.meta.language.to_string(),
+            networking: self
+                .meta
+                .networking
+                .as_ref()
+                .map(|x| x.to_string())
+                .unwrap_or_default(),
+            rendering: self
+                .meta
+                .rendering
+                .as_ref()
+                .map(|x| x.to_string())
+                .unwrap_or_default(),
+            features: self
+                .meta
+                .features
+                .iter()
+                .map(|x| x.emoji())
+                .collect::<Vec<_>>()
+                .join(""),
+        })
     }
 }

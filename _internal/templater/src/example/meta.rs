@@ -21,6 +21,16 @@ pub enum Engine {
 }
 
 impl Engine {
+    // pub fn learn_url(&self) -> &'static str {
+    //     match self {
+    //         Self::Godot => "https://rivet.gg/learn/godot",
+    //         Self::Unity => "https://rivet.gg/learn/unity",
+    //         Self::Unreal => "https://rivet.gg/learn/unreal",
+    //         Self::HTML5 => "https://rivet.gg/learn/html5",
+    //         Self::Custom => "https://rivet.gg/learn/custom",
+    //     }
+    // }
+
     pub fn deploy_docs_url(&self) -> &'static str {
         match self {
             // TODO: Build better docs for this
@@ -41,6 +51,18 @@ impl Engine {
                 // TODO: Build better docs for this
                 "https://rivet.gg/learn/html5/tutorials/crash-course#step-3-publish-your-game"
             }
+        }
+    }
+}
+
+impl std::fmt::Display for Engine {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Godot => write!(f, "Godot"),
+            Self::Unity => write!(f, "Unity"),
+            Self::Unreal => write!(f, "Unreal"),
+            Self::HTML5 => write!(f, "HTML5"),
+            Self::Custom => write!(f, "Custom"),
         }
     }
 }
@@ -154,13 +176,21 @@ impl Feature {
             Self::DynamicServers => "https://rivet.gg/docs/dynamic-servers",
         }
     }
+
+    pub fn emoji(&self) -> &'static str {
+        match self {
+            Self::Matchmaker => "♟️",
+            Self::DynamicServers => "🌐",
+        }
+    }
 }
 
 impl std::fmt::Display for Feature {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{} ", self.emoji())?;
         match self {
-            Self::Matchmaker => write!(f, "♟️ Matchmaker"),
-            Self::DynamicServers => write!(f, "🌐 Dynamic Servers"),
+            Self::Matchmaker => write!(f, "Matchmaker"),
+            Self::DynamicServers => write!(f, "Dynamic Servers"),
         }
     }
 }

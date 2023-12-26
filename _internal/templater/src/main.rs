@@ -1,17 +1,8 @@
 mod example;
 
 use anyhow::{Context, Result};
-use serde::{Deserialize, Serialize};
 use std::{fs, path::Path};
 use tera::Tera;
-
-/// Example information to render the root template
-#[derive(Debug, Serialize, Deserialize)]
-struct RootExampleTemplate {
-    config: example::Config,
-    meta: Vec<example::tpl::TemplateMeta>,
-    features: Vec<example::tpl::TemplateFeature>,
-}
 
 fn main() -> Result<()> {
     let mut tera = Tera::default();
@@ -26,24 +17,21 @@ fn main() -> Result<()> {
     for entry in walkdir::WalkDir::new(".") {
         let entry = entry?;
         if entry.file_name() == "example.toml" {
-            template_example(
-                &mut example_configs,
-                &tera,
-                entry.path().parent().context("path.parent")?,
-            )?;
+            let path = entry.path().parent().context("path.parent")?.to_owned();
+            let config = toml::from_str::<example::Config>(&fs::read_to_string(entry.path())?)?;
+
+            template_example(&config, &tera, &path)?;
+
+            example_configs.push((path, config));
         }
     }
 
     // Sort examples & template for overview
-    example_configs.sort_by_key(|x| -x.display.overview_weight.unwrap_or(0));
+    example_configs.sort_by_key(|(_, config)| -config.display.overview_weight.unwrap_or(0));
     let example_configs = example_configs
         .into_iter()
-        .map(|config| RootExampleTemplate {
-            meta: config.tpl_meta(),
-            features: config.tpl_features(),
-            config,
-        })
-        .collect::<Vec<_>>();
+        .map(|(path, config)| config.tpl_overview(&path))
+        .collect::<Result<Vec<_>>>()?;
 
     // Template root
     template_root(&tera, &example_configs)?;
@@ -51,12 +39,7 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-fn template_example(configs: &mut Vec<example::Config>, tera: &Tera, path: &Path) -> Result<()> {
-    // Read config
-    let config =
-        toml::from_str::<example::Config>(&fs::read_to_string(path.join("example.toml"))?)?;
-    configs.push(config.clone());
-
+fn template_example(config: &example::Config, tera: &Tera, path: &Path) -> Result<()> {
     let mut context = tera::Context::new();
 
     context.insert("config", &config);
@@ -77,7 +60,7 @@ fn template_example(configs: &mut Vec<example::Config>, tera: &Tera, path: &Path
     Ok(())
 }
 
-fn template_root(tera: &Tera, example_configs: &[RootExampleTemplate]) -> Result<()> {
+fn template_root(tera: &Tera, example_configs: &[example::tpl::TemplateOverview]) -> Result<()> {
     let mut context = tera::Context::new();
     context.insert("examples", example_configs);
 
