@@ -5,7 +5,9 @@
 ## Examples
 
 🌐 = [Dynamic Servers)(https://rivet.gg/docs/dynamic-servers)
+
 ♟️ = [Matchmaker](https://rivet.gg/docs/matchmaker)
+
 
 | Name | Tutorial | Engine | Features | Language | Networking | Rendering |
 | ---- | -------- | ------ | -------- | -------- | ---------- | --------- |
