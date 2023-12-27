@@ -14,7 +14,7 @@
 ### Godot
 
 | Preview | Name | Tutorial | Features | Language | Networking |
-| ------- | ---- | -------- | -------- | -------- | ---------- | --------- |
+| ------- | ---- | -------- | -------- | -------- | ---------- |
 | ![Preview](./godot/bomber/_media/preview_128.png) | [Bomber](./godot/bomber) | [Tutorial](https://rivet.gg/learn/godot/tutorials/crash-course) | ♟️🌐 | GDScript | High-Level Multiplayer |
 
 
@@ -22,7 +22,7 @@
 ### Unity
 
 | Preview | Name | Tutorial | Features | Language | Networking |
-| ------- | ---- | -------- | -------- | -------- | ---------- | --------- |
+| ------- | ---- | -------- | -------- | -------- | ---------- |
 | ![Preview](./unity/tanks-fishnet/_media/preview_128.png) | [Tanks](./unity/tanks-fishnet) | [Tutorial](https://rivet.gg/learn/unity/tutorials/fishnet/crash-course) | ♟️🌐 | C# | Fish-Networking |
 
 
