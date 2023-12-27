@@ -18,24 +18,10 @@ fn main() -> Result<()> {
     tera.add_raw_template("root/README.md", include_str!("../tpl/root/README.md.tera"))?;
 
     // Template examples
-    // let mut example_configs = Vec::new();
-    // for entry in walkdir::WalkDir::new(".") {
-    //     let entry = entry?;
-    //     if entry.file_name() == "example.toml" {
-    //         let path = entry.path().parent().context("path.parent")?.to_owned();
-    //         let config = toml::from_str::<example::Config>(&fs::read_to_string(entry.path())?)?;
-
-    //         template_example(&config, &tera, &path)?;
-
-    //         example_configs.push((path, config));
-    //     }
-    // }
-
     let entries: Vec<_> = WalkDir::new(".")
         .into_iter()
         .filter_map(Result::ok)
         .collect();
-
     let mut example_configs = entries
         .par_iter()
         .filter(|entry| entry.file_name() == "example.toml")
