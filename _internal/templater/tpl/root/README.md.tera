@@ -10,9 +10,28 @@
 >
 > ♟️ = [Matchmaker](https://rivet.gg/docs/matchmaker)
 
-| Preview | Name | Tutorial | Features | Engine | Language | Networking | Rendering |
+{% macro engine_table(engine) -%}
+| Preview | Name | Tutorial | Features | Language | Networking | Rendering |
 | ------- | ---- | -------- | -------- | ------ | -------- | ---------- | --------- |
 {% for ex in examples -%}
-| {% if ex.has_preview %}![Preview]({{ ex.path }}/_media/preview_128.png){% endif %} | [{{ ex.config.display.title }}]({{ ex.path }}) | {% if ex.config.display.tutorial_url %}[Tutorial]({{ ex.config.display.tutorial_url }}){% endif %} | {{ ex.features }} | {{ ex.engine }} | {{ ex.language }} | {{ex.networking }} | {{ ex.rendering }} |
+{% if ex.engine_id == engine -%}
+| {% if ex.has_preview %}![Preview]({{ ex.path }}/_media/preview_128.png){% endif %} | [{{ ex.config.display.title }}]({{ ex.path }}) | {% if ex.config.display.tutorial_url %}[Tutorial]({{ ex.config.display.tutorial_url }}){% endif %} | {{ ex.features }} | {{ ex.language }} | {{ex.networking }} | {{ ex.rendering }} |
+{% endif -%}
 {% endfor %}
+{% endmacro engine_table %}
 
+### Godot
+
+{{ self::engine_table(engine="Godot") }}
+
+### Unity
+
+{{ self::engine_table(engine="Unity") }}
+
+### HTML5
+
+{{ self::engine_table(engine="HTML5") }}
+
+### Other
+
+{{ self::engine_table(engine="Custom") }}

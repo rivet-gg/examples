@@ -23,6 +23,7 @@ pub struct TemplateOverview {
     config: super::Config,
     has_preview: bool,
     engine: String,
+    engine_id: super::meta::Engine,
     language: String,
     networking: String,
     rendering: String,
@@ -79,6 +80,7 @@ impl super::Config {
             config: self.clone(),
             has_preview: path.join("_media").join("preview.png").exists(),
             engine: self.meta.engine.to_string(),
+            engine_id: self.meta.engine.clone(),
             language: self.meta.language.to_string(),
             networking: self
                 .meta
