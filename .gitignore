@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/node,godot,unity,unrealengine,rust
-# Edit at https://www.toptal.com/developers/gitignore?templates=node,godot,unity,unrealengine,rust
+# Created by https://www.toptal.com/developers/gitignore/api/node,rust,godot,unity,unrealengine,macos
+# Edit at https://www.toptal.com/developers/gitignore?templates=node,rust,godot,unity,unrealengine,macos
 
 ### Godot ###
 # Godot 4+ specific ignores
@@ -17,6 +17,39 @@ export_presets.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+### macOS Patch ###
+# iCloud generated files
+*.icloud
 
 ### Node ###
 # Logs
@@ -333,4 +366,4 @@ Build/Android/res/*/*
 Plugins/**/Binaries/*
 Plugins/**/Intermediate/*
 
-# End of https://www.toptal.com/developers/gitignore/api/node,godot,unity,unrealengine,rust
+# End of https://www.toptal.com/developers/gitignore/api/node,rust,godot,unity,unrealengine,macos
