@@ -1,0 +1,24 @@
+# === Rivet Configuration ===
+# 
+# - Documentation: https://rivet.gg/learn/godot_
+# - Reference: https://rivet.gg/docs/cloud/api/games/versions/create-game-version
+# - More info: https://rivet.gg/docs/general/concepts/version-config
+#
+#          ┌───────────────────────────────────────┐
+#          │   This configuration file is empty.   │
+#          │ Get started at https://rivet.gg/learn │
+#          └───────────────────────────────────────┘
+
+engine:
+  godot:
+  
+matchmaker:
+  max_players: 12
+  docker:
+    dockerfile: "Dockerfile"
+    ports:
+      default:
+        port: 10567
+        protocol: "udp"
+  game_modes:
+    default: {}
