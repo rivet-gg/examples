@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=3 uid="uid://soum1c8oyrso"]
+
+[ext_resource type="Script" path="res://addons/rivet/devtools/dock/deploy_tab.gd" id="1_7k6ip"]
+[ext_resource type="PackedScene" uid="uid://bogw8dj8rr202" path="res://addons/rivet/devtools/dock/elements/namespace_menu_button.tscn" id="2_5hxk2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dfadg"]
+
+[node name="Deploy" type="MarginContainer"]
+offset_right = 734.0
+offset_bottom = 109.0
+script = ExtResource("1_7k6ip")
+
+[node name="Deployment Fieds" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Deployment Label" type="RichTextLabel" parent="Deployment Fieds"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_dfadg")
+bbcode_enabled = true
+text = "[b]Build & Deploy Server[/b]"
+fit_content = true
+scroll_active = false
+shortcut_keys_enabled = false
+
+[node name="DeployNamespaceSelector" parent="Deployment Fieds" instance=ExtResource("2_5hxk2")]
+layout_mode = 2
+selected = -1
+current_value = {
+"create_ts": "2023-11-19T05:46:56.378Z",
+"display_name": "Production",
+"name_id": "prod",
+"namespace_id": "215bd313-b4c7-4932-b9bd-64f8f09b7fe8",
+"version": {
+"create_ts": "2023-11-19T05:46:56.171Z",
+"display_name": "0.0.1",
+"version_id": "73881376-21fa-4fb2-93f2-2f76fb3bac19"
+},
+"version_id": "73881376-21fa-4fb2-93f2-2f76fb3bac19"
+}
+
+[node name="Actions" type="HBoxContainer" parent="Deployment Fieds"]
+layout_mode = 2
+
+[node name="BuildDeployButton" type="Button" parent="Deployment Fieds/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+text = "Build & Deploy"
+
+[node name="ManageVersionButton" type="Button" parent="Deployment Fieds/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+text = "Manage Versions"
