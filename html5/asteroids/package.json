@@ -1,0 +1,42 @@
+{
+    "name": "asteroids-learn",
+    "version": "0.1.0",
+    "description": "",
+    "main": "server/index.ts",
+    "scripts": {
+        "dev:server": "nodemon -r dotenv/config --delay 1 --watch server --watch shared --ext ts --exec ts-node server/index.ts",
+        "dev:server:inspect": "nodemon -r dotenv/config -r ts-node/register --exec node --inspect-brk -r ts-node/register server/index.ts",
+        "build:server": "tsc --outDir build/server",
+        "start:server": "node -r module-alias/register -r dotenv/config ./build/server/server/index.js",
+        "start:server:inspect": "node --inspect -r module-alias/register -r dotenv/config ./build/server/server/index.js",
+        "dev:client": "vite --host 0.0.0.0",
+        "build:client": "vite build"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^16.3.1",
+        "module-alias": "^2.2.3",
+        "nanoid": "^3.3.6",
+        "socket.io": "^4.7.2",
+        "socket.io-client": "^4.7",
+        "tsconfig-paths": "^4.2.0"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^6.7.2",
+        "@typescript-eslint/parser": "^6.7.2",
+        "eslint": "^8.49.0",
+        "nodemon": "^3.0.1",
+        "prettier": "^3.0.3",
+        "ts-node": "^10.9.1",
+        "ts-transform-import-path-rewrite": "^0.3.0",
+        "typescript": "^5.1.6",
+        "vite": "^4.4.9",
+        "vite-plugin-node-polyfills": "^0.11.2",
+        "vite-tsconfig-paths": "^4.2.1"
+    },
+    "_moduleAliases": {
+        "@shared": "./shared",
+        "@display": "./client/display"
+    }
+}
