@@ -1,0 +1,121 @@
+[gd_scene load_steps=2 format=3 uid="uid://jhdlqsokif5o"]
+
+[ext_resource type="Script" path="res://scripts/lobby.gd" id="1_q5pu8"]
+
+[node name="Lobby" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+script = ExtResource("1_q5pu8")
+
+[node name="Players" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -126.0
+offset_top = -177.5
+offset_right = 126.0
+offset_bottom = 177.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="Label" type="Label" parent="Players"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 18.0
+offset_right = 142.0
+offset_bottom = 32.0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "Awaiting Players..."
+
+[node name="Start" type="Button" parent="Players"]
+layout_mode = 0
+offset_left = 68.0
+offset_top = 307.0
+offset_right = 193.0
+offset_bottom = 336.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+text = "START!"
+
+[node name="List" type="ItemList" parent="Players"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 37.0
+offset_right = 229.0
+offset_bottom = 296.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="Connect" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -138.0
+offset_top = -71.0
+offset_right = 139.0
+offset_bottom = 71.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="NameLabel" type="Label" parent="Connect"]
+layout_mode = 0
+offset_left = 54.5
+offset_top = 8.5
+offset_right = 105.5
+offset_bottom = 34.5
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "Name:"
+
+[node name="Name" type="LineEdit" parent="Connect"]
+layout_mode = 0
+offset_left = 54.5
+offset_top = 37.5
+offset_right = 210.5
+offset_bottom = 68.5
+size_flags_horizontal = 2
+size_flags_vertical = 2
+text = "The Warrior"
+
+[node name="ErrorLabel" type="Label" parent="Connect"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 125.0
+offset_right = 257.0
+offset_bottom = 139.0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.820312, 0.291595, 0.291595, 1)
+
+[node name="Join" type="Button" parent="Connect"]
+layout_mode = 0
+offset_left = 77.5
+offset_top = 84.5
+offset_right = 170.5
+offset_bottom = 115.5
+size_flags_horizontal = 2
+size_flags_vertical = 2
+text = "Find Lobby"
+
+[node name="ErrorDialog" type="AcceptDialog" parent="."]
+
+[connection signal="pressed" from="Players/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Connect/Join" to="." method="_on_join_pressed"]
