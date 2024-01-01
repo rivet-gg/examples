@@ -1,0 +1,62 @@
+# === Rivet Version Configuration ===
+# Reference: https://rivet.gg/docs/general/config
+#
+
+# How the game lobbies run and how players connect to the game.
+#
+# https://rivet.gg/docs/matchmaker
+matchmaker: 
+    # How many players can join lobbies by default
+    #
+    # Read more about matchmaking: https://rivet.gg/docs/matchmaker/concepts/finding-lobby
+    max_players: 32
+
+    # The hardware to provide for lobbies.
+    #
+    # Available tiers: https://rivet.gg/docs/dynamic-servers/concepts/available-tiers
+    tier: "basic-1d16"
+
+    # Which regions the game should be available in.
+    #
+    # Available regions: https://rivet.gg/docs/dynamic-servers/concepts/available-regions
+    regions:
+        lnd-sfo: {}
+
+    # What game modes are avaiable.
+    #
+    # Properties like `max_players`, `tier`, `dockerfile`, `regions`, and more can
+    # be overriden for specific game modes.
+    game_modes:
+      default: { }
+      bullet-hell: { max_players: 10, tier: "basic-1d8" }
+
+    # Runtime configuration for the lobby's Docker container.
+    docker:
+        # If you're unfamiliar with Docker, here's how to write your own
+        # Dockerfile:
+        # https://docker-curriculum.com/#dockerfile
+        dockerfile: "Dockerfile"
+
+        # Which ports to allow players to connect to. Multiple ports can be defined
+        # with different protocols.
+        #
+        # How ports work: https://rivet.gg/docs/dynamic-servers/concepts/ports
+        ports:
+            default: { port: 3000, protocol: "https" }
+
+# What game modes are avaiable.
+#
+# Properties like `max_players`, `tier`, `dockerfile`, `regions`, and more can
+# be overriden for specific game modes.
+cdn:
+    # Command to run before uploading the site to Rivet. This can be used to
+    # build any JavaScript bundles or generate assets.
+    build_command:  "npm install && npm run build:client"
+
+    # The folder to upload to Rivet.
+    #
+    # If you're hosting a website, ensure that `index.html` is in the root of
+    # this folder.
+    build_output: "build/client/"
+
+
