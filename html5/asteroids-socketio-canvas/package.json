@@ -3,19 +3,10 @@
     "version": "0.1.0",
     "description": "",
     "main": "server/index.ts",
-    "scripts": {
-        "dev:server": "nodemon -r dotenv/config --delay 1 --watch server --watch shared --ext ts --exec ts-node server/index.ts",
-        "dev:server:inspect": "nodemon -r dotenv/config -r ts-node/register --exec node --inspect-brk -r ts-node/register server/index.ts",
-        "build:server": "tsc --outDir build/server",
-        "start:server": "node -r module-alias/register -r dotenv/config ./build/server/server/index.js",
-        "start:server:inspect": "node --inspect -r module-alias/register -r dotenv/config ./build/server/server/index.js",
-        "dev:client": "vite --host 0.0.0.0",
-        "build:client": "vite build"
-    },
     "author": "Rivet Gaming, LLC",
     "license": "MIT",
     "dependencies": {
-        "@rivet-gg/api": "23.1.0-rc4",
+        "@rivet-gg/api": "^23.2.0-rc1",
         "dotenv": "^16.3.1",
         "module-alias": "^2.2.3",
         "nanoid": "^3.3.6",

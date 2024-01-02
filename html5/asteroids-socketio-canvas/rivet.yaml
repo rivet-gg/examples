@@ -51,7 +51,7 @@ matchmaker:
 cdn:
     # Command to run before uploading the site to Rivet. This can be used to
     # build any JavaScript bundles or generate assets.
-    build_command:  "npm install && npm run build:client"
+    build_command:  "npm install && rivet run build:client"
 
     # The folder to upload to Rivet.
     #
@@ -59,4 +59,18 @@ cdn:
     # this folder.
     build_output: "build/client/"
 
-
+# Rivet run scripts
+# 
+# Scripts that are completely equivalent to npm run scripts, except
+# all of these scripts get run with RIVET_TOKEN and RIVET_API_ENDPOINT
+# 
+# Any of the following listings can be run through `rivet run {cmd}`
+# such as `rivet run dev:server`
+scripts:
+    dev:server: "npx nodemon -r dotenv/config --delay 1 --watch server --watch shared --ext ts --exec ts-node server/index.ts"
+    dev:server:inspect: "npx nodemon -r dotenv/config -r ts-node/register --exec node --inspect-brk -r ts-node/register server/index.ts"
+    build:server: "npx tsc --outDir build/server"
+    start:server: "node -r module-alias/register -r dotenv/config ./build/server/server/index.js"
+    start:server:inspect: "node --inspect -r module-alias/register -r dotenv/config ./build/server/server/index.js"
+    dev:client: "npx vite --host 0.0.0.0"
+    build:client: "npx vite build"
