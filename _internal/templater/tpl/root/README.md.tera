@@ -14,7 +14,7 @@
 | ------- | ---- | -------- | -------- | -------- | ---------- |{% if rendering %} --------- |{% endif %}
 {% for ex in examples -%}
 {% if ex.engine_id == engine -%}
-| {% if ex.has_preview %}![Preview]({{ ex.path }}/_media/preview_128.png){% endif %} | [{{ ex.config.display.title }}]({{ ex.path }}) | {% if ex.config.display.tutorial_url %}[Tutorial]({{ ex.config.display.tutorial_url }}){% endif %} | {{ ex.features }} | {{ ex.language }} | {{ex.networking }} |{% if rendering %} {{ ex.rendering }} |{% endif %}
+| {% if ex.has_preview %}[![Preview]({{ ex.path }}/_media/preview_128.png)]({{ ex.path }}/){% endif %} | [{{ ex.config.display.title }}]({{ ex.path }}) | {% if ex.config.display.tutorial_url %}[Tutorial]({{ ex.config.display.tutorial_url }}){% endif %} | {{ ex.features }} | {{ ex.language }} | {{ex.networking }} |{% if rendering %} {{ ex.rendering }} |{% endif %}
 {% endif -%}
 {% endfor %}
 {% endmacro engine_table %}

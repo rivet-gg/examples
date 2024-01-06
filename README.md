@@ -15,7 +15,7 @@
 
 | Preview | Name | Tutorial | Features | Language | Networking |
 | ------- | ---- | -------- | -------- | -------- | ---------- |
-| ![Preview](./godot/bomber/_media/preview_128.png) | [Bomber](./godot/bomber) | [Tutorial](https://rivet.gg/learn/godot/tutorials/crash-course) | ♟️🌐 | GDScript | High-Level Multiplayer |
+| [![Preview](./godot/bomber/_media/preview_128.png)](./godot/bomber/) | [Bomber](./godot/bomber) | [Tutorial](https://rivet.gg/learn/godot/tutorials/crash-course) | [♟️](https://rivet.gg/docs/matchmaker "♟️ Matchmaker")[🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | GDScript | High-Level Multiplayer |
 
 
 
@@ -23,7 +23,7 @@
 
 | Preview | Name | Tutorial | Features | Language | Networking |
 | ------- | ---- | -------- | -------- | -------- | ---------- |
-| ![Preview](./unity/tanks-fishnet/_media/preview_128.png) | [Tanks](./unity/tanks-fishnet) | [Tutorial](https://rivet.gg/learn/unity/tutorials/fishnet/crash-course) | ♟️🌐 | C# | Fish-Networking |
+| [![Preview](./unity/tanks-fishnet/_media/preview_128.png)](./unity/tanks-fishnet/) | [Tanks](./unity/tanks-fishnet) | [Tutorial](https://rivet.gg/learn/unity/tutorials/fishnet/crash-course) | [♟️](https://rivet.gg/docs/matchmaker "♟️ Matchmaker")[🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | C# | Fish-Networking |
 
 
 
@@ -31,9 +31,9 @@
 
 | Preview | Name | Tutorial | Features | Language | Networking | Rendering |
 | ------- | ---- | -------- | -------- | -------- | ---------- | --------- |
-|  | [Tanks](./html5/tanks-socketio-canvas) | [Tutorial](https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio) | ♟️🌐 | TypeScript | Socket.IO | Canvas |
-|  | [Colyseus](./html5/colyseus) |  | ♟️🌐 | TypeScript | Colyseus |  |
-| ![Preview](./html5/webrtc/_media/preview_128.png) | [WebRTC](./html5/webrtc) |  | 🌐 | TypeScript | WebRTC |  |
+|  | [Tanks](./html5/tanks-socketio-canvas) | [Tutorial](https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio) | [♟️](https://rivet.gg/docs/matchmaker "♟️ Matchmaker")[🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | TypeScript | Socket.IO | Canvas |
+|  | [Colyseus](./html5/colyseus) |  | [♟️](https://rivet.gg/docs/matchmaker "♟️ Matchmaker")[🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | TypeScript | Colyseus |  |
+| [![Preview](./html5/webrtc/_media/preview_128.png)](./html5/webrtc/) | [WebRTC](./html5/webrtc) |  | [🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | TypeScript | WebRTC |  |
 
 
 
@@ -41,7 +41,7 @@
 
 | Preview | Name | Tutorial | Features | Language | Networking | Rendering |
 | ------- | ---- | -------- | -------- | -------- | ---------- | --------- |
-|  | [CLI WebSocket](./rust/cli-websocket) |  | 🌐 | Rust | WebSocket |  |
-|  | [Core dump](./c/coredump) |  | 🌐 | C |  |  |
+|  | [CLI WebSocket](./rust/cli-websocket) |  | [🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | Rust | WebSocket |  |
+|  | [Core dump](./c/coredump) |  | [🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | C |  |  |
 
 
