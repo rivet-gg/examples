@@ -98,7 +98,7 @@ impl super::Config {
                 .meta
                 .features
                 .iter()
-                .map(|x| x.emoji())
+                .map(|x| format!("[{}]({} \"{}\")", x.emoji(), x.url(), x))
                 .collect::<Vec<_>>()
                 .join(""),
         })
