@@ -26,9 +26,6 @@ signal game_error(what)
 
 
 func _ready():
-	RivetHelper.start_server.connect(start_server)
-	RivetHelper.setup_multiplayer()
-
 	multiplayer.peer_connected.connect(self._player_connected)
 	multiplayer.peer_disconnected.connect(self._player_disconnected)
 	multiplayer.connected_to_server.connect(self._connected_ok)
@@ -40,18 +37,9 @@ func start_server():
 	print("Starting server on %s" % DEFAULT_PORT)
 	
 	peer = ENetMultiplayerPeer.new()
-	var error = peer.create_server(DEFAULT_PORT, MAX_PEERS)
-	RivetHelper._assert(!error, "Could not start server")
+	peer.create_server(DEFAULT_PORT, MAX_PEERS)
 
 	multiplayer.set_multiplayer_peer(peer)
-
-	var response = await Rivet.matchmaker.lobbies.ready({})
-
-	if response.result == OK:
-		RivetHelper.rivet_print("Lobby ready")
-	else:
-		RivetHelper.rivet_print("Lobby ready failed")
-		OS.crash("Lobby ready failed")
 
 
 # Callback from SceneTree.
@@ -125,25 +113,10 @@ func load_world():
 func join_game(new_player_name):
 	print("Joining game as %s" % new_player_name)
 	player_name = new_player_name
-	
-	var response = await Rivet.matchmaker.lobbies.find({
-		"game_modes": ["default"]
-	})
-	
-	if response.result == OK:
-		RivetHelper.set_player_token(response.body.player.token)
-		
-		var port = response.body.ports.default
-		print("Connecting to ", port.host)
-		
-		peer = ENetMultiplayerPeer.new()
-		var error = peer.create_client(port.hostname, port.port)
-		RivetHelper._assert(!error, "Could not start server")
 
-		multiplayer.set_multiplayer_peer(peer)
-	else:
-		print("Lobby find failed: ", response)
-		game_error.emit(response.body)
+	peer.create_client("127.0.0.1", DEFAULT_PORT)
+
+	multiplayer.set_multiplayer_peer(peer)
 
 
 func get_player_list():
@@ -160,9 +133,6 @@ func begin_game():
 	if !multiplayer.is_server():
 		return
 
-	# Tell Rivet that this lobby is closed
-	await Rivet.matchmaker.lobbies.setClosed({})
-	
 	load_world.rpc()
 
 	var world = get_tree().get_root().get_node("World")
