@@ -1,0 +1,36 @@
+# === Rivet Configuration ===
+# 
+# - Documentation: https://rivet.gg/learn/unity_
+# - Reference: https://rivet.gg/docs/cloud/api/games/versions/create-game-version
+# - More info: https://rivet.gg/docs/general/concepts/version-config
+#
+#          ┌───────────────────────────────────────┐
+#          │   This configuration file is empty.   │
+#          │ Get started at https://rivet.gg/learn │
+#          └───────────────────────────────────────┘
+
+engine:
+  unity: {}
+
+matchmaker:
+  max_players: 32
+  tier: basic-1d1
+
+  regions:
+    lnd-atl: {}
+    lnd-fra: {}
+
+  game_modes:
+    mode-a: {}
+    mode-b: {}
+    custom:
+      actions:
+        create:
+          enabled: true
+
+  docker:
+    dockerfile: Dockerfile
+    ports:
+      default:
+        port: 7770
+        protocol: udp

@@ -66,8 +66,7 @@ public struct RivetPlayer
 
 public class RivetManager : MonoBehaviour
 {
-    // const string MatchmakerApiEndpoint = "https://matchmaker.api.rivet.gg/v1";
-    const string MatchmakerApiEndpoint = "https://matchmaker.api.staging.gameinc.io/v1";
+    const string MatchmakerApiEndpoint = "https://api.staging2.gameinc.io/matchmaker";
     
     public string? rivetToken = null;
     
@@ -314,11 +313,13 @@ public class RivetManager : MonoBehaviour
 
     private string GetToken()
     {
+        #if UNITY_SERVER
         var token = Environment.GetEnvironmentVariable("RIVET_TOKEN");
         if (token != null)
         {
             return token;
         }
+        #endif
 
         if (rivetToken != null && rivetToken.Length > 0)
         {
