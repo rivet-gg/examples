@@ -1,0 +1,181 @@
+@import 'consts';
+
+* {
+	font-family: 'Open Sans', sans-serif;
+}
+
+html,
+body {
+	margin: 0;
+	background-color: $base-bg;
+
+	overflow-y: scroll !important;
+}
+
+@mixin scrollbar-thumb($color) {
+	background-clip: padding-box;
+	background: $color;
+	border-radius: 5px;
+	border: 3px solid transparent;
+	background-clip: padding-box;
+}
+
+@mixin scrollbar-track($color) {
+	background: $color;
+	background-clip: padding-box;
+	border-radius: 5px;
+	border: 3px solid transparent;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+	background: transparent;
+}
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+::-webkit-scrollbar-thumb {
+	@include scrollbar-thumb(white);
+}
+::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
+button,
+a.button {
+	background-color: #6862d3;
+	color: #ececec;
+	font-weight: 700;
+	font-size: 14px;
+	border-radius: 100px;
+	padding: 8px 24px;
+	outline: none;
+	border: none;
+	cursor: pointer;
+
+	&:active {
+		opacity: 0.8;
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: default;
+		pointer-events: none;
+	}
+}
+
+input[type='text'],
+textarea {
+	min-width: 210px;
+
+	background-color: rgba(255, 255, 255, 0.09);
+	outline: none;
+	border: 2px solid rgba(255, 255, 255, 0.09);
+	font-weight: 600;
+	padding: 6px 8px;
+	border-radius: 3px;
+	color: #ececec;
+
+	transition:
+		background-color 200ms,
+		border 200ms;
+
+	&:hover,
+	&:focus {
+		border-color: rgba(255, 255, 255, 0.12);
+	}
+}
+
+select {
+	color: #ececec;
+	font-weight: 600;
+	font-size: 15px;
+	border-radius: 3px;
+	text-shadow: 0 1px black;
+	background-color: #2a2a2a;
+	border: 2px solid #3d3d3d;
+	padding: 2px 4px 2px 6px;
+	outline: none;
+}
+
+#root {
+	margin: 30px 0 0 40px;
+	position: relative;
+	display: block;
+	width: min-content;
+	background-color: white;
+	color: #151515;
+	text-decoration: none;
+	z-index: 2;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+div {
+	color: #ececec;
+}
+
+textarea {
+	display: block;
+	height: 100px;
+	resize: none;
+}
+
+code {
+	display: block;
+	padding: 14px 20px;
+
+	border-radius: 3px;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+
+	color: #ececec;
+	font-family: 'Jetbrains Mono', monospace;
+	font-variant-ligatures: normal;
+	font-weight: 500;
+	font-size: 13px;
+	tab-size: 4;
+
+	&.inline {
+		display: inline-block;
+		padding: 3px 7px;
+	}
+
+	/* === HIGHLIGHT.JS FORMATTING === */
+	&.theme1 {
+		background-color: rgba(255, 255, 255, 0.09);
+
+		& > .hljs-punctuation {
+			color: #f8f8f2;
+		}
+		& > .hljs-attr {
+			color: #5ccfe6;
+		}
+		& > .hljs-string {
+			color: #bae67e;
+		}
+		& > .hljs-number,
+		& > .hljs-keyword {
+			color: #ffcc66;
+		}
+	}
+
+	span {
+		font-family: inherit;
+	}
+}
+
+a {
+	color: #3261c8;
+	font-weight: 600;
+}

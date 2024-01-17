@@ -1,0 +1,19 @@
+cdn:
+  build_output: public/
+matchmaker:
+  tier: "basic-1d4"
+  max_players: 256
+  docker:
+    dockerfile: Dockerfile
+    ports:
+      default:
+        port: 8080
+        protocol: https
+    env:
+      PORT: "8080"
+  # Only use one region so everyone always gets the same lobby.
+  regions:
+    lnd-atl: {}
+  game_modes:
+    default: {}
+

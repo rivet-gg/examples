@@ -1,0 +1,29 @@
+# Colyseus
+
+
+
+
+
+
+
+|  Language | Networking |
+|  --- | --- |
+|  [TypeScript](https://www.typescriptlang.org) | [Colyseus](https://github.com/rivet-gg/plugin-colyseus-server') |
+
+**Rivet Features**
+
+- [♟️ Matchmaker](https://rivet.gg/docs/matchmaker)
+- [🌐 Dynamic Servers](https://rivet.gg/docs/dynamic-servers)
+
+
+## Running locally
+
+1. [Clone the GitHub repo](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
+2. Open this folder
+3. Run: `rivet init`
+4. Run `yarn start`
+
+## Deploying to Rivet
+
+[Documentation](https://rivet.gg/learn/html5/tutorials/crash-course#step-3-publish-your-game)
+

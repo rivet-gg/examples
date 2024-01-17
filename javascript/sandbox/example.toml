@@ -1,0 +1,12 @@
+[display]
+title = "Sandbox"
+overview_weight = 30
+
+[meta]
+engine = "JavaScript"
+languages = ["TypeScript"]
+platforms = ["HTML5"]
+networking = "SocketIo"
+rendering = "HTML5DOM"
+features = ["Matchmaker", "DynamicServers"]
+

@@ -3,8 +3,9 @@ title = "CLI WebSocket"
 
 [meta]
 engine = "Custom"
-language = "Rust"
+languages = ["Rust"]
 networking = "WebSocket"
+platforms = []
 features = ["DynamicServers"]
 
 

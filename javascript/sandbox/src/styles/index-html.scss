@@ -1,0 +1,84 @@
+@import 'common';
+
+body,
+html {
+	overflow: hidden;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#center {
+	display: flex;
+	flex-direction: column;
+
+	#header {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		margin-bottom: 15px;
+
+		#logo {
+			width: 48px;
+			height: 48px;
+			margin-right: 24px;
+		}
+
+		h1 {
+			text-align: center;
+		}
+	}
+
+	#items {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+
+		.item {
+			width: 300px;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			background-color: $raised-bg;
+			border-radius: 15px;
+			padding: 16px;
+			text-decoration: none;
+			transition: transform 0.15s;
+			transform: translateY(0);
+
+			&:not(:last-child) {
+				margin-bottom: 16px;
+			}
+
+			&:hover {
+				transform: translateY(-2px);
+			}
+
+			h2 {
+				color: #ececec;
+				font-size: 18px;
+				margin: 0;
+				text-align: center;
+				margin-right: 8px;
+			}
+
+			.icons {
+				display: flex;
+				flex-flow: row wrap;
+				justify-content: center;
+				align-items: center;
+				margin: -4px -4px -4px -4px; // Inverse padding
+
+				.icon {
+					width: 30px;
+					height: 30px;
+					margin: 4px;
+				}
+			}
+		}
+	}
+}

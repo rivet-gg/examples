@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="https://emojipedia-us.s3.amazonaws.com/thumbs/120/apple/129/joystick_1f579.png">
+    <title>Game Inc.</title>
+
+    <!-- Styles -->
+    <link href="https://fonts.googleapis.com/css?family=Biryani:400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Scripts -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    <script src="//cdn.socket.io/4.5.3/socket.io.min.js" integrity="sha384-WPFUvHkB1aHA5TDSZi6xtDgkF0wXJcIIxXhC6h8OT8EH3fC5PWro5pWJ1THjcfEi" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="mainHeader" class="panelHeader">
+        <img id="mainLogo" src="https://emojipedia-us.s3.amazonaws.com/thumbs/120/apple/129/joystick_1f579.png"><span>Game Inc<span style="color: #FC0D1B">.</span></span>
+        <div id="companyNameDisplay" class="leftItem">?</div>
+        <div id="companyLevelDisplay"></div>
+        <div id="moneyPerYear">$--/year</div>
+        <div id="moneyPerSec">$--/sec</div>
+        <div id="moneyDisplay" class="rightItem">$--</div>
+    </div>
+    <div class="panel" id="leftPanel">
+        <div class="panelHeader"><img class="headerImage" src="https://emojipedia-us.s3.amazonaws.com/thumbs/120/apple/129/file-cabinet_1f5c4.png"> Projects</div>
+        <div id="leftPanelScroller">
+            <div id="overviewItems"><!-- Created in code --></div>
+            <div style="font-size: 0.75em; padding: 0 100px;">
+                <p><a href="https://discord.gg/tcdDjSM" target="_blank">Discord</a> &bull; <a href="docs/terms.txt" target="_blank">Terms</a> &bull; <a href="docs/privacy.txt" target="_blank">Privacy</a> &bull; <a href="//iogames.space" target="_blank">More IO Games</a></p>
+                <p>Developed by <a href="https://twitter.com/NathanFlurry">Nathan</a>, <a href="https://twitter.com/NicholasKissel">Nicholas</a>, <a href="https://twitter.com/MasterPtato">ptato</a>, and <a href="https://twitter.com/goaliesave25" target="_blank">Mathew</a>.</p>
+                <p>&copy; 2020 Fluxr LLC</p>
+            </div>
+            <div style="height: 100px"></div>
+        </div>
+        <div id="leftPanelActions">
+            <button id="createGameButton" onclick="createGame()">New Game<div>$5,000</div></button>
+            <button id="createLawsuitButton" onclick="createLawsuit()">New Lawsuit<div>$200,000</div></button>
+        </div>
+    </div>
+    <div class="panel" id="codePanel">
+        <div class="panelHeader"><img class="headerImage" src="https://emojipedia-us.s3.amazonaws.com/thumbs/120/apple/129/pencil_270f.png"> Code Editor</div>
+        <div id="unreadNotification">0</div>
+        <button id="openChat" onclick="openChat()">Open Chat</button>
+        <div id="codePanelContainer">
+            <div id="codeArea"></div>
+        </div>
+        <div id="tips"><span style="font-weight: bold">Tip: </span><span id="tipsBody"></span></div>
+    </div>
+    <div class="panel" id="chatPanel">
+        <div class="panelHeader"><img class="headerImage" src="https://emojipedia-us.s3.amazonaws.com/thumbs/120/apple/129/speech-balloon_1f4ac.png"> Chat</div>
+        <button id="openChat" onclick="closeChat()">Close Chat</button>
+        <div id="chatArea"></div>
+        <div id="emojiList"></div>
+        <button id='openEmojiList' onclick="toggleEmojis()">emojis</button>
+        <input id="chatInput" maxlength="180" placeholder="Type some text..." type="text">
+    </div>
+    <div class="panel" id="leaderboardPanel">
+        <svg id='leaderboardGraph'></svg>
+        <div id="leaderboardConfig">
+            <input id="localViewCheckbox" type="checkbox">
+            <label>Local view</label>
+            <input type="range" min="10" max="190" value="100" class="slider" id="localZoom">
+            <div id="timelineConfig">
+                <label for="timelineSize">Timeline: </label>
+                <input type="radio" name="timelineSize" value="30" > 1M
+                <input type="radio" name="timelineSize" value="90" > 3M
+                <input type="radio" name="timelineSize" checked value="180" > 6M
+                <input type="radio" name="timelineSize" value="360" > 1Y
+                <input type="radio" name="timelineSize" value="720" > 2Y
+                <input type="radio" name="timelineSize" value="1800" > 5Y
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modals -->
+    <div id="startCompanyModal" class="modal">
+        <div class="modalPanel">
+            <div class="panelHeader">Start Company</div>
+            <div style="text-align: center; padding: 60px 0">
+                <b>Company name:</b><br/>
+                <input id="companyNameInput" type="text" placeholder="Company name..." maxlength="30" oninput="validateCompanyName(this.value)" ><br/>
+                <button id="startCompanyButton" onclick="startCompany()" disabled>Start</button>
+            </div>
+        </div>
+    </div>
+    <div id="createGameModal" class="modal">
+        <div class="modalPanel">
+            <div class="panelHeader">Create Game</div>
+            <div style="text-align: center; padding: 60px 0">
+                <b>Game quality:</b><br/>
+                <div>
+                    <button class="finishCreateGameButton" onclick="finishCreateGame(0)">🌐 Web</button>
+                    <button class="finishCreateGameButton" onclick="finishCreateGame(1)">️📱 Mobile</button>
+                    <button class="finishCreateGameButton" onclick="finishCreateGame(2)">🎮 AAA</button>
+                </div>
+                <div style="margin-top: 16px">
+                    <button onclick="dismissModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="createLawsuitModal" class="modal">
+        <div class="modalPanel">
+            <div class="panelHeader">Create Lawsuit</div>
+            <div style="text-align: center; padding: 60px 0">
+                <b>Target:</b><br/>
+                <div>
+                    <select id="createLawsuitTargets" title="Target"></select>
+                </div><br/>
+                <b>Size:</b><br/>
+                <div>
+                    <button class="finishCreateLawsuitButton" onclick="finishCreateLawsuit(0)">💵 Small ($100k - $1m)</button>
+                    <button class="finishCreateLawsuitButton" onclick="finishCreateLawsuit(1)">💰 Medium ($1m - $10m)</button>
+                    <button class="finishCreateLawsuitButton" onclick="finishCreateLawsuit(2)">🏦 Large ($10m - $100m)</button>
+                </div>
+                <div style="margin-top: 16px">
+                    <button onclick="dismissModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="hireTalentModal" class="modal">
+        <div class="modalPanel" style="width: 500px">
+            <div class="panelHeader">Hire Talent</div>
+            <div style="text-align: center; padding: 60px 0">
+                <b>Employee options:</b><br/>
+                <table style="margin: 16px auto">
+                    <tr><th class="employeeHolder"></th><th><button onclick="finishHireTalent(0)">Hire</button></th></tr>
+                    <tr><th class="employeeHolder"></th><th><button onclick="finishHireTalent(1)">Hire</button></th></tr>
+                    <tr><th class="employeeHolder"></th><th><button onclick="finishHireTalent(-1)">Random</button></th></tr>
+                </table>
+                <div style="margin-top: 16px">
+                    <button onclick="dismissModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="overlay"></div>
+    <div id="statusModal" class="modal present">
+        <div class="modalPanel">
+            <div id="statusText" style="font-size: 2em; text-align: center; padding: 100px 0;">Connecting...</div>
+        </div>
+    </div>
+
+    <script src="client.js"></script>
+</body>
+</html>

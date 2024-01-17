@@ -1,0 +1,11 @@
+.parcel-cache/
+node_modules/
+dist/
+
+.env
+.env.*
+*.tsbuildinfo
+
+### Rivet ###
+.rivet/
+.env

@@ -1,0 +1,12 @@
+.parcel-cache/
+node_modules/
+dist/
+
+.env
+.env.*
+*.tsbuildinfo
+
+# HACK: Fix "Commit hash required" error
+package-lock.json
+yarn.lock
+

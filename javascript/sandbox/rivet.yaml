@@ -1,0 +1,25 @@
+engine:
+  html5: {}
+cdn:
+  build_command: yarn run build:prod
+  build_output: dist
+matchmaker:
+  max_players: 128
+  tier: basic-1d8
+  game_modes:
+    default:
+      taggable: true
+      allow_dynamic_max_players: true
+    custom:
+      taggable: true
+      allow_dynamic_max_players: true
+      actions:
+        create:
+          enabled: true
+  docker:
+    dockerfile: Dockerfile
+    ports:
+      default:
+        port: 8080
+        protocol: https
+kv: {}
