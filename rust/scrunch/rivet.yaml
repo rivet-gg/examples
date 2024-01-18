@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://rivet.gg/rivet.schema.json
+
+#           ┌───────────────────────────────────────────────────────┐
+#           │                                                       │
+#           │           This configuration file is empty.           │
+#           │                                                       │
+#           │      Get started: https://rivet.gg/learn/custom       │
+#           │    Reference: https://rivet.gg/docs/general/config    │
+#           │                                                       │
+#           └───────────────────────────────────────────────────────┘
+
+engine:
+  custom: {}
+scripts:
+  client: yarn run serve
+  server: cargo run
+cdn:
+  build_command: rm -rf public/js && yarn install && yarn run build:prod
+  build_output: public
+matchmaker:
+  docker:
+    dockerfile: Dockerfile
+    ports:
+      default:
+        port: 3000
+        protocol: https
+  regions:
+    lnd-atl: {}
+    lnd-fra: {}
+  game_modes:
+    default: {}
+
