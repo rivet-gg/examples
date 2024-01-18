@@ -7,7 +7,7 @@ COPY package.json yarn.lock tsconfig.json ./
 RUN yarn install  --frozen-lockfile
 COPY ./server ./server
 COPY ./shared ./shared
-RUN ls node_modules; yarn run build:server
+RUN yarn run build:server
 RUN rm -rf ./node_modules
 
 # === Runner ===
