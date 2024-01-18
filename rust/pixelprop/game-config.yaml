@@ -1,0 +1,4920 @@
+---
+gravity: 500
+mapSize: 4096 # This is the diameter. Should be a power of 2.
+viewRange: 300 # Radius
+spawnRange: [[0, 0, 150], [100, 100, 1]]
+
+store:
+  characters:
+    - id: basic
+      name: Basic
+    - id: nathan
+      name: Nathan
+    - id: nicholas
+      name: Nicholas
+    - id: sidney
+      name: Sidney
+    - id: og-panda
+      name: Gangster Panda
+    - id: streaker
+      name: Streaker
+    - id: panda
+      name: Panda
+
+player:
+  propPrefab: gnome:player
+  shootPos: [-5,-8,10]
+  moveSpeed: 65
+  sprintSpeed: 120
+  propStamina: 3.5 # Number of seconds the player can sprint
+  hunterStamina: 5
+  jumpVelocity: 180 # See https://www.desmos.com/calculator/minvwamofk
+  minShootDelay: 0.3
+  pingDelayMin: 1.0 # If the calculated ping delay < 0, then use this instead
+  pingDelayBase: [-3.8,-17] # See https://www.desmos.com/calculator/loa3qf06dx
+  pingDelayUnit: [0.63,2.53] # min and max s/cube^(1/3) for props; we take the cubed root of the volume so it's more linear
+
+scoring:
+  winningTeam: 100
+  first: 200
+  second: 100
+  third: 50
+
+  killedPlayer: 100
+  hitShot: 10
+  percentHitScale: 100
+
+  propHealth: 50
+  ping: 5
+  pingPerUnit: 1
+  sleepingPerSecond: 0.2
+
+prefabs:
+  ## General
+  - id: ground
+    asset: "ground"
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,-100], [10000,10000,100]]
+  - id: boundary
+    asset: "boundary"
+    kind:
+      kind: fixture
+    rects:
+    - [[0,-1450,-50], [10000,1000,10000]] # Lower boundary at -950
+    - [[0,1450,-50], [10000,1000,10000]] # Upper boundary at 950
+    - [[-2700,0,-50], [1000,10000,10000]] # Left boundary at -2200
+    - [[1950,0,-50], [1000,10000,10000]] # Right boundary at -1450
+
+  - id: empty
+    asset: ""
+    kind:
+      kind: fixture
+    rects: []
+
+  - id: silverstar-video
+    asset: "video:misc/silver-star.mp4 37 23"
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [58,1,44]]
+  - id: webcam-video
+    asset: "video:webcam 58 44"
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [58,1,44]]
+  - id: apt:full-front
+    kind:
+      kind: fixture
+    rects:
+    - [[-2,-37.5,0], [84,5,38]] # Left wall
+    - [[-42.5,0,0], [5,80,38]] # Close wall
+    - [[8.5,38,0], [63,2,38]] # Right back kitchen wall
+    - [[39,33,0], [2,12,38]] # Right far kitchen wall
+    - [[-17,33,0], [12,12,38]] # Right close kitchen wall
+    minimapRects:
+    - [[-2,0,0], [87,80,1]] # Floor
+  - id: apt:back
+    kind:
+      kind: fixture
+    rects:
+    - [[-42.5,-40.5,0], [13,35,38]] # Close closet
+    - [[47,-38,0], [13,40,38]] # Far closet
+
+    - [[-47,12,0], [4,18,38]] # Close wall left
+    - [[-47,-35,0], [4,45,38]] # Close wall right
+    - [[52,-23,0], [4,72,38]] # Far wall
+
+    - [[2.5,-56,0], [103,4,38]] # Right wall
+    - [[21.5,11,0], [65,4,38]] # Left wall far
+    - [[-37,11,0], [20,4,38]] # Left wall close
+
+    - [[-43,36,0], [4,53,38]] # Bathroom close wall
+    - [[10,36,0], [4,53,38]] # Bathroom far wall
+    - [[1,34,0], [22,5,38]] # Bathroom far split
+    - [[-16.5,61,0], [57,4,38]] # Bathroom left wall
+    minimapRects:
+    - [[2.5,-23,0], [103,72,1]] # Main floor
+    - [[-16.5,36,0], [57,54,1]] # Bathroom floor
+  - id: apt:trash
+    rects:
+    - [[0,0,0], [5,9,12]]
+  - id: nature:road-a
+    kind:
+      kind: fixture
+    rects: 
+    - [[0,0,1], [25,23,1]]
+    minimapRects:
+    - [[0,0,1], [25,23,1]]
+  - id: nature:road-b
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,1], [25,23,1]]
+    minimapRects:
+    - [[0,0,1], [21,19,1]]
+  - id: apt:bed-nathan
+    rects:
+    - [[0,0,0], [35,17,15]]
+  - id: apt:bed-nicholas
+    rects:
+    - [[0,0,0], [35,17,15]]
+  - id: apt:bin-storage
+    rects:
+    - [[0,0,0], [10,6,9]]
+  - id: apt:box
+    rects:
+    - [[0,0,0], [5,2,8]]
+  - id: apt:cabniet-oven
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [14,10,10]]
+  - id: apt:cabniet-top-hood
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [14,10,10]]
+  - id: apt:cabniet-top-left
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [14,12,11]]
+  - id: apt:cabniet-top-right
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [14,12,11]]
+  - id: apt:cabniet-top
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [14,12,11]]
+  - id: apt:chair-dining
+    rects:
+    - [[0,0,0], [8,9,15]]
+  - id: apt:chair-folding
+    rects:
+    - [[0,0,0], [8,9,12]]
+  - id: apt:chair-footstand
+    rects:
+    - [[0,0,0], [12,14,7]]
+  - id: apt:chair-small
+    rects:
+    - [[0,0,0], [13,16,14]]
+  - id: apt:coffee-maker
+    rects:
+    - [[0,0,0], [4,6,5]]
+  - id: apt:couch
+    rects:
+    - [[0,0,0], [13,28,16]]
+  - id: apt:door-main
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [16,8,30]]
+  - id: apt:door-secondary
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [16,8,30]]
+  - id: apt:drawer-bathroom-sink
+    rects:
+    - [[0,0,0], [14,12,15]]
+  - id: apt:drawer-sink
+    rects:
+    - [[0,0,0], [14,12,15]]
+  - id: apt:drawer
+    rects:
+    - [[0,0,0], [14,12,13]]
+  - id: apt:expresso-maker
+    rects:
+    - [[0,0,0], [3,5,3]]
+  - id: apt:fan
+    rects:
+    - [[0,0.5,0], [7,5,19]]
+  - id: apt:kitchen-matt
+    kind:
+      kind: fixture
+    rects: []
+    minimapRects:
+    - [[0,0,0], [7,13,1]]
+  - id: apt:lamp-small
+    rects:
+    - [[0,0,0], [12,26,7]]
+  - id: apt:lamp-stand
+    rects:
+    - [[0,0,0], [6,20,26]]
+  - id: apt:lamp
+    rects:
+    - [[0,0,0], [6,20,26]]
+  - id: apt:microwave
+    rects:
+    - [[0,0,0], [8,10,6]]
+  - id: apt:night-stand-black
+    rects:
+    - [[0,0,0], [11,12,12]]
+  - id: apt:night-stand-white
+    rects:
+    - [[0,0,0], [11,12,8]]
+  - id: apt:oven
+    rects:
+    - [[0,0,0], [11,14,13]]
+  - id: apt:painting:frame-family
+    rects:
+    - [[0,0,0], [3,5,5]]
+  - id: apt:rug-blue
+    kind:
+      kind: fixture
+    rects: []
+    minimapRects:
+    - [[0,0,0], [30,16,1]]
+  - id: apt:rug-door
+    kind:
+      kind: fixture
+    rects: []
+    minimapRects:
+    - [[0,0,0], [7,13,1]]
+  - id: apt:shower
+    rects:
+    - [[0,0,0], [16,19,30]]
+  - id: apt:table-tv
+    rects:
+    - [[0,0,0], [25,6,9]]
+  - id: apt:table-dining
+    rects:
+    - [[0,0,0], [15,15,10]]
+  - id: apt:table-folding
+    rects:
+    - [[0,0,0], [19,8,10]]
+  - id: apt:table-main
+    rects:
+    - [[0,0,0], [12,26,7]]
+  - id: apt:toliet
+    rects:
+    - [[0,-0.5,0], [15,16,15]]
+  - id: apt:trash-bin
+    rects:
+    - [[0,0,0], [5,9,12]]
+  - id: apt:vase
+    rects:
+    - [[0,0,0], [3,3,11]]
+  - id: apt:wall-back-brick
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [90,5,38]]
+  - id: apt:wall-back-main
+    kind:
+      kind: fixture
+    rects:
+    - [[-2,0,0], [95,4,38]]
+  - id: apt:wall-back-window
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0.5,0], [72,13,38]]
+  - id: apt:wall-bathroom-2
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [53,4,38]]
+  - id: apt:wall-bathroom
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [50,4,38]]
+  - id: apt:wall-main-brick
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [80,5,38]]
+  - id: apt:wall-main-entry
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [80,13,38]]
+  - id: classic:floor-built-in-walls
+    kind:
+      kind: fixture
+    rects:
+    - [[9,45,0], [4.5,22,40]]
+    - [[9,7.8,0], [4.5,20,40]]
+    - [[16.4,-2,0], [80,4.5,40]]
+    - [[-48,-2,0], [16,4.5,40]]
+    - [[0,0,1], [126,126,1]]
+  - id: apt:wall-main-window
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [80,7,38]]
+  - id: apt:wall-seperator-bathroom
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [18,5,37]]
+  - id: apt:wall-shelf-door
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0.5,0], [80,13,38]]
+  - id: camp:cabin
+    kind:
+      kind: fixture
+    rects:
+    - [[-59,33.22,0], [6,50,40]]
+    - [[-59,-34.98,0], [6,50,40]]
+    - [[-0.68,-58.9,0], [126,6,40]]
+    - [[60,0,0], [6,126,40]]
+    - [[-0.6,58.8,0], [126,6,40]]
+    - [[0,0,1], [126,126,1]]
+  - id: building:corner
+    kind:
+      kind: fixture
+    rects:
+    - [[59.7,-0.1,0], [3,126,40]]
+    - [[0,-59,0], [126,7,40]]
+    - [[0,0,1], [126,126,1]]
+  - id: building:edge
+    kind:
+      kind: fixture
+    rects:
+    - [[59.7,-0.1,0], [3,126,40]]
+    - [[0,0,1], [126,126,1]]
+  - id: building:floor
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [126,126,1]]
+  - id: building:door
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [126,126,1]]
+  - id: building-a:corner
+    kind:
+      kind: fixture
+    rects:
+    - [[59.7,-0.1,0], [3,126,40]]
+    - [[0,-59,0], [126,7,40]]
+    - [[0,0,1], [126,126,1]]
+  - id: building-a:door
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [126,126,1]]
+  - id: building-a:edge
+    kind:
+      kind: fixture
+    rects:
+    - [[59.7,-0.1,0], [3,126,40]]
+    - [[0,0,1], [126,126,1]]
+  - id: building-a:window
+    kind:
+      kind: fixture
+    rects:
+    - [[59.7,-0.1,0], [3,126,40]]
+    - [[0,-59,0], [126,7,40]]
+    - [[0,0,1], [126,126,1]]
+  - id: car:icecream-truck
+    health: 10000
+    rects:
+    - [[0,-1,0], [68,44,35]]
+  - id: car:icecream
+    rects:
+    - [[0,0,0], [12,11,25]]
+  - id: car:sedan-a
+    rects:
+    - [[0,0,0], [56,34,20]]
+  - id: car:sedan-b
+    rects:
+    - [[0,0,0], [56,34,20]]
+  - id: car:sedan-c
+    rects:
+    - [[0,0,0], [56,34,20]]
+  - id: car:sedan-d
+    rects:
+    - [[0,0,0], [56,34,20]]
+  - id: car:sedan-e
+    rects:
+    - [[0,0,0], [56,34,20]]
+  - id: car:sedan-f
+    rects:
+    - [[-0.5,0,0], [55,30,16]]
+  - id: classic:bathroom-sink
+    rects:
+    - [[0,0,0], [14,12,15]]
+  - id: classic:bathtub
+    rects:
+    - [[0,0,0], [38,18,32]]
+  - id: classic:bed
+    rects:
+    - [[0,0,0], [34,17,11]]
+  - id: classic:coffee-pot
+    rects:
+    - [[0,0,0], [7,6,6]]
+  - id: classic:couch
+    rects:
+    - [[0,0,0], [13,28,16]]
+  - id: classic:cup
+    rects:
+    - [[0,0,0], [4,4,4]]
+  - id: classic:door
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [16,8,30]]
+  - id: classic:drawer-center
+    rects:
+    - [[0,0,0], [12,12,12]]
+  - id: classic:drawer
+    rects:
+    - [[0,0,0], [14,12,12]]
+  - id: classic:fireplace
+    rects:
+    - [[0,0,0], [7,23,35]]
+  - id: classic:floor-bathroom
+    kind:
+      kind: fixture
+    rects: []
+    minimapRects:
+    - [[0,0,0], [112,112,1]]
+  - id: classic:floor
+    kind:
+      kind: fixture
+    rects: []
+    minimapRects:
+    - [[0,0,0], [112,112,1]]
+  - id: classic:fridge
+    rects:
+    - [[0,0,0], [14,14,27]]
+  - id: classic:lamp
+    rects:
+    - [[0,0,0], [8,13,29]]
+  - id: classic:laundry-machine
+    rects:
+    - [[0.5,0,0], [13,12,14]]
+  - id: classic:magazine
+    rects:
+    - [[0,0,0], [7,5,1]]
+  - id: classic:oven
+    rects:
+    - [[0,0,0], [11,14,12]]
+  - id: classic:potted-flower
+    rects:
+    - [[0,0,0], [6,8,11]]
+  - id: classic:potted-tree
+    rects:
+    - [[0,0,0], [8,8,28]]
+  - id: classic:sink-bathroom
+    rects:
+    - [[0,0,0], [14,12,15]]
+  - id: classic:table-small-fancy
+    rects:
+    - [[0,0,0], [34,12,8]]
+  - id: classic:table-small-long
+    rects:
+    - [[0,0,0], [40,12,12]]
+  - id: classic:table-small
+    rects:
+    - [[0,0,0], [17,26,7]]
+  - id: classic:table
+    rects:
+    - [[0,0,0], [28,26,12]]
+  - id: classic:toilet
+    rects:
+    - [[0,0,0], [15,16,15]]
+  - id: classic:toliet
+    rects:
+    - [[0,0,0], [15,16,15]]
+  - id: classic:wall-inside-door
+    kind:
+      kind: fixture
+    rects:
+    - [[16,0,0], [80,4,38]]
+    - [[-48,0,0], [16,4,38]]
+  - id: classic:wall-join-inner
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [4,4,38]]
+  - id: classic:wall-join-outside
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [4,7,38]]
+  - id: classic:wall-outside-corner-double
+    kind:
+      kind: fixture
+    rects:
+    - [[-1.5,-1.5,0], [7,7,38]]
+  - id: classic:wall-outside-door-window
+    kind:
+      kind: fixture
+    rects:
+    - [[14,0,0], [84,4,38]]
+    - [[-50,0,0], [12,4,38]]
+  - id: classic:wall-outside-window
+    kind:
+      kind: fixture
+    rects:
+    - [[0,-0.5,0], [112,9,38]]
+  - id: classic:wall-outside
+    kind:
+      kind: fixture
+    rects:
+    - [[0,-1,0], [112,8,38]]
+  - id: classic:wall-t-connect
+    kind:
+      kind: fixture
+    rects:
+    - [[0,-1.5,0], [4,7,38]]
+  - id: flag:america
+    rects:
+    - [[0,0,0], [22,2,27]]
+  - id: flag:russia
+    rects:
+    - [[0,0,0], [22,2,27]]
+  - id: flag:yendis
+    rects:
+    - [[0,0,0], [22,2,27]]
+  - id: gas:pump
+    rects:
+    - [[0,0,0], [14,18,26]]
+  - id: gas:shelf-edge
+    rects:
+    - [[0,0,0], [14,18,26]]
+  - id: gas:shelf
+    rects:
+    - [[0,0,0], [14,18,26]]
+  - id: gas:sign
+    rects:
+    - [[0,0,0], [8,58,65]]
+  - id: gas:station
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,1], [126,126,1]] # Floor *
+    - [[-59.56,33.98,0], [7,54,40]] # Front left *
+    - [[-59.52,-35.97,0], [7,54,40]] # Front right *
+    - [[1,-57,0],[126,12,40]] # Right wall side
+    - [[60,0,0],[8,126,40]] # back wall back
+    - [[0,57,0],[126,12,40]] # Left wall side
+    - [[41.34,-15.4,0],[36,7,40]] #Inner wall *
+    - [[27,-47.84,0], [7,26,40]] # Inner wall right *
+  - id: gnome:player
+    kind:
+      kind: fixture
+    rects:
+    - [[0.5,0.5,0], [7,9,13]]
+  - id: gun:assult-rifle
+    rects:
+    - [[0,0,0], [2,15,5]]
+  - id: gun:grenade
+    rects:
+    - [[0,0,0], [2,2,3]]
+  - id: gun:shotgun
+    rects:
+    - [[0,0,0], [2,15,3]]
+  - id: mall:building
+    kind:
+        kind: fixture
+    rects:
+    - [[0,0,1], [126,126,1]] # Floor *
+    - [[-59.56,33.98,0], [7,54,40]] # Front left *
+    - [[-59.52,-35.97,0], [7,54,40]] # Front right *
+    - [[0,-60,0],[126,6,40]] # Right wall side
+    - [[60,12.7,0],[8,100,40]] # back wall one
+    - [[59.6,-56.5,0],[8,5,40]] # back wall two
+    - [[0,60,0],[126,6,40]] # Left wall side
+    - [[41.34,-15.4,0],[36,7,40]] #Inner wall *
+    - [[27,-47.84,0], [7,26,40]] # Inner wall right *
+  - id: misc:ron-swanson-whiskey
+    rects:
+    - [[0,0,0], [3,3,4]]
+  - id: misc:sign
+    rects:
+    - [[0,0,0], [8,54,64]]
+  - id: misc:clock
+    rects:
+    - [[0,0,0], [2,9,31]]
+  - id: misc:computer
+    rects:
+    - [[0,0,0], [5,5,4]]
+  - id: misc:gold
+    rects:
+    - [[0,0,0], [4,2,1]]
+  - id: misc:light-long
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [12,26,7]]
+  - id: misc:light-small
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [2,2,3]]
+  - id: misc:nome
+    rects:
+    - [[0,0,0], [6,7,14]]
+  - id: misc:planted-bush
+    rects:
+    - [[0,0,0], [17,7,14]]
+  - id: misc:server-1
+    rects:
+    - [[0,0,0], [14,17,25]]
+  - id: misc:server-2
+    rects:
+    - [[0,0,0], [14,17,25]]
+  - id: misc:server
+    rects:
+    - [[0,0,0], [14,17,25]]
+  - id: misc:shelf
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [5,15,18]]
+  - id: misc:toilet-paper
+    rects:
+    - [[0,0,0], [3,3,3]]
+  - id: misc:wine-bottle-2
+    rects:
+    - [[0,0,0], [3,3,6]]
+  - id: misc:wine-bottle
+    rects:
+    - [[0,0,0], [3,3,6]]
+  - id: modern:bed
+    rects:
+    - [[0,0,0], [34,17,11]]
+  - id: modern:cactus
+    rects:
+    - [[0,0,0], [6,6,9]]
+  - id: modern:coffee-maker
+    rects:
+    - [[0,0,0], [6,6,5]]
+  - id: modern:couch-small
+    rects:
+    - [[0,0,0], [13,16,10]]
+  - id: modern:couch
+    rects:
+    - [[0,0,0], [13,28,10]]
+  - id: modern:dining-table
+    rects:
+    - [[0,0,0], [28,26,12]]
+  - id: modern:door-outside
+    rects:
+    - [[0,0.5,0], [16,7,30]]
+  - id: modern:door
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [16,8,30]]
+  - id: modern:drawer-corner
+    rects:
+    - [[0,0,0], [12,12,12]]
+  - id: modern:drawer-sink
+    rects:
+    - [[0,0,0], [14,12,15]]
+  - id: modern:drawer
+    rects:
+    - [[0,0,0], [14,12,12]]
+  - id: modern:fireplace
+    rects:
+    - [[0,0,0], [8,23,39]]
+  - id: modern:floor-bathroom-tile
+    kind:
+      kind: fixture
+    rects: []
+    minimapRects:
+    - [[0,0,0], [112,112,1]]
+  - id: modern:floor-bathroom
+    kind:
+      kind: fixture
+    rects: []
+    minimapRects:
+    - [[0,0,0], [112,112,1]]
+  - id: modern:floor-grey
+    kind:
+      kind: fixture
+    rects: []
+    minimapRects:
+    - [[0,0,0], [112,112,1]]
+  - id: modern:floor-split
+    kind:
+      kind: fixture
+    rects: []
+    minimapRects:
+    - [[0,0,0], [112,112,1]]
+  - id: modern:floor-wood-split-2
+    kind:
+      kind: fixture
+    rects: []
+    minimapRects:
+    - [[0,0,0], [112,112,1]]
+  - id: modern:fridge
+    rects:
+    - [[0,0,0], [14,14,27]]
+  - id: modern:join-corner-2
+    kind:
+      kind: fixture
+    rects:
+    - [[-1.5,-1.5,0], [7,7,38]]
+  - id: modern:lamp-small
+    rects:
+    - [[0,0,0], [4,8,10]]
+  - id: modern:lamp
+    rects:
+    - [[0.5,0,0], [13,12,14]]
+  - id: modern:shelf
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [3,26,2]]
+  - id: modern:stove
+    rects:
+    - [[0,0,0], [11,14,12]]
+  - id: modern:table-chair
+    rects:
+    - [[0,0,0], [9,10,13]]
+  - id: modern:table-small
+    rects:
+    - [[0,0,0], [17,26,7]]
+  - id: modern:toliet
+    rects:
+    - [[0,0.5,0], [15,16,15]]
+  - id: modern:wall-bathroom-2
+    kind:
+      kind: fixture
+    rects:
+    - [[4.5,0,0], [71,6,38]]
+  - id: modern:wall-bathroom
+    kind:
+      kind: fixture
+    rects:
+    - [[-9.5,0,0], [49,6,38]]
+  - id: modern:wall-corner-duel
+    kind:
+      kind: fixture
+    rects:
+    - [[-1,-1,0], [8,8,38]]
+  - id: modern:wall-door-center-small
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [60,6,38]]
+  - id: modern:wall-door-center
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [112,6,38]]
+  - id: modern:wall-door-left-brown
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [112,6,38]]
+  - id: modern:wall-door-left
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [112,6,38]]
+  - id: modern:wall-door-right-white
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [82,6,38]]
+  - id: modern:wall-door-small
+    kind:
+      kind: fixture
+    rects:
+    - [[0,2,0], [30,6,38]]
+  - id: modern:wall-entry
+    kind:
+      kind: fixture
+    rects:
+    - [[0,-1,0], [112,8,38]]
+  - id: modern:wall-grey-white
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [112,6,38]]
+  - id: modern:wall-grey-window
+    kind:
+      kind: fixture
+    rects:
+    - [[0,-1,0], [112,8,38]]
+  - id: modern:wall-join-brown-white-grey
+    #HERE
+    rects:
+    - [[-1,-1,0], [6,6,38]]
+  - id: modern:wall-joint-center
+    kind:
+      kind: fixture
+    rects:
+    - [[0.5,-1,0], [6,5,38]]
+  - id: modern:wall-joint-outside
+    kind:
+      kind: fixture
+    rects:
+    - [[-1.5,-1.5,0], [7,7,38]]
+  - id: modern:wall-large-window
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [112,10,38]]
+  - id: modern:wall-left-small-window
+    kind:
+      kind: fixture
+    rects:
+    - [[0,-1,0], [112,8,38]]
+  - id: modern:wall-left-window
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [60,6,38]]
+  - id: modern:wall-outside-t-joint
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [4,7,38]]
+  - id: modern:wall-small-center-door
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [60,6,38]]
+  - id: modern:wall-white-small
+    kind:
+      kind: fixture
+    rects:
+    - [[4.5,0,0], [71,6,38]]
+  - id: modern:wall-white
+    kind:
+      kind: fixture
+    rects:
+    - [[1.5,0,0], [112,6,38]]
+  - id: modern:window-wall
+    kind:
+      kind: fixture
+    rects:
+    - [[0,-1,0], [112,8,38]]
+  - id: nature:chair
+    rects:
+    - [[0,0,0], [26,11,7]]
+  - id: nature:grass
+    #HERE
+    rects:
+    - [[0,0,0], [4,5,4]]
+  - id: nature:rock
+    #HERE
+    rects:
+    - [[0,0,0], [4,5,2]]
+  - id: nature:table
+    rects:
+    - [[0,0,0], [27,26,10]]
+  - id: nature:tree-yello
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [15,15,91]]
+    minimapRects:
+    - [[0,0,39], [48,48,47]]
+    minimapColor: "rgba(190, 194, 63, 0.5)"
+  - id: nature:tree
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [15,15,91]]
+    minimapRects:
+    - [[0,0,39], [48,48,47]]
+    minimapColor: "rgba(27, 129, 62, 0.5)"
+  - id: nature:fountain
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [100,100,6]]
+    - [[0,0,0], [60,60,22]]
+    - [[0,0,0], [16,64,75]]
+    - [[0,0,0], [64,16,75]]
+    - [[0,0,0], [12,12,89]]
+    minimapColor: "#afe8ff"
+  - id: nature:sidewalk
+    kind:
+        kind: fixture
+    rects: []
+    minimapRects:
+    - [[0,0,0], [50,50,1]]
+  - id: nature:hedge-large
+    rects:
+    - [[0,0,0], [34,14,28]]
+  - id: nature-gravestone1
+    rects:
+    - [[0,0,0], [4,15,15]]
+  - id: nature-gravestone2
+    rects:
+    - [[0,0,0], [4,15,15]]
+  - id: nature-gravestone3
+    rects:
+    - [[0,0,0], [4,15,21]]
+  - id: nature-gravestone4
+    rects:
+    - [[0,0,0], [4,15,25]]
+  - id: nature:mail-box
+    rects:
+    - [[0.5,0.5,0], [7,12,19]]
+  - id: nature-walledge
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [20,20,21]]
+  - id: nature-wallside
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [4,20,15]]
+  - id: nature:street-light
+    rects:
+    - [[-0.5,-19,0], [7,6,70]]
+  - id: nature:street-sign-moomoo
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [8,120,118]]
+  - id: nature:street-sign-quickscope
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [8,120,118]]
+  - id: nature:street-sign-woofwoof
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [8,120,118]]
+  - id: nature:camp-sign
+    rects:
+    - [[0,-2,0], [4,60,52]]
+  - id: painting:einstein
+    rects:
+    - [[0,0,0], [2,14,31]]
+  - id: painting:r-m-poster
+    rects:
+    - [[0,0,0], [2,18,31]]
+  - id: painting:R
+    rects:
+    - [[0,0,0], [2,18,31]]
+  - id: painting:blue-left
+    rects:
+    - [[0,0,0], [2,8,31]]
+  - id: painting:blue-middle
+    rects:
+    - [[0,0,0], [2,8,31]]
+  - id: painting:blue-right
+    rects:
+    - [[0,0,0], [2,8,31]]
+  - id: painting:circle
+    rects:
+    - [[0,0,0], [2,12,27]]
+  - id: painting:gradient
+    rects:
+    - [[0,0,0], [2,12,27]]
+  - id: painting:moomoo
+    rects:
+    - [[0,0,0], [2,12,27]]
+  - id: painting:person-small
+    rects:
+    - [[0,0,0], [3,5,5]]
+  - id: painting:person
+    rects:
+    - [[0,0,0], [2,12,27]]
+  - id: painting:pyramid-greatness
+    rects:
+    - [[0,0,0], [2,18,31]]
+  - id: painting:quilt
+    rects:
+    - [[0,0,0], [2,12,27]]
+  - id: painting:red-strip
+    rects:
+    - [[0,0,0], [2,12,27]]
+  - id: player:basic
+    kind:
+      kind: fixture
+    rects:
+    - [[0.5,1,0], [13,13,21]]
+  - id: player:nicholas
+    kind:
+      kind: fixture
+    rects:
+    - [[0.5,0.5,0], [13,13,26]]
+  - id: player:nathan
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [14,13,26]]
+  - id: player:nick
+    kind:
+      kind: fixture
+    rects:
+    - [[0.5,0.5,0], [13,13,26]]
+  - id: player:sidney
+    kind:
+      kind: fixture
+    rects:
+    - [[0.5,0.5,0], [13,17,24]]
+  - id: player:og-panda
+    kind:
+      kind: fixture
+    rects:
+    - [[0.5,0.5,0], [13,17,23]]
+  - id: player:panda
+    kind:
+      kind: fixture
+    rects:
+    - [[0.5,1,0], [13,16,23]]
+  - id: player:streaker
+    kind:
+      kind: fixture
+    rects:
+    - [[0.5,0.5,0], [13,13,26]]
+  - id: road:blank
+    kind:
+      kind: fixture
+    rects: []
+    minimapRects:
+    - [[0,0,0], [50,50,1]]
+  - id: road:straight
+    kind:
+      kind: fixture
+    rects: []
+    minimapRects:
+    - [[0,0,0], [50,50,1]]
+  - id: road:t-cross
+    kind:
+      kind: fixture
+    rects: []
+    minimapRects:
+    - [[0,0,0], [50,50,1]]
+  - id: road:turn
+    kind:
+      kind: fixture
+    rects: []
+    minimapRects:
+    - [[0,0,0], [50,50,1]]
+  - id: rb:blue-door
+    kind: 
+      kind: fixture
+    rects:
+    - [[0,0,0], [16,4,30]]
+  - id: barrier:box
+    rects:
+    - [[0,0,0], [14,17,40]]
+  - id: rv:blue
+    rects:
+    - [[14.5,0,0], [90,60,7]] # Floor
+    - [[-45,0,0], [31,60,40]] # Front
+    - [[58,0,0], [5,60,40]] # Back wall
+    - [[-25.5,28.5,0], [8,5,40]] # Right wall front
+    - [[27.5,28.5,0], [66,5,40]] # Right wall back
+    - [[15,-28,0], [91,6,40]] # Left wall
+  - id: rv:white-door
+    rects:
+    - [[0,0,0], [16,4,30]]
+  - id: rv:white
+    rects:
+    - [[14.5,0,0], [90,60,7]] # Floor
+    - [[-45,0,0], [31,60,40]] # Front
+    - [[58,0,0], [5,60,40]] # Back wall
+    - [[-25.5,28.5,0], [8,5,40]] # Right wall front
+    - [[27.5,28.5,0], [66,5,40]] # Right wall back
+    - [[15,-28,0], [91,6,40]] # Left wall
+  - id: rv:yellow
+    rects:
+    - [[14.5,0,0], [90,60,7]] # Floor
+    - [[-45,0,0], [31,60,40]] # Front
+    - [[58,0,0], [5,60,40]] # Back wall
+    - [[-25.5,28.5,0], [8,5,40]] # Right wall front
+    - [[27.5,28.5,0], [66,5,40]] # Right wall back
+    - [[15,-28,0], [91,6,40]] # Left wall
+  - id: tv:rick-and-morty
+    rects:
+    - [[0,0,0], [2,24,15]]
+  - id: tv:beach
+    rects:
+    - [[0,0,0], [21,2,15]]
+  - id: tv:trump
+    rects:
+    - [[0,0,0], [21,2,15]]
+  - id: tv:yuge
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [2,39,25]]
+  - id: wall:big
+    kind:
+      kind: fixture
+    rects:
+    - [[0,0,0], [112,4,40]]
+
+maps:
+  map-a:
+    name: Map A
+    objects:
+
+    # Ground
+    - prefabId: ground
+      position: [0,0,1]
+
+    # Boundary
+    - prefabId: boundary
+      position: [0,0,0]
+
+    # Silverstar Video
+    - prefabId: silverstar-video
+      spawnChance: 0.005
+      position: [293.5, -689.25, 7]
+
+    - buildingName: Classic House
+      offset: [-423,-812,0]
+      roomSize: 116
+      lookupTable:
+        # Walls
+        a:
+          prefabId: classic:wall-inside-door
+        b:
+          prefabId: classic:wall-outside-door-window
+        c:
+          prefabId: classic:wall-outside-window
+        d:
+          prefabId: classic:wall-outside
+
+        # Corners
+        x:
+          prefabId: classic:wall-t-connect
+        y:
+          prefabId: classic:wall-join-outside
+        z:
+          prefabId: classic:wall-join-inner
+
+        # Floors
+        f:
+          prefabId: classic:floor
+        g:
+          prefabId: classic:floor-bathroom
+        h: 
+          prefabId: classic:floor-built-in-walls
+
+      map: |-
+        x2d y d y d x
+        b0f a f a f d2
+        x2d2z a z d2x1
+            d0f d
+            y2a z d x
+            d0f a h d2
+            x2d2y2b2x1
+
+    - buildingName: Classic House
+      offset: [600,-500,0]
+      roomSize: 116
+      lookupTable:
+        # Walls
+        a:
+          prefabId: classic:wall-inside-door
+        b:
+          prefabId: classic:wall-outside-door-window
+        c:
+          prefabId: classic:wall-outside-window
+        d:
+          prefabId: classic:wall-outside
+
+        # Corners
+        x:
+          prefabId: classic:wall-t-connect
+        y:
+          prefabId: classic:wall-join-outside
+        z:
+          prefabId: classic:wall-join-inner
+
+        # Floors
+        f:
+          prefabId: classic:floor
+        g:
+          prefabId: classic:floor-bathroom
+        h: 
+          prefabId: classic:floor-built-in-walls
+
+      map: |-
+        x2d y d y d x
+        b0f a f a f d2
+        x2d2z a z d2x1
+            d0f d2
+            y2a z d x
+            d0f a h d2
+            x2d2y2b2x1
+    - buildingName: Classic House
+      offset: [415,-500,0]
+      roomSize: 116
+      lookupTable:
+        # Walls
+        a:
+          prefabId: classic:wall-inside-door
+        b:
+          prefabId: classic:wall-outside-door-window
+        c:
+          prefabId: classic:wall-outside-window
+        d:
+          prefabId: classic:wall-outside
+
+        # Corners
+        x:
+          prefabId: classic:wall-t-connect
+        y:
+          prefabId: classic:wall-join-outside
+        z:
+          prefabId: classic:wall-join-inner
+
+        # Floors
+        f:
+          prefabId: classic:floor
+        g:
+          prefabId: classic:floor-bathroom
+        h: 
+          prefabId: classic:floor-built-in-walls
+
+      map: |-
+        y2a z d x
+        d0f a h d2
+        x2d2y2b2x1
+
+    - buildingName: Classic House
+      offset: [100,620,0]
+      roomSize: 116
+      lookupTable:
+        # Walls
+        a:
+          prefabId: classic:wall-inside-door
+        b:
+          prefabId: classic:wall-outside-door-window
+        c:
+          prefabId: classic:wall-outside-window
+        d:
+          prefabId: classic:wall-outside
+
+        # Corners
+        x:
+          prefabId: classic:wall-t-connect
+        y:
+          prefabId: classic:wall-join-outside
+        z:
+          prefabId: classic:wall-join-inner
+
+        # Floors
+        f:
+          prefabId: classic:floor
+        g:
+          prefabId: classic:floor-bathroom
+        h: 
+          prefabId: classic:floor-built-in-walls
+
+      map: |-
+        y2a z d x
+        d0f a h d2
+        x2d2y2b2x1
+
+    - buildingName: Server Room
+      offset: [-1300,-550,0]
+      roomSize: 126
+      lookupTable:
+        # Walls
+        a:
+          prefabId:  building:corner
+        b:
+          prefabId:  building:edge
+        c:
+          prefabId:  building:floor
+        d:
+          prefabId: building:door
+
+
+      map: |-
+        a2b1b1b1b1b1b1a1
+        b2c c c c c c b
+        b2c c c c c c b
+        b2c c c c c c 
+        b2c c c c c c d
+        b2c c c c c c 
+        a3b3b3b3b3b3b3a
+    - buildingName: Car Shop
+      offset: [-1950,-870,0]
+      roomSize: 126
+      lookupTable:
+        # Walls
+        a:
+          prefabId:  building-a:corner
+        b:
+          prefabId:  building-a:edge
+        c:
+          prefabId:  building:floor
+        d:
+          prefabId: building-a:door
+        e:
+          prefabId: building-a:window
+
+
+      map: |-
+        a2b1b1e1
+         2c c 
+        b2c c d
+         2c c 
+        a3b3b3e
+    
+    - buildingName: Modern House
+      offset: [110,-800,0]
+      roomSize: 116
+      lookupTable:
+        # Walls
+        a:
+          prefabId: modern:floor-bathroom
+        b:
+          prefabId: modern:floor-grey
+        c:
+          prefabId: modern:floor-split
+        d:
+          prefabId: modern:floor-wood-split-2
+        e:
+          prefabId: modern:join-corner-2
+        f:
+          prefabId: modern:wall-bathroom-2
+        g:
+          prefabId: modern:wall-bathroom
+        h:
+          prefabId: modern:wall-corner-duel
+        i:
+          prefabId: modern:wall-door-center-small
+        j:
+          prefabId: modern:wall-door-center
+        k:
+          prefabId: modern:wall-door-left-brown
+        l:
+          prefabId: modern:wall-door-left
+        m:
+          prefabId: modern:wall-door-right-white
+        n:
+          prefabId: modern:wall-door-small
+        o:
+          prefabId: modern:wall-entry
+        p:
+          prefabId: modern:wall-grey-white
+        q:
+          prefabId: modern:wall-grey-window
+        r:
+          prefabId: modern:wall-join-brown-white-grey
+        s:
+          prefabId: modern:wall-joint-center
+        t:
+          prefabId: modern:wall-joint-outside
+        u:
+          prefabId: modern:wall-large-window
+        v:
+          prefabId: modern:wall-left-small-window
+        w:
+          prefabId: modern:wall-left-window
+        x:
+          prefabId: modern:wall-outside-t-joint
+        y:
+          prefabId: modern:wall-small-center-door
+        z:
+          prefabId: modern:floor-bathroom-tile
+        A:
+          prefabId: modern:wall-white
+        B:
+          prefabId: modern:window-wall
+
+
+
+      map: |-
+        e v e2
+        B c B2 
+        e   e v h2
+        B z2A2a v2
+        s l s l t2
+        o b j d2q2
+        h q2h1q2h2
+    
+    - buildingName: Modern House
+      offset: [540,500,0]
+      roomSize: 116
+      lookupTable:
+        # Walls
+        a:
+          prefabId: modern:floor-bathroom
+        b:
+          prefabId: modern:floor-grey
+        c:
+          prefabId: modern:floor-split
+        d:
+          prefabId: modern:floor-wood-split-2
+        e:
+          prefabId: modern:join-corner-2
+        f:
+          prefabId: modern:wall-bathroom-2
+        g:
+          prefabId: modern:wall-bathroom
+        h:
+          prefabId: modern:wall-corner-duel
+        i:
+          prefabId: modern:wall-door-center-small
+        j:
+          prefabId: modern:wall-door-center
+        k:
+          prefabId: modern:wall-door-left-brown
+        l:
+          prefabId: modern:wall-door-left
+        m:
+          prefabId: modern:wall-door-right-white
+        n:
+          prefabId: modern:wall-door-small
+        o:
+          prefabId: modern:wall-entry
+        p:
+          prefabId: modern:wall-grey-white
+        q:
+          prefabId: modern:wall-grey-window
+        r:
+          prefabId: modern:wall-join-brown-white-grey
+        s:
+          prefabId: modern:wall-joint-center
+        t:
+          prefabId: modern:wall-joint-outside
+        u:
+          prefabId: modern:wall-large-window
+        v:
+          prefabId: modern:wall-left-small-window
+        w:
+          prefabId: modern:wall-left-window
+        x:
+          prefabId: modern:wall-outside-t-joint
+        y:
+          prefabId: modern:wall-small-center-door
+        z:
+          prefabId: modern:floor-bathroom-tile
+        A:
+          prefabId: modern:wall-white
+        B:
+          prefabId: modern:window-wall
+
+
+
+      map: |-
+        h o s 
+        q2b l
+        h j s A e
+        q2d2l a v2
+        h2q2t2v2h2
+
+    - buildingName: Modern House
+      offset: [610,100,0]
+      roomSize: 116
+      lookupTable:
+        # Walls
+        a:
+          prefabId: modern:floor-bathroom
+        b:
+          prefabId: modern:floor-grey
+        c:
+          prefabId: modern:floor-split
+        d:
+          prefabId: modern:floor-wood-split-2
+        e:
+          prefabId: modern:join-corner-2
+        f:
+          prefabId: modern:wall-bathroom-2
+        g:
+          prefabId: modern:wall-bathroom
+        h:
+          prefabId: modern:wall-corner-duel
+        i:
+          prefabId: modern:wall-door-center-small
+        j:
+          prefabId: modern:wall-door-center
+        k:
+          prefabId: modern:wall-door-left-brown
+        l:
+          prefabId: modern:wall-door-left
+        m:
+          prefabId: modern:wall-door-right-white
+        n:
+          prefabId: modern:wall-door-small
+        o:
+          prefabId: modern:wall-entry
+        p:
+          prefabId: modern:wall-grey-white
+        q:
+          prefabId: modern:wall-grey-window
+        r:
+          prefabId: modern:wall-join-brown-white-grey
+        s:
+          prefabId: modern:wall-joint-center
+        t:
+          prefabId: modern:wall-joint-outside
+        u:
+          prefabId: modern:wall-large-window
+        v:
+          prefabId: modern:wall-left-small-window
+        w:
+          prefabId: modern:wall-left-window
+        x:
+          prefabId: modern:wall-outside-t-joint
+        y:
+          prefabId: modern:wall-small-center-door
+        z:
+          prefabId: modern:floor-bathroom-tile
+        A:
+          prefabId: modern:wall-white
+        B:
+          prefabId: modern:window-wall
+
+
+
+      map: |-
+        e v e2
+        B c B2 
+        e   e v h2
+        B z2A2a v2
+        s l s l t2
+        o b j d2q2
+        h q2h1q2h2
+   
+
+    #Park(Center)
+    - buildingName: Fountain-Park
+      offset: [0,0,0]
+      roomSize: 50
+      centered: true
+      lookupTable:
+        # Walls
+        a:
+          prefabId: nature:fountain
+        b:
+          prefabId: nature:sidewalk
+        c:
+          prefabId: nature:hedge-large
+          position: [-10,0,0]
+        d:
+          prefabId: nature:hedge-large
+          position: [10,0,0]
+        e:
+          prefabId: nature:hedge-large
+          position: [0,10,0]
+        f:
+          prefabId: nature:hedge-large
+          position: [0,-10,0]
+        r:
+          prefabId: road:straight
+        t:
+          prefabId: road:turn
+        i:
+          prefabId: road:t-cross
+        q:
+          prefabId: road:blank
+        w:
+          prefabId: wall:big
+        z:
+          prefabId: empty
+
+
+
+      map: |-
+       z                                                                                                                                       r0  r0                                                                                  
+
+                                                                                                                                               r0  r0                                                                                
+
+                                                                                                                                               r0  r0                                                                                  
+
+                                                                                                                                               r0  r0                                                                                 
+
+                                                                                                                                               r0  r0                                                                                  
+
+                                                                                                                                               r0  r0                                                                                 
+
+                                                                                                                                               r0  r0                                                                                  
+
+                                                                                                                                               i1  r0                                                                                  
+
+                                                                   t3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  q0  q0  i0  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  t2  
+
+                                                                   r0                                                                          r0  i3                                  w       w       w       w       w           r0 
+
+                                                                   r0                                                                          r0  r0                              w1                                      w1      r0  
+
+                                                                   r0                                                                          r0  r0                                  q0                                          r0  
+
+                                                                   r0                                                                          r0  r0                              w1  q0                                  w1      r0  
+
+                                                                   r0                                                                          r0  r0                                  q0                                          r0  
+
+                                                                   r0      r0  r0  r0  r0  r0  r0  r0  r0  r0  r0  r0  r0  r0  r0  r0  r0      r0  r0  b   q   q   b               w1  q0                                  w1      r0  
+
+                                                                   r0      r0  r0  r0  r0  r0  r0  r0  r0  r0  r0  r0  r0  r0  r0  r0  r0      r0  r0  b   q   q   b                   q0                                          r0  
+
+                                                                   r0  q0  q0  q0  q0  q0  q0  q0  q0  q0  q0  q0  q0  q0  q0  q0  q0  q0  q0  r0  r0  b   q   q   b               w1  q0                                  w1      r0  
+
+                                                                   r0                                                                          i1  r0          q   b                   q0                                          r0  
+
+                                                                   r0                                              t3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  t2  w1  q0                                  w1      r0  
+
+                                                                   r0                                              r0  t3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  t2  r0      q0                                          r0  
+
+                                                                   r0          q   q   q   q   q   b               r0  r0      b0  b0  b0  b0  b0  b0  b0  b0  b0  b0      r0  r0  q3  q2                                  w1      r0  
+
+                                                                   r0          q   q   q   q   q   b               r0  r0      b0              b0  b0              b0      r0  r0                                                  r0  
+
+                                                                   r0          q   q   q   q   q   b               r0  r0      b0          f0  b0  b0  f0          b0      r0  r0  w1                                      w1      r0  
+
+                                                                   i1          q   q   q   q   q   b               r0  r0      b0      d1  b0  b0  b0  b0  c1      b0      r0  r0      w       w       w       w       w           r0                             
+
+                               r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r0  r0      b0      d1  b0          b0  c1      b0      r0  r0  i0  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  q0  i0  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3
+                                                                                                                                                 a0
+                               r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  i2  r0  r0      b0      d1  b0          b0  c1      b0      r0  r0  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  i2  q0  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3
+
+                                                                                                   r0              r0  r0      b0      d1  b0  b0  b0  b0  c1      b0      r0  r0                                                  i3      q   
+
+                                                                                                   r0              r0  r0      b0          e0  b0  b0  e0          b0      r0  r0                                                  r0      q   r3  r3  b0 
+
+                                                                                   q   q   q       r0              r0  r0      b0              b0  b0              b0      r0  r0                                                  r0      q   r3  r3  b0 
+
+                                                                                   q   q   q       r0              r0  r0      b0  b0  b0  b0  b0  b0  b0  b0  b0  b0      r0  r0                                                  r0      q   r3  r3  b0 
+
+                                                                                   q   q   q       r0              r0  t0  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  t1  r0                                                  r0      q   r3  r3  b0 
+
+                                                                                   q   q   q       r0              t0  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  t1                                                  r0      q   r3  r3  b0 
+
+                                                                                   q   q   q   q   r0                                          r0  i3                                                                              r0  q   q   r3  r3  b0 
+
+                                                                                   q   q   q       r0                                          r0  r0                                                                              r0      q   r3  r3  b0 
+
+                                                                                   q   q   q       r0                                          r0  r0                                                                              r0      q   r3  r3  b0 
+
+                                                                                   q   q   q       r0                                          r0  r0                                                                              r0      q   r3  r3  b0 
+
+           b                                                                       q   q   q       r0                                          r0  r0                                  t3  r3  r3  r3  r3  r3  r3  r3  r3  r3  i2  r0      q   r3  r3  b0 
+
+           b                                                                                       r0                                  q   q   r0  r0                                  r0                                          r0      q   r3  r3  b0 
+
+           b   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q  q            r0                                          r0  r0                                  r0                                          r0      q   r3  r3  b0 
+
+           b   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   r0                                          r0  r0                                  r0                                          r0      q   r3  r3  b0 
+
+           b   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   r0                                          r0  r0                                  r0                                          r0      q   r3  r3  b0 
+
+           b   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q           r0                                          r0  r0                                  r0                                          r0      q   r3  r3  b0 
+
+           b   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q           r0                                          i1  r0                                  r0                                          r0      q   r3  r3  b0 
+
+           b   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q   q           t0  r3  r3  r3  r3  r3  r3  r3  r3  r3  i2  q0  q0  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  r3  t1  q   q   r3  r3  b0 
+
+                                                                                                                                               r0  i3
+
+                                                                                                                                               r0  r0
+
+                                                                                                                                               r0  r0
+
+                                                                                                                                               r0  r0
+
+                                                                                                                                               r0  r0
+
+                                                                                                                                               r0  r0
+
+
+    # Modern House
+      #Front-Room
+    - prefabId: modern:drawer-corner
+      position: [217,-693,1]
+      rotation: 0
+    - prefabId: modern:drawer
+      position: [205,-694,1]
+      rotation: 1
+    - prefabId: modern:drawer
+      position: [216,-705,1]
+      rotation: 0
+    - prefabId: classic:oven
+      position: [216,-716.5,1]
+      rotation: 1
+    - prefabId: modern:fridge
+      position: [190,-694,1]
+      rotation: 1
+    - prefabId: modern:drawer
+      position: [177,-694,0.9999999999999973]
+      rotation: 1
+    - prefabId: modern:drawer
+      position: [165,-694,0.9999999999999973]
+      rotation: 1
+    - prefabId: modern:drawer
+      position: [187,-720.5,0.999999999999996]
+      rotation: 3
+    - prefabId: modern:drawer-sink
+      position: [175.9464732465035,-720.5,0.9999999999999973]
+      rotation: 3
+    - prefabId: modern:drawer
+      position: [164,-720.5,1]
+      rotation: 3
+    - prefabId: modern:couch-small
+      position: [215,-788.5,1]
+      rotation: 3
+    - prefabId: modern:fireplace
+      position: [195.5,-791,1]
+      rotation: 1
+    - prefabId: modern:table-small
+      position: [196.5,-765.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: modern:couch
+      position: [170,-765,1]
+      rotation: 2
+    - prefabId: modern:dining-table
+      position: [143,-764.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: tv:rick-and-morty
+      position: [222,-767,0.9999999999999987]
+      rotation: 2
+    - prefabId: modern:cactus
+      position: [196,-765,7.954972709770692]
+      rotation: 0
+    - prefabId: modern:table-chair
+      position: [141.5,-744,1.0000000000000018]
+      rotation: 1
+    - prefabId: modern:table-chair
+      position: [121.5,-766,0.9999999999999987]
+      rotation: 2
+    - prefabId: modern:table-chair
+      position: [143.5,-786.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: apt:coffee-maker
+      position: [218.5,-705.5,12.727750000000002]
+      rotation: 1
+    - prefabId: apt:trash
+      position: [155,-693,0.9999999999999973]
+      rotation: 0
+    #Theater room
+    - prefabId: modern:couch-small
+      position: [273,-741,0.999999999999996]
+      rotation: 3
+    - prefabId: modern:couch-small
+      position: [293,-741,1]
+      rotation: 3
+    - prefabId: modern:couch-small
+      position: [293,-764,1]
+      rotation: 3
+    - prefabId: modern:couch-small
+      position: [272.5,-764,0.9999999999999973]
+      rotation: 3
+    - prefabId: modern:couch-small
+      position: [272.5,-788.5,1]
+      rotation: 3
+    - prefabId: modern:couch-small
+      position: [293,-788.5,1]
+      rotation: 3
+    - prefabId: modern:couch-small
+      position: [313.5,-741,0.9999999999999996]
+      rotation: 3
+    - prefabId: modern:couch-small
+      position: [313.5,-764,0.9999999999999973]
+      rotation: 3
+    - prefabId: modern:couch-small
+      position: [313.5,-788.5,1]
+      rotation: 3
+    #Rest of House
+    - prefabId: modern:bed
+      position: [183,-474,0.9999999999999973]
+      rotation: 3
+    - prefabId: modern:bed
+      position: [200.5,-474,0.9999999999999973]
+      rotation: 3
+    - prefabId: apt:drawer
+      position: [214.5,-464,1]
+      rotation: 1
+    - prefabId: apt:drawer
+      position: [169,-464,0.9999999999999973]
+      rotation: 1
+    - prefabId: classic:table-small-fancy
+      position: [192,-498.5,1]
+      rotation: 2
+    - prefabId: apt:lamp-stand
+      position: [180.5,-785,1]
+      rotation: 0
+    - prefabId: apt:lamp-stand
+      position: [150.5,-467,1]
+      rotation: 2
+    - prefabId: apt:lamp-stand
+      position: [239,-576.5,1]
+      rotation: 3
+    - prefabId: apt:chair-dining
+      position: [233,-621.5,1]
+      rotation: 2
+    - prefabId: modern:drawer
+      position: [235,-788,1]
+      rotation: 3
+    - prefabId: modern:drawer
+      position: [247,-788,1]
+      rotation: 3
+    - prefabId: modern:drawer
+      position: [259,-788,1]
+      rotation: 3
+    - prefabId: modern:drawer
+      position: [330,-788,1]
+      rotation: 3
+    - prefabId: modern:lamp-small
+      position: [171,-463.5,13.890019711999997]
+      rotation: 0
+    - prefabId: modern:lamp-small
+      position: [214,-463.5,14]
+      rotation: 0
+    - prefabId: apt:lamp
+      position: [199,-531,0.9999999999999987]
+      rotation: 2
+    - prefabId: painting:moomoo
+      position: [154.5,-495,0.9999999999999973]
+      rotation: 0
+    - prefabId: painting:red-strip
+      position: [145,-688,0.9999999999999987]
+      rotation: 3
+    - prefabId: apt:drawer
+      position: [216,-629.5,1]
+      rotation: 0
+    - prefabId: apt:drawer
+      position: [216,-675,1]
+      rotation: 0
+    - prefabId: modern:couch-small
+      position: [216.5,-661,1]
+      rotation: 0
+    - prefabId: modern:couch-small
+      position: [216.5,-645,1]
+      rotation: 0
+    - prefabId: modern:table-small
+      position: [188.5,-651.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: modern:cactus
+      position: [215,-632,14]
+      rotation: 0
+    - prefabId: modern:cactus
+      position: [215,-676.5,13.883434585313873]
+      rotation: 0
+    - prefabId: modern:fireplace
+      position: [179.5,-561,1]
+      rotation: 1
+    - prefabId: modern:couch
+      position: [129,-463.5,1]
+      rotation: 1
+    - prefabId: modern:couch
+      position: [178.5,-529.5,0.9999999999999973]
+      rotation: 1
+    - prefabId: modern:lamp
+      position: [286.5,-580,0.999999999999996]
+      rotation: 1
+    - prefabId: modern:lamp
+      position: [274.5,-580,1]
+      rotation: 1
+    - prefabId: modern:lamp
+      position: [286.5,-619,1]
+      rotation: 3
+    - prefabId: modern:lamp
+      position: [274.5,-619,1]
+      rotation: 3
+    - prefabId: classic:bathtub
+      position: [328,-607,1]
+      rotation: 3
+    - prefabId: apt:toliet
+      position: [307,-618.5,1]
+      rotation: 3
+    - prefabId: apt:drawer-bathroom-sink
+      position: [304.5,-580,1]
+      rotation: 1
+    - prefabId: apt:drawer
+      position: [316.5,-580,1]
+      rotation: 1
+    - prefabId: apt:painting:frame-family
+      position: [317,-580,13.9505111220763]
+      rotation: 3
+    - prefabId: classic:table-small-fancy
+      position: [235,-599.5,0.9999999999999973]
+      rotation: 3
+    - prefabId: tv:yuge
+      position: [293.5,-688,6]
+      rotation: 3
+    - prefabId: apt:lamp-small
+      position: [331,-712.5,1]
+      rotation: 0
+    - prefabId: modern:cactus
+      position: [331,-712.5,8.000000000000002]
+      rotation: 0
+    - prefabId: classic:potted-tree
+      position: [332.5,-694.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: classic:potted-tree
+      position: [332.5,-728.0457025131628,0.9999999999999987]
+      rotation: 0
+    - prefabId: classic:potted-tree
+      position: [143.5,-575,1]
+      rotation: 0
+    - prefabId: apt:drawer
+      position: [160.5,-577,1]
+      rotation: 2
+    - prefabId: apt:drawer-bathroom-sink
+      position: [160.5,-589,1]
+      rotation: 2
+    - prefabId: apt:drawer-bathroom-sink
+      position: [160.5,-601,1]
+      rotation: 2
+    - prefabId: apt:drawer
+      position: [160.5,-611.9017867049281,0.9999999999999973]
+      rotation: 2
+    - prefabId: classic:bathtub
+      position: [204,-608.5,1]
+      rotation: 2
+    - prefabId: apt:toliet
+      position: [214.5,-591,1]
+      rotation: 0
+    - prefabId: classic:bed
+      position: [328.5,-664,1]
+      rotation: 1
+    - prefabId: apt:drawer
+      position: [314,-674,1]
+      rotation: 3
+    - prefabId: classic:bed
+      position: [299.5,-664,1]
+      rotation: 1
+    - prefabId: modern:lamp-small
+      position: [316,-673.5,13.898940799999997]
+      rotation: 2
+    - prefabId: apt:table-folding
+      position: [235.5,-655,0.9999999999999973]
+      rotation: 1
+    - prefabId: apt:chair-dining
+      position: [245.5,-651.5,1]
+      rotation: 0
+    - prefabId: apt:chair-dining
+      position: [245.5,-660.041456778607,0.9999999999999973]
+      rotation: 0
+    - prefabId: misc:computer
+      position: [234.5,-649,11]
+      rotation: 2
+    - prefabId: misc:computer
+      position: [235,-659,11]
+      rotation: 2
+    #WALL PARTS
+    #TEST
+    - prefabId: modern:wall-door-small
+      position: [208,-566,1]
+      rotation: 0
+    - prefabId: modern:wall-bathroom
+      position: [150.5,-584.5,0.999999999999996]
+      rotation: 1
+    - prefabId: modern:wall-door-center-small
+      position: [295,-599,0.9999999999999987]
+      rotation: 1
+    - prefabId: modern:wall-door-left-brown
+      position: [283,-629,0.9999999999999987]
+      rotation: 0
+    - prefabId: modern:wall-white-small
+      position: [179,-620.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: modern:wall-white-small
+      position: [185,-620.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: modern:wall-door-right-white
+      position: [152.5,-568,0.9999999999999947]
+      rotation: 0
+    - prefabId: modern:wall-door-left
+      position: [163,-510,0.9999999999999987]
+      rotation: 1
+     
+    #WALL PARTS 2
+    #TEST
+    - prefabId: modern:wall-door-small
+      position: [708,334,1]
+      rotation: 0
+    - prefabId: modern:wall-bathroom
+      position: [650.5,315.5,0.999999999999996]
+      rotation: 1
+    - prefabId: modern:wall-door-center-small
+      position: [795,301,0.9999999999999987]
+      rotation: 1
+    - prefabId: modern:wall-door-left-brown
+      position: [783,271,0.9999999999999987]
+      rotation: 0
+    - prefabId: modern:wall-white-small
+      position: [679,280,0.9999999999999987]
+      rotation: 0
+    - prefabId: modern:wall-white-small
+      position: [685,279.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: modern:wall-door-right-white
+      position: [652.5,332,0.9999999999999947]
+      rotation: 0
+    - prefabId: modern:wall-door-left
+      position: [663,390,0.9999999999999987]
+      rotation: 1
+    #WALL PARTS 3
+    #TEST
+    - prefabId: modern:wall-door-center-small
+      position: [743.5,556,0.9999999999999987]
+      rotation: 0
+    - prefabId: modern:wall-door-left-brown
+      position: [715,557,0.9999999999999987]
+      rotation: 3
+
+    #SERVER FARM
+    - prefabId: classic:drawer-center
+      position: [-856.5,-407,1]
+      rotation: 0
+    - prefabId: classic:drawer-center
+      position: [-868.5,-407,1]
+      rotation: 0
+    - prefabId: classic:drawer-center
+      position: [-880.1312432955049,-407,1]
+      rotation: 0
+    - prefabId: modern:table-chair
+      position: [-868,-391,1]
+      rotation: 1
+    - prefabId: apt:couch
+      position: [-847,-456,1]
+      rotation: 0
+    - prefabId: apt:lamp-small
+      position: [-872,-457,1]
+      rotation: 2
+    - prefabId: classic:magazine
+      position: [-872,-450.5,7.938918333550283]
+      rotation: 0
+    - prefabId: classic:magazine
+      position: [-872,-453.5,7.433321254039888]
+      rotation: 0
+    - prefabId: classic:potted-tree
+      position: [-892.5,-407.5,0.9999999999999991]
+      rotation: 0
+    - prefabId: classic:potted-tree
+      position: [-844,-407.5,0.9999999999999991]
+      rotation: 0
+    - prefabId: apt:table-folding
+      position: [-845.5,-163,2]
+      rotation: 3
+    - prefabId: apt:chair-folding
+      position: [-857.5,-164,2]
+      rotation: 2
+    - prefabId: flag:russia
+      position: [-839.5,-163,2]
+      rotation: 3
+    - prefabId: apt:fan
+      position: [-858,-147,2]
+      rotation: 0
+    - prefabId: misc:computer
+      position: [-846,-168,11.910387897592074]
+      rotation: 0
+    - prefabId: misc:server
+      position: [-1013.5,-314.5,1.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1013.5,-328.5,1]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-1013.5,-342,1.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1013.5,-353.5,1]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-1013.5,-367.5,0.9999999999999991]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-1071.5,-313.5,1]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-1071.5,-327.5,0.9999999999999991]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-1071.5,-341.5,0.9999999999999991]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1071.5,-355.15421628185356,1]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-1071.5,-369.0693823655602,0.9999999999999996]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-1129,-320,1]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-1129,-333.60012440099274,1.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1129,-347.5,1.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-1129,-361.061065803736,1.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1129,-369.5,1]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1186.5,-369.5,1]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1186.5,-354.5,1.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-1186.5,-341.97544818978247,1]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-1186.5,-328,1.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-1186,-314.9459199645746,0.9999999999999996]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-1012,-190,1.9999999999999991]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-1012.5,-204,2.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1012.5,-218,2.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-1013,-232,1.9999999999999998]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-1012.5,-245.6085213292464,1.9999999999999998]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-956,-248,2]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-956,-234,2]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-956,-220,2]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-956,-206.5,2]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-956,-193,2]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1071.5,-248,1.9999999999999998]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1071.5,-235,2.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1071.5,-223,2]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-1071.5,-209.5,2.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1071.5,-196,1.9999999999999991]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1130,-249,2]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-1130,-235.43152737731305,2.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1130,-222,2]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1130,-208,2]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-1130,-194,2]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-845.5,-247.5,2]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-860,-247.5,1.9999999999999998]
+      rotation: 0
+    - prefabId: misc:server-1
+      position: [-873.5,-247,2]
+      rotation: 0
+    - prefabId: misc:server-1
+      position: [-887.5,-247,2]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-901.5,-247,2]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-845.5,-190,2.0000000000000004]
+      rotation: 0
+    - prefabId: misc:server-1
+      position: [-859.5,-190,2]
+      rotation: 0
+    - prefabId: misc:server
+      position: [-873.5,-190,1.9999999999999993]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-887.5,-190,2]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-901.5,-190,1.9999999999999991]
+      rotation: 0
+    - prefabId: misc:server
+      position: [-955,-316,1.9999999999999998]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-955,-329.06201855497795,2.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-955,-342.5,2]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-955,-356.5,2]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-955,-371,2]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-954.5,-432,2.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-954.5,-445.5,2]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-954.5,-459.5,2]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-954.5,-473,2]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-954.5,-486.58157363407656,1.9999999999999991]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-954.5,-547.5,2]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-954.5,-561.5,2.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-954.5,-576.5,2]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-954.5,-589.5,2.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-843.5,-305,2.0000000000000004]
+      rotation: 0
+    - prefabId: misc:server-1
+      position: [-857,-305,2]
+      rotation: 0
+    - prefabId: misc:server
+      position: [-871,-305,2]
+      rotation: 0
+    - prefabId: misc:server
+      position: [-885,-305,2]
+      rotation: 0
+    - prefabId: misc:server-1
+      position: [-899,-305,1.9999999999999998]
+      rotation: 0
+    - prefabId: misc:server-1
+      position: [-899,-363.5,1.9999999999999991]
+      rotation: 0
+    - prefabId: misc:server-1
+      position: [-843,-363.5,2]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-857,-363.5,1.9999999999999991]
+      rotation: 0
+    - prefabId: misc:server
+      position: [-871,-363.5,1.9999999999999991]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-885,-363.5,1.9999999999999998]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-843,-479,2]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-858,-479,2]
+      rotation: 0
+    - prefabId: misc:server-1
+      position: [-871,-479,2]
+      rotation: 0
+    - prefabId: misc:server-1
+      position: [-885,-479,2]
+      rotation: 0
+    - prefabId: misc:server
+      position: [-898.6919029474902,-479,1.9999999999999993]
+      rotation: 0
+    - prefabId: misc:server
+      position: [-843,-546,2.0000000000000004]
+      rotation: 0
+    - prefabId: misc:server-1
+      position: [-857.5,-546,2.0000000000000004]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-871.5,-546,2]
+      rotation: 0
+    - prefabId: misc:server
+      position: [-885.5,-546,2.0000000000000004]
+      rotation: 0
+    - prefabId: misc:server
+      position: [-898.6833108054593,-546,2]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-1187,-248,2]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-1187,-235.5,2]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1187,-221.5,2]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-1187,-207.5,2]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-1187,-193.9066191957703,1.9999999999999993]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-1245.5,-247.5,2]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1245.5,-233.93128966498534,2.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-1245.5,-220.4169036471152,1.9999999999999998]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1245.5,-206,2]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1245.5,-192,1.9999999999999998]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1314,-248,2]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1314,-234.42764324159253,1.9999999999999998]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-1314,-220.46382162079627,2]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1314,-206.5,1.9999999999999998]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1314,-192.5,2]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1245,-306.5,2.0000000000000004]
+      rotation: 2
+    - prefabId: misc:server-2
+      position: [-1259,-306.5,1.9999999999999998]
+      rotation: 2
+    - prefabId: misc:server
+      position: [-1272.5,-306.5,2]
+      rotation: 2
+    - prefabId: misc:server-2
+      position: [-1351,-306.5,1.9999999999999998]
+      rotation: 2
+    - prefabId: misc:server-2
+      position: [-1337,-306.5,1.9999999999999998]
+      rotation: 2
+    - prefabId: misc:server-2
+      position: [-1323,-306.5,2.0000000000000004]
+      rotation: 2
+    - prefabId: misc:server
+      position: [-1309,-306.5,2]
+      rotation: 2
+    - prefabId: flag:russia
+      position: [-1290.5,-317,2]
+      rotation: 2
+    - prefabId: misc:server-2
+      position: [-1349.5,-329.5,2]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-1336.5,-329.7,1.9999999999999998]
+      rotation: 0
+    - prefabId: misc:server-1
+      position: [-1323,-330,1.9999999999999998]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-1309,-330,2]
+      rotation: 0
+    - prefabId: misc:server
+      position: [-1295,-330,1.9999999999999991]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-1281.4197758016744,-330,1.9999999999999998]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-1267.5,-330,2]
+      rotation: 0
+    - prefabId: misc:server
+      position: [-1253.5,-330,2]
+      rotation: 0
+    - prefabId: misc:server
+      position: [-1350.5,-373,1.9999999999999998]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-1337,-373,1.9999999999999998]
+      rotation: 0
+    - prefabId: misc:server
+      position: [-1323,-373,1.9999999999999998]
+      rotation: 0
+    - prefabId: misc:server-1
+      position: [-1309.3920215433118,-373,1.9999999999999998]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-1295.5,-373,2]
+      rotation: 0
+    - prefabId: misc:server
+      position: [-1281.4012860679372,-373,1.9999999999999998]
+      rotation: 0
+    - prefabId: misc:server-2
+      position: [-1267.3940707288098,-373,2.0000000000000004]
+      rotation: 0
+    - prefabId: misc:server-1
+      position: [-1253.5,-373,2]
+      rotation: 0
+    - prefabId: misc:server-1
+      position: [-1351,-425.5,2]
+      rotation: 2
+    - prefabId: misc:server
+      position: [-1337,-425.5,1.9999999999999998]
+      rotation: 2
+    - prefabId: misc:server-2
+      position: [-1323,-425.5,2]
+      rotation: 2
+    - prefabId: misc:server-2
+      position: [-1309,-425.5,2.0000000000000004]
+      rotation: 2
+    - prefabId: misc:server-2
+      position: [-1295.3398006395337,-425.5,1.9999999999999991]
+      rotation: 2
+    - prefabId: misc:server-2
+      position: [-1281,-425.5,1.9999999999999991]
+      rotation: 2
+    - prefabId: misc:server-2
+      position: [-1267.410372303033,-425.5,1.9999999999999991]
+      rotation: 2
+    - prefabId: misc:server-1
+      position: [-1253.5,-425.5,2]
+      rotation: 2
+    - prefabId: misc:server-1
+      position: [-1014,-432,1]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-1014,-446,1]
+      rotation: 1
+    - prefabId: misc:server
+      position: [-1014,-459.5,1]
+      rotation: 1
+    - prefabId: misc:server-2
+      position: [-1014,-473.1200420891965,1.0000000000000004]
+      rotation: 1
+    - prefabId: misc:server-1
+      position: [-1014,-487,2]
+      rotation: 1
+    #Mall Cars and building
+    - prefabId: mall:building
+      position: [1363,-839.5,0.9999999999999996]
+      rotation: 0
+    - prefabId: mall:building
+      position: [1363,-714,1]
+      rotation: 0
+    - prefabId: mall:building
+      position: [1363,-588.357682090988,0.9999999999999973]
+      rotation: 0
+    - prefabId: mall:building
+      position: [1363,-462.5,0.999999999999992]
+      rotation: 0
+    - prefabId: mall:building
+      position: [1363,-337.5,1]
+      rotation: 0
+    - prefabId: mall:building
+      position: [1363,-212,0.9999999999999973]
+      rotation: 0
+    - prefabId: car:sedan-d
+      position: [1206,-148.5,0.999999999999996]
+      rotation: 2
+    - prefabId: car:sedan-d
+      position: [1206,-399,1]
+      rotation: 2
+    - prefabId: car:sedan-d
+      position: [1206,-647.5,1]
+      rotation: 2
+    - prefabId: car:sedan-d
+      position: [1206,-849.5,1]
+      rotation: 2
+    - prefabId: car:sedan-b
+      position: [1203,-298.5,0.9999999999999991]
+      rotation: 2
+    - prefabId: car:sedan-b
+      position: [1207,-449,0.9999999999999987]
+      rotation: 2
+    - prefabId: car:sedan-c
+      position: [1203.5,-600.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: car:sedan-c
+      position: [1203.5,-749,1]
+      rotation: 2
+    - prefabId: car:sedan-f
+      position: [1207,-202,0.9999999999999973]
+      rotation: 2
+    - prefabId: car:sedan-f
+      position: [1207,-701,0.9999999999999973]
+      rotation: 2
+    - prefabId: car:sedan-e
+      position: [1206.5,-902,0.9999999999999987]
+      rotation: 2
+    - prefabId: car:sedan-e
+      position: [1205.5,-350.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [1238,-174.5,0.9999999999999973]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [1238,-276,0.9999999999999973]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [1238,-375.5,1]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [1238,-473.5,1]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [1238,-572.5,1]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [1238,-673,1]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [1238,-774,0.9999999999999987]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [1238,-873.5,1]
+      rotation: 1
+    #Lights on right main road and down around grave yard and mall
+    - prefabId: nature:street-light
+      position: [475,-40,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [524,36,0.9999999999999973]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [576.5,-39.5,0.9999999999999947]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [676,-39.5,0.999999999999996]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [777,-39.5,1]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [876.5,-39.5,1]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [975,-39.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [625,38.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [724,38.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [825,38.5,1]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [925.5,38.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [1076,38.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [1175,38.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [1275.5,38.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [1375,38.5,1]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [1428,-44.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [1328,-44.5,1]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [1227.5,-44.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [1041.5,-129.5,0.9999999999999973]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [1038.5,-331.5,0.9999999999999987]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [1038.5,-421.5,1]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [1038.5,-528.5,1]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [1038.5,-621.5,1]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [1038.5,-721,1]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [1038.5,-825.5,0.9999999999999973]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [972.5,-910.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [877.5,-910.5,1]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [775,-910.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [672.5,-910.5,1]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [574.5,-910.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [487.5,-875,1]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [487.5,-777.5,0.9999999999999987]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [487.5,-680.5,0.9999999999999973]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [525.5,-585.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [624.5,-585.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [725.5,-585.5,1]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [824.5,-585.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [925.5,-585.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [1035,-222.5,0.999999999999996]
+      rotation: 1
+
+    #Cars for Apt and Server Farm
+    - prefabId: car:sedan-b
+      position: [-852,503,1]
+      rotation: 1
+    - prefabId: car:sedan-a
+      position: [-700,502,1]
+      rotation: 1
+    - prefabId: car:sedan-e
+      position: [-649,497,1]
+      rotation: 1
+    - prefabId: car:sedan-e
+      position: [-551.5,497,0.9999999999999987]
+      rotation: 1
+    - prefabId: car:sedan-e
+      position: [-768,-177,0.9999999999999987]
+      rotation: 2
+    - prefabId: car:sedan-e
+      position: [-768,-526,0.9999999999999973]
+      rotation: 2
+    - prefabId: car:sedan-d
+      position: [-771,-460.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: car:sedan-c
+      position: [-769,-235.5,0.999999999999996]
+      rotation: 2
+    - prefabId: car:sedan-c
+      position: [-351,493.5,0.9999999999999973]
+      rotation: 1
+    - prefabId: car:sedan-c
+      position: [-156.5,493.5,0.9999999999999987]
+      rotation: 1
+    - prefabId: car:sedan-d
+      position: [-301,495.5,1]
+      rotation: 1
+      # Park
+    - prefabId: nature:table
+      position: [-274,167.5,-1.000100000000001]
+      rotation: 0
+    - prefabId: nature:table
+      position: [-274,71.5,-1]
+      rotation: 0
+    - prefabId: nature:table
+      position: [-277,-80.5,-1.000100000000001]
+      rotation: 0
+    - prefabId: nature:table
+      position: [-275,-179.5,-1]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [-274,140.5,-1.000100000000001]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [-273,190,-1.0000999999999989]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [-273,44.5,-1]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [-273.5,94,-1.0000999999999989]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [-274,118.5,-1.0001000000000047]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [-275,-58.5,-1.0000999999999989]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [-275,-102.5,-1.000100000000001]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [-275,-200.5,-1]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [-275,-156.5,-1.0000999999999998]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-276,-129.5,-1]
+      rotation: 0
+    - prefabId: nature:table
+      position: [275.5,-191,-1.000100000000001]
+      rotation: 0
+    - prefabId: nature:table
+      position: [276.5,-85.5,-1]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [275,-212.5,-1]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [275,-170,-1.000100000000001]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [276,-106.5,-1.000100000000001]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [276,-65.5,-1]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [273,37,-1.0000999999999989]
+      rotation: 0
+    - prefabId: nature:table
+      position: [275,58.5,-1]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [275,79.5,-1]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [275,144,-1.000100000000001]
+      rotation: 0
+    - prefabId: nature:table
+      position: [275,166,-1.000100000000001]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [275.5,189,-1.000100000000001]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [39.5,171.5,1]
+      rotation: 1
+    - prefabId: nature:chair
+      position: [-40.5,171.5,1]
+      rotation: 1
+    - prefabId: nature:chair
+      position: [-40.5,122,1]
+      rotation: 1
+    - prefabId: nature:chair
+      position: [39,122,1]
+      rotation: 1
+    - prefabId: nature:chair
+      position: [39,-128.5,1]
+      rotation: 1
+    - prefabId: nature:chair
+      position: [-42.5,-128.5,1]
+      rotation: 1
+    - prefabId: nature:chair
+      position: [-42.5,-179.5,1]
+      rotation: 1
+    - prefabId: nature:chair
+      position: [41.5,-179.5,1]
+      rotation: 1
+    - prefabId: nature:chair
+      position: [92,23.5,1]
+      rotation: 1
+    - prefabId: nature:chair
+      position: [92,-30.5,1]
+      rotation: 1
+    - prefabId: nature:chair
+      position: [75,-94,1]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [-73.5,-94,1]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [-73.5,88,1]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [75.5,88,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [81.5,-183.5,-1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-81,-183.5,-1.000100000000006]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-81,146,-1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [76.5,146,-1.0001000000000047]
+      rotation: 0
+    
+    #Vince's Cars
+    - prefabId: misc:sign
+      position: [-641.5,-681.5,0.999999999999996]
+      rotation: 3
+    - prefabId: car:sedan-a
+      position: [-1623.5,-678,0.9999999999999973]
+      rotation: 1
+    - prefabId: car:sedan-d
+      position: [-1624,-922,1]
+      rotation: 3
+    - prefabId: car:sedan-e
+      position: [-1623.5,-774,0.9999999999999973]
+      rotation: 3
+    - prefabId: car:sedan-b
+      position: [-1624,-829.5,0.9999999999999987]
+      rotation: 1
+    - prefabId: car:sedan-a
+      position: [-1580.5,-773,0.9999999999999973]
+      rotation: 3
+    - prefabId: car:sedan-c
+      position: [-1581,-828.5941552034409,0.9999999999999973]
+      rotation: 1
+    - prefabId: car:sedan-b
+      position: [-1582.5,-922,1]
+      rotation: 3
+    - prefabId: car:sedan-b
+      position: [-1582.5,-678.5,0.9999999999999987]
+      rotation: 1
+    - prefabId: car:sedan-b
+      position: [-1540.5,-678.5,1]
+      rotation: 1
+    - prefabId: car:sedan-e
+      position: [-1539.5,-772,0.9999999999999987]
+      rotation: 3
+    - prefabId: car:sedan-d
+      position: [-1539.5,-829,1]
+      rotation: 1
+    - prefabId: car:sedan-e
+      position: [-1539.5,-922,1]
+      rotation: 3
+    - prefabId: car:sedan-c
+      position: [-1494,-922,0.9999999999999987]
+      rotation: 3
+    - prefabId: car:sedan-c
+      position: [-1494,-772,0.9999999999999987]
+      rotation: 3
+    - prefabId: car:sedan-a
+      position: [-1494,-678,1]
+      rotation: 1
+    - prefabId: car:sedan-e
+      position: [-1494,-828.5,1]
+      rotation: 1
+    - prefabId: car:sedan-a
+      position: [-1445.5,-922,0.999999999999996]
+      rotation: 3
+    - prefabId: car:sedan-a
+      position: [-1445.5,-828.5,0.9999999999999987]
+      rotation: 1
+    - prefabId: car:sedan-d
+      position: [-1445.5,-773.5,0.9999999999999987]
+      rotation: 3
+    - prefabId: car:sedan-b
+      position: [-1445.5,-678,0.9999999999999973]
+      rotation: 1
+    - prefabId: car:sedan-e
+      position: [-1401,-922,0.9999999999999973]
+      rotation: 3
+    - prefabId: car:sedan-e
+      position: [-1356,-922,1]
+      rotation: 3
+    - prefabId: car:sedan-c
+      position: [-1401,-832,0.9999999999999987]
+      rotation: 1
+    - prefabId: car:sedan-d
+      position: [-1401,-677,0.9999999999999987]
+      rotation: 1
+    - prefabId: car:sedan-e
+      position: [-1401,-774.5,1]
+      rotation: 3
+    - prefabId: car:sedan-d
+      position: [-1355.5,-832.5,0.9999999999999987]
+      rotation: 1
+    - prefabId: car:sedan-b
+      position: [-1355.5,-775.5,1]
+      rotation: 3
+    - prefabId: car:sedan-e
+      position: [-1355.5,-677.5,1]
+      rotation: 1
+    - prefabId: car:sedan-a
+      position: [-1233,-847,0.9999999999999973]
+      rotation: 0
+    - prefabId: car:sedan-e
+      position: [-1233,-796,1]
+      rotation: 0
+    - prefabId: car:sedan-b
+      position: [-1233,-744.5,1]
+      rotation: 0
+    - prefabId: car:sedan-d
+      position: [-1232.5,-933,1]
+      rotation: 0
+    - prefabId: car:sedan-d
+      position: [-1232.5,-667.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: car:sedan-d
+      position: [-1160.5,-744.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: car:sedan-c
+      position: [-1160.5,-794.5,1]
+      rotation: 2
+    - prefabId: car:sedan-c
+      position: [-1160.5,-850.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: car:sedan-a
+      position: [-1160.5,-933,1]
+      rotation: 2
+    - prefabId: car:sedan-e
+      position: [-1160.5,-667.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: car:sedan-e
+      position: [-1024.5,-851.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: car:sedan-b
+      position: [-1025,-794,1]
+      rotation: 0
+    - prefabId: car:sedan-d
+      position: [-1025,-743.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: car:sedan-a
+      position: [-1025,-932.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: car:sedan-a
+      position: [-1025,-667,0.9999999999999987]
+      rotation: 0
+    - prefabId: car:sedan-c
+      position: [-954,-849.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: car:sedan-d
+      position: [-954,-794.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: car:sedan-d
+      position: [-954,-666,1]
+      rotation: 2
+    - prefabId: car:sedan-a
+      position: [-954,-744.5,1]
+      rotation: 2
+    - prefabId: car:sedan-b
+      position: [-954,-931.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: car:sedan-e
+      position: [-767.5,-673,0.9999999999999987]
+      rotation: 1
+    - prefabId: car:sedan-d
+      position: [-813,-673,1]
+      rotation: 1
+    - prefabId: car:sedan-a
+      position: [-857.5,-673,1]
+      rotation: 1
+    - prefabId: car:sedan-b
+      position: [-856.5,-835,0.9999999999999973]
+      rotation: 1
+    - prefabId: car:sedan-c
+      position: [-856.5,-777,0.9999999999999973]
+      rotation: 3
+    - prefabId: car:sedan-c
+      position: [-813.5,-777,1]
+      rotation: 3
+    - prefabId: car:sedan-d
+      position: [-813.5,-834.5,1]
+      rotation: 1
+    - prefabId: car:sedan-a
+      position: [-878.5,-930.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: car:sedan-e
+      position: [-807.5,-930.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: car:sedan-d
+      position: [-739,-928.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: car:sedan-a
+      position: [-721.5,-834,0.9999999999999973]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [-769,-658.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-859.5,-658.5,1]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-952,-658.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-1078,-658.5,0.999999999999992]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-1231,-658.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-1358,-658.5,1]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-1496,-658.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-1625,-658.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-915,-928,1]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-775,-922.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-710.5,-831.5,0.9999999999999987]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [-647.5,-789,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-723,-711,1]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-1094,-928,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-1306.5,-928,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-1424.5,-928,1]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-1518.5,-928,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-1649.5,-928,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-1319.5,-802.5,1]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [-895.5,-802.5,1]
+      rotation: 1
+
+    #Gas Station
+    - prefabId: gas:station
+      position: [-488,150.5,1.0000000000000022]
+      rotation: 0
+    - prefabId: car:sedan-a
+      position: [-632,122,1.0000000000000009]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-724,115,1]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [-772.5,115.5,1.0000000000000009]
+      rotation: 1
+    - prefabId: gas:pump
+      position: [-766,92.5,1.0000000000000018]
+      rotation: 2
+    - prefabId: gas:pump
+      position: [-729,92.5,1]
+      rotation: 0
+    - prefabId: gas:pump
+      position: [-767,146,0.999999999999996]
+      rotation: 2
+    - prefabId: gas:pump
+      position: [-729,146,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-723.5,178,1.0000000000000036]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [-773,178.5,0.999999999999996]
+      rotation: 1
+    - prefabId: gas:pump
+      position: [-729,201.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: gas:pump
+      position: [-771,201.5,1]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-613.5,172.5,0.9999999999999973]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [-613.5,122.5,0.9999999999999987]
+      rotation: 1
+    - prefabId: car:sedan-e
+      position: [-631,72.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: car:sedan-f
+      position: [-791.5,105.5,0.9999999999999987]
+      rotation: 3
+    - prefabId: car:sedan-a
+      position: [-635.5,224.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: car:sedan-b
+      position: [-631.5,172,0.9999999999999973]
+      rotation: 2
+    - prefabId: gas:sign
+      position: [-898.5,110.5,0.999999999999992]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-894,160,0.999999999999996]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-894,242.5,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-498.5,63,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [-558,184,0.9999999999999973]
+      rotation: 3
+    - prefabId: nature:chair
+      position: [-558,116.5,1]
+      rotation: 3
+    - prefabId: apt:toliet
+      position: [-439.5,108,3]
+      rotation: 0
+    - prefabId: apt:drawer-sink
+      position: [-439,121.5,3]
+      rotation: 0
+    - prefabId: apt:fan
+      position: [-440,141.6,3.0000000000000018]
+      rotation: 2
+    - prefabId: classic:drawer-center
+      position: [-457.5,145.5,3.0000000000000018]
+      rotation: 2
+    - prefabId: classic:drawer-center
+      position: [-457.5,156.5,3]
+      rotation: 2
+    - prefabId: classic:drawer-center
+      position: [-457.5,168.5,3]
+      rotation: 2
+    - prefabId: gas:shelf-edge
+      position: [-518.5,166.5,3.0000000000000018]
+      rotation: 2
+    - prefabId: gas:shelf-edge
+      position: [-518.5,126.5,3]
+      rotation: 2
+    - prefabId: gas:shelf
+      position: [-505.5,166,3]
+      rotation: 0
+    - prefabId: gas:shelf-edge
+      position: [-491.5,166,3]
+      rotation: 0
+    - prefabId: gas:shelf
+      position: [-505,126.5,3]
+      rotation: 0
+    - prefabId: gas:shelf-edge
+      position: [-491,126.5,3]
+      rotation: 0
+
+    #Gas Station 2
+    - prefabId: gas:station
+      position: [312,450.5,1.0000000000000022]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [242,484,0.9999999999999973]
+      rotation: 3
+    - prefabId: nature:chair
+      position: [242,416.5,1]
+      rotation: 3
+    - prefabId: apt:toliet
+      position: [360.5,408,3]
+      rotation: 0
+    - prefabId: apt:drawer-sink
+      position: [361,421.5,3]
+      rotation: 0
+    - prefabId: apt:fan
+      position: [360,441.6,3.0000000000000018]
+      rotation: 2
+    - prefabId: classic:drawer-center
+      position: [342.5,445.5,3.0000000000000018]
+      rotation: 2
+    - prefabId: classic:drawer-center
+      position: [342.5,456.5,3]
+      rotation: 2
+    - prefabId: classic:drawer-center
+      position: [342.5,468.5,3]
+      rotation: 2
+    - prefabId: gas:shelf-edge
+      position: [281.5,466.5,3.0000000000000018]
+      rotation: 2
+    - prefabId: gas:shelf-edge
+      position: [281.5,426.5,3]
+      rotation: 2
+    - prefabId: gas:shelf
+      position: [294.5,466,3]
+      rotation: 0
+    - prefabId: gas:shelf-edge
+      position: [308.5,466,3]
+      rotation: 0
+    - prefabId: gas:shelf
+      position: [295,426.5,3]
+      rotation: 0
+    - prefabId: gas:shelf-edge
+      position: [309,426.5,3]
+      rotation: 0
+    #Lights from gas station to Camp
+    - prefabId: nature:street-light
+      position: [-449,37,1.0000000000000036]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-501,-38,1]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-550.5,36,1]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-647.5,-36.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-748.5,-40,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-849.5,-39.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-901.5,38,0.9999999999999973]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-952.5,-37,1]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-1049.5,36,0.9999999999999973]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-1101.5,-43.5,1]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-1152.5,35.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-1201.5,-40,1]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-1252.5,35.5,0.9999999999999996]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-1299,-39,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-1351,34.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-1399.5,-42,0.9999999999999973]
+      rotation: 0
+    #Lights
+    - prefabId: nature:street-light
+      position: [-54.5,261.5,0.9999999999999996]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-154.5,261.5,0.9999999999999933]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [96,261.5,0.999999999999996]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [196,261.5,0.999999999999996]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-315.5,210,0.9999999999999947]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [-318,117,0.999999999999996]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [-315.5,-11,0.9999999999999987]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [-315.5,-134,0.9999999999999947]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [-315.5,-228.5,0.9999999999999947]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [-155,-264.5,1]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-56,-264.5,0.999999999999992]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [95,-264.5,1]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [194,-264.5,0.9999999999999907]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [315.5,-227.5,0.9999999999999947]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [316,-144.5,0.9999999999999996]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [316,-7,1]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [316,105.5,1]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [316,213.5,1.0000000000000036]
+      rotation: 3
+
+
+    #Apartments
+    #Road to APT 1
+    - prefabId: nature:road-a
+      position: [-168,783,-1.000100000000001]
+      rotation: 0
+    - prefabId: nature:road-a
+      position: [-167,756.5,-1.0000999999999984]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [-198,756.5,-1.000100000000001]
+      rotation: 0
+
+      #APT 2
+    - prefabId: apt:back
+      position: [-355,716,0]
+      rotation: 1
+    - prefabId: apt:full-front
+      position: [-335,621,0]
+      rotation: 1
+     
+      #APT 3
+    - prefabId: apt:full-front
+      position: [-456,717,0]
+      rotation: 3
+    - prefabId: apt:back
+      position: [-435,622,0]
+      rotation: 3
+
+      #APT 4 
+    - prefabId: apt:full-front
+      position: [-533,614,0]
+      rotation: 1
+    - prefabId: apt:back
+      position: [-556,709,0]
+      rotation: 1
+
+      #APT 5
+    - prefabId: apt:back
+      position: [-634,614,0]
+      rotation: 3
+    - prefabId: apt:full-front
+      position: [-657,709,0]
+      rotation: 3
+    
+      #APT 6
+    - prefabId: apt:full-front
+      position: [-734,603,0]
+      rotation: 1
+    - prefabId: apt:back
+      position: [-755,698,0]
+      rotation: 1
+    
+      #APT 7
+    - prefabId: apt:back
+      position: [-835,603,0]
+      rotation: 3
+    - prefabId: apt:full-front
+      position: [-856,698,0]
+      rotation: 3
+   
+   
+
+    #RV-Park
+      #RV-Yellow
+    - prefabId: classic:bed
+      position: [-1888.5,-9.500000000000002,6.999999999999999]
+      rotation: 3
+    - prefabId: classic:bed
+      position: [-1871.5000000938403,-9.5,7]
+      rotation: 3
+    - prefabId: apt:table-dining
+      position: [-1889.5,-36,7]
+      rotation: 3
+    - prefabId: apt:chair-dining
+      position: [-1877.3517487144848,-36.55828571428572,6.999999999999999]
+      rotation: 0
+    - prefabId: classic:fridge
+      position: [-1856.0005964353106,0.4999999999999991,7.000000000000001]
+      rotation: 1
+    - prefabId: classic:drawer
+      position: [-1843.0290581034853,0.5000000000000009,6.999999999999999]
+      rotation: 1
+    - prefabId: classic:bathroom-sink
+      position: [-1831.109874483545,0.5000000000000003,6.999999999999999]
+      rotation: 1
+    - prefabId: apt:oven
+      position: [-1819.694557474739,0.5000000000000007,7]
+      rotation: 2
+    - prefabId: misc:nome
+      position: [-1820.5,88,-1]
+      rotation: 0
+    - prefabId: classic:cup
+      position: [-1625,-49,7.602558267388587]
+      rotation: 0
+    - prefabId: classic:cup
+      position: [-1630,-36.5,6.335800547980453]
+      rotation: 0
+    - prefabId: classic:cup
+      position: [-1535,161.5,6.670865409446429]
+      rotation: 0
+    - prefabId: classic:coffee-pot
+      position: [-1533.5,152.5,8.05630625]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [-1500.5,157.5,-1]
+      rotation: 3
+    - prefabId: nature:chair
+      position: [-1555.5,157.5,-1]
+      rotation: 3
+    - prefabId: nature:chair
+      position: [-1989.5,173,-1]
+      rotation: 3
+    - prefabId: nature:chair
+      position: [-1936,173,-1]
+      rotation: 3
+    - prefabId: nature:chair
+      position: [-1629.5,-73,-1.0000999999999989]
+      rotation: 2
+    - prefabId: nature:chair
+      position: [-1629.5,-13,-1.0000999999999989]
+      rotation: 2
+    - prefabId: nature:chair
+      position: [-1794,-164,-1]
+      rotation: 1
+    - prefabId: nature:chair
+      position: [-1831.5,-166,-1.000100000000001]
+      rotation: 1
+    - prefabId: nature:chair
+      position: [-1940.5,-118,-1.000100000000001]
+      rotation: 1
+    - prefabId: nature:chair
+      position: [-1984.5,-118.5,-1]
+      rotation: 1
+    - prefabId: apt:chair-dining
+      position: [-1845,-57.5,-1.000100000000001]
+      rotation: 1
+    - prefabId: apt:chair-dining
+      position: [-1869.5,-57.5,-1]
+      rotation: 1
+    - prefabId: apt:chair-dining
+      position: [-1893.5,-57.5,-1]
+      rotation: 1
+    - prefabId: apt:chair-dining
+      position: [-1728.5,-209.5,-1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-1672.5,65,-1.0001000000000047]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-1704.076277499833,-53.57657618680139,-1.0000999999999947]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-1812.7700661387626,-160.7453305021421,-1.000100000000001]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-1960.7468022499443,-115.89013972176792,-1.000099999999998]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-1960.7468022499443,217.6556671192783,-1.0000999999999984]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-1836.5,267.5,-1.000099999999993]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-1712.0665457636223,341.85379327058354,-1.0000999999999978]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1463.5,201,-1.0000999999999944]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1727,191,-1]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1900.5,337.5,-1.000100000000006]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-2103.5,151,-1.0001000000000047]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1902.5,-253,-1]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1595.5,-330.5,-1.000099999999993]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1465.5,-235,-1.0001000000000047]
+      rotation: 3
+    - prefabId: nature:table
+      position: [-1528.5,158,-1.000100000000001]
+      rotation: 3
+    - prefabId: nature:table
+      position: [-1628.5,-43.5,-1.0000999999999989]
+      rotation: 3
+    - prefabId: nature:table
+      position: [-1961.5,173,-1.0000999999999989]
+      rotation: 3
+    - prefabId: rv:blue
+      position: [-1847.5,127.5,0]
+      rotation: 2
+    - prefabId: rv:white
+      position: [-1841.5,-17.5,0]
+      rotation: 2
+    - prefabId: rv:yellow
+      position: [-1682,-153.5,0]
+      rotation: 3
+    - prefabId: rv:blue
+      position: [-1634.5,233,0]
+      rotation: 1
+    - prefabId: rv:white
+      position: [-2035,59.5,-1.0001000000000002]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1571.5,97.5,-1.0001000000000038]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1572.5,-109,-1.0001000000000024]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-171.5,-186.5,-1.000100000000006]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [-171.5,150.5,-1.0001000000000047]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [173.5,150.5,-1.000099999999993]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [169.5,-183,-1.0001000000000047]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [275.5,-140,-1]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [275.5,112,-1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-270,208.5,-1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-270,15.5,-1.000100000000006]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-270,-37,-1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-275,-229,-1.000099999999993]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [274.5,-236.5,-1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [277.5,-31.5,-1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [277.5,18.5,-1.0001000000000047]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [272,216,-1.000100000000006]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [-90,-27.5,1]
+      rotation: 1
+    - prefabId: nature:chair
+      position: [-90,24.5,1]
+      rotation: 1
+    #Cabins
+    - prefabId: camp:cabin
+      position: [-1957.5,651.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: camp:cabin
+      position: [-1630,651.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: camp:cabin
+      position: [-1804.5,845.5,1]
+      rotation: 1
+    - prefabId: camp:cabin
+      position: [-1799.5,444,0.999999999999996]
+      rotation: 3
+    - prefabId: camp:cabin
+      position: [-2084,444,0.9999999999999947]
+      rotation: 2
+    - prefabId: camp:cabin
+      position: [-1539,444,0.999999999999996]
+      rotation: 0
+
+    # Apartment
+    - prefabId: apt:full-front
+      position: [-255,726,0]
+      rotation: 3
+    - prefabId: apt:back
+      position: [-234.5,631,0]
+      rotation: 3
+    - prefabId: apt:shower
+      position: [-212.5,632.5,1]
+      rotation: 3
+    - prefabId: apt:toliet
+      position: [-186.5,632.5,0.9999999999999991]
+      rotation: 3
+    - prefabId: apt:drawer
+      position: [-215.5,665,1]
+      rotation: 1
+    - prefabId: apt:drawer-bathroom-sink
+      position: [-203.5,665,1]
+      rotation: 1
+    - prefabId: apt:trash-bin
+      position: [-230.5,739.5,1.0000000000000018]
+      rotation: 0
+    - prefabId: apt:drawer
+      position: [-191.5,665,1]
+      rotation: 1
+    - prefabId: apt:bin-storage
+      position: [-181,665,1]
+      rotation: 3
+    - prefabId: classic:fridge
+      position: [-225,729.35147496401,0.9999999999999973]
+      rotation: 0
+    - prefabId: apt:oven
+      position: [-225,717.5,1]
+      rotation: 1
+    - prefabId: apt:drawer
+      position: [-225,706,1]
+      rotation: 0
+    - prefabId: apt:drawer-sink
+      position: [-225,694,1]
+      rotation: 0
+    - prefabId: apt:microwave
+      position: [-224,728,25.539759397512437]
+      rotation: 0
+    - prefabId: apt:bin-storage
+      position: [-280.5,759,0.9999999999999964]
+      rotation: 2
+    - prefabId: apt:coffee-maker
+      position: [-279,760.5,9.019319544585713]
+      rotation: 2
+    - prefabId: apt:expresso-maker
+      position: [-285,760,7.573510131835937]
+      rotation: 2
+    - prefabId: apt:table-tv
+      position: [-263.5,758.5,0.999999999999996]
+      rotation: 0
+    - prefabId: apt:vase
+      position: [-254,759,9.672]
+      rotation: 0
+    - prefabId: apt:chair-dining
+      position: [-282.5,745.5,0.9999999999999978]
+      rotation: 1
+    - prefabId: apt:table-dining
+      position: [-280.5,730.5,0.9999999999999973]
+      rotation: 3
+    - prefabId: apt:chair-dining
+      position: [-282.5,717.5,0.9999999999999973]
+      rotation: 3
+    - prefabId: misc:clock
+      position: [-289,732.5,1]
+      rotation: 2
+    - prefabId: apt:lamp
+      position: [-287,691,1]
+      rotation: 0
+    - prefabId: tv:beach
+      position: [-266,759,9.672818067550656]
+      rotation: 2
+    - prefabId: painting:pyramid-greatness
+      position: [-289,713,0.9999999999999987]
+      rotation: 0
+    - prefabId: apt:fan
+      position: [-254,673,1]
+      rotation: 0
+    - prefabId: apt:rug-door
+      position: [-232.5,753.5,1.000000000000003]
+      rotation: 0
+    - prefabId: apt:rug-blue
+      position: [-267.5,702.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: apt:kitchen-matt
+      position: [-237,694.5,1.0000000000000004]
+      rotation: 0
+    - prefabId: apt:couch
+      position: [-267.5,688.4571612146937,0.9999999999999987]
+      rotation: 3
+    - prefabId: apt:table-main
+      position: [-268,704.5,1.7266865234374986]
+      rotation: 1
+
+
+
+
+      #Back-Room
+    - prefabId: misc:computer
+      position: [-233.5,630,7.602558267388587]
+      rotation: 0
+    - prefabId: apt:chair-folding
+      position: [-242,630,-1]
+      rotation: 2
+    - prefabId: apt:chair-folding
+      position: [-242,640,-1.000100000000001]
+      rotation: 2
+    - prefabId: apt:table-folding
+      position: [-232.5,636,-1]
+      rotation: 3
+    - prefabId: painting:einstein
+      position: [-228,623.5,-1]
+      rotation: 0
+    - prefabId: apt:bed-nicholas
+      position: [-271,614.5,-1]
+      rotation: 0
+    - prefabId: apt:night-stand-white
+      position: [-283,632,-1]
+      rotation: 2
+    - prefabId: apt:night-stand-black
+      position: [-283,645,-1.0000999999999989]
+      rotation: 0
+    - prefabId: apt:bed-nathan
+      position: [-271,661.5,-1.0000999999999989]
+      rotation: 0
+    - prefabId: apt:chair-footstand
+      position: [-243.5,611,-1.0000999999999989]
+      rotation: 1
+    - prefabId: apt:lamp-stand
+      position: [-231,600,-1]
+      rotation: 0
+    - prefabId: apt:chair-small
+      position: [-242.5,596.5,-1.000100000000001]
+      rotation: 3
+    - prefabId: misc:toilet-paper
+      position: [-196.5,635.5,-1.0000999999999989]
+      rotation: 0
+    - prefabId: misc:computer
+      position: [-233,641.5,6.661951954778098]
+      rotation: 0
+    - prefabId: apt:painting:frame-family
+      position: [-281.5,634,6.121710302914409]
+      rotation: 0
+  
+    
+    #Graveyard
+    - prefabId: nature:road-a
+      position: [741.5,-771.5,0.0000000000000017763568394002505]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [531,-749.5,0.0000000000000017763568394002505]
+      rotation: 0
+    - prefabId: nature:road-a
+      position: [554.0787613104874,-757.5,-0.0000000000000013322676295501878]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [559,-731.5,0]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [579.5,-764.5,-0.0000000000000026645352591003757]
+      rotation: 0
+    - prefabId: nature:road-a
+      position: [583,-737.5,-0.0000000000000013322676295501878]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [606,-745.5,0]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [606,-773,0]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [628.5,-738.5,0]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [632,-767.5,-0.0000000000000013322676295501878]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [657.5,-762,0]
+      rotation: 0
+    - prefabId: nature:road-a
+      position: [652,-738.5,0]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [685,-751.5,-0.0000000000000013322676295501878]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [690.5,-776.5,0]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [711,-744,0]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [718,-771.5,0]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [737,-742,0]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [766,-747,-0.0000000000000004440892098500626]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [771,-772,0.0000000000000017763568394002505]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [796,-784,-0.0000000000000013322676295501878]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [798.5,-757,-0.0000000000000026645352591003757]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [824,-790.5,0]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [826,-761,-0.0000000000000013322676295501878]
+      rotation: 0
+    - prefabId: nature:road-a
+      position: [852.5,-792.5,0]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [857,-759.5,-0.0000000000000026645352591003757]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [885,-750,0]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [885,-802.5,-0.0000000000000013322676295501878]
+      rotation: 2
+    - prefabId: nature:chair
+      position: [883,-776,1]
+      rotation: 3
+    - prefabId: nature:chair
+      position: [725,-796.5,0.9999999999999991]
+      rotation: 0
+    - prefabId: nature:chair
+      position: [605.5,-727.5,1.9516228505245532]
+      rotation: 0
+    - prefabId: nature-gravestone3
+      position: [571,-820,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature-gravestone3
+      position: [879,-663.5,1]
+      rotation: 3
+    - prefabId: classic:potted-flower
+      position: [880,-676.5,1]
+      rotation: 3
+    - prefabId: classic:potted-flower
+      position: [773,-671.5,0.9999999999999973]
+      rotation: 3
+    - prefabId: classic:potted-flower
+      position: [861,-836,0.9999999999999973]
+      rotation: 3
+    - prefabId: classic:potted-flower
+      position: [933.5,-777,0.9999999999999987]
+      rotation: 0
+    - prefabId: classic:potted-flower
+      position: [656.5,-799,0.9999999999999987]
+      rotation: 0
+    - prefabId: classic:potted-flower
+      position: [682.5,-728.5,0.9999999999999987]
+      rotation: 1
+    - prefabId: nature-gravestone2
+      position: [950,-779,1]
+      rotation: 2
+    - prefabId: nature-gravestone2
+      position: [861.5,-819,0.9999999999999978]
+      rotation: 3
+    - prefabId: nature-gravestone1
+      position: [891,-822,0.9999999999999973]
+      rotation: 3
+    - prefabId: nature-gravestone1
+      position: [768,-719.5,0.9999999999999973]
+      rotation: 3
+    - prefabId: nature-gravestone1
+      position: [656.5,-715.5,1]
+      rotation: 3
+    - prefabId: nature-gravestone1
+      position: [654.9223870967742,-654.6405378895263,1.000000000000002]
+      rotation: 3
+    - prefabId: nature-gravestone1
+      position: [570.5,-653,1]
+      rotation: 0
+    - prefabId: nature-gravestone4
+      position: [570.5,-687,0.9999999999999987]
+      rotation: 2
+    - prefabId: nature-gravestone4
+      position: [570.5,-794,0.9999999999999987]
+      rotation: 2
+    - prefabId: nature:tree
+      position: [817.5,-738.5,0.9999999999999996]
+      rotation: 0
+    - prefabId: nature-gravestone4
+      position: [683,-654,1]
+      rotation: 3
+    - prefabId: nature-gravestone4
+      position: [884.5,-722.5,1.0000000000000018]
+      rotation: 3
+    - prefabId: nature-gravestone4
+      position: [951,-846.5,0.9999999999999978]
+      rotation: 0
+    - prefabId: nature-gravestone4
+      position: [643,-828,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature-gravestone3
+      position: [733.5,-656,1.0000000000000018]
+      rotation: 3
+    - prefabId: nature-gravestone3
+      position: [682,-716,0.9999999999999973]
+      rotation: 3
+    - prefabId: nature-gravestone3
+      position: [929,-723.5,0.9999999999999973]
+      rotation: 3
+    - prefabId: nature-gravestone3
+      position: [950.5,-813,1.0000000000000004]
+      rotation: 2
+    - prefabId: nature-gravestone3
+      position: [644,-800.5,1.0000000000000018]
+      rotation: 0
+    - prefabId: nature-gravestone2
+      position: [733,-719,1.0000000000000018]
+      rotation: 3
+    - prefabId: nature-gravestone2
+      position: [773,-656,0.9999999999999973]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [604.5,-709.5,0.9999999999999996]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [758.4890640383862,-831.1083333333338,0.9999999999999984]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [942.5,-644,0.9999999999999907]
+      rotation: 0
+    #Top Right RV
+    - prefabId: rv:white
+      position: [-2105,851.5,1.000000000000003]
+      rotation: 1
+    #Camp signs (first one by RV, second by Cabin)
+    - prefabId: nature:camp-sign
+      position: [-1374,84.5,0.999999999999996]
+      rotation: 0
+    - prefabId: nature:camp-sign
+      position: [-1535,337,0.9999999999999973]
+      rotation: 3
+    #Trees around cabin
+    - prefabId: nature:tree
+      position: [-2059,-374.5,0.999999999999996]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-1838,-436,0.999999999999996]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-604.5,942.5,1]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-819.5,928.5,0.999999999999996]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-2147.5,237.5,1]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-1095.5,278.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2192.5,909.5,1]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-2112,551,0.9999999999999973]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-1075.5,921,0.999999999999996]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-1415.5,942.5,1]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-1596,909.5,0.999999999999996]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-1969.5,909.5,0.999999999999996]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [-1399,332.5,1.0000000000000022]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1734.5,555,0.9999999999999947]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1949.5,534,0.9999999999999996]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-2132.5,714.5,1]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-2012.5,839.5,1]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1736,942.5,0.999999999999996]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1569,818.5,0.9999999999999947]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1427,553.5,0.9999999999999947]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1340,754,0.9999999999999933]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1257,860.5,0.9999999999999947]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1106,747.5,1.0000000000000036]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1106,499.5,0.999999999999996]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1109.5,175.5,0.999999999999996]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-1277,455.5,0.999999999999996]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-1234,627.5,0.9999999999999973]
+      rotation: 3
+    #Highway signs
+    - prefabId: nature:street-sign-quickscope
+      position: [1500,-3.5,0.9999999999999933]
+      rotation: 2 
+    - prefabId: nature:street-sign-woofwoof
+      position: [1.5,-997,0.9999999999999973]
+      rotation: 1
+    - prefabId: nature:street-sign-moomoo
+      position: [-2,946,0.9999999999999973]
+      rotation: 3
+
+    #Outside Streetlights of Park, Trees to the Right and Path to classic house
+
+    - prefabId: nature:street-light
+      position: [-105,340,0.999999999999996]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-204.5,340,0.999999999999996]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-301,340,0.9999999999999973]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [-390,303.5,0.9999999999999947]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [-390,163.5,0.9999999999999973]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [-390,57,1]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [-390,-71.5,1]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [-390,-183,0.9999999999999973]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [-390,-303.5,1]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [391,-303.5,0.9999999999999907]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [391.5,-183,0.999999999999996]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [391.5,-78,0.9999999999999987]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [391.5,64.5,0.9999999999999987]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [391.5,160,1]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [392.5,308.5,0.9999999999999973]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [293,-344.5,1]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [146,-344.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-105.5,-344.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [-250,-344.5,1]
+      rotation: 0
+    - prefabId: nature:street-light
+      position: [145,339.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [253,339.5,0.9999999999999973]
+      rotation: 2
+    - prefabId: nature:street-light
+      position: [336,339.5,0.9999999999999987]
+      rotation: 2
+    - prefabId: nature:tree
+      position: [-500,-112.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [-455.5,-234,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-504.5,-342,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [-416,-421,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [-181.5,-415,0.999999999999992]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-303,-400.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-485.5,-516.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:road-a
+      position: [-450.5,-553.5,0]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [-474.08174279593703,-553.5,0.0000000000000004440892098500626]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [-498.01122980268383,-553.5,-0.0000000000000026645352591003757]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [-523,-553.5,0]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [-94,-831.5,-0.0000000000000004440892098500626]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [-94,-855.5,-0.0000000000000013322676295501878]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [-94,-880,-0.0000000000000026645352591003757]
+      rotation: 0
+
+    #Top Street lights
+    - prefabId: nature:street-light
+      position: [-38,376.5,0.9999999999999933]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [38,426,0.9999999999999996]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [-37.5,472.5,0.9999999999999973]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [-37.5,575.5,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [-37.5,677,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [-37.5,779.5,1]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [-37.5,882,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:street-light
+      position: [38.5,527.5,0.9999999999999987]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [38.5,629,0.9999999999999973]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [38.5,724.5,1]
+      rotation: 1
+    - prefabId: nature:street-light
+      position: [38.5,926.5,0.9999999999999987]
+      rotation: 1
+
+    #More Trees
+    - prefabId: nature:tree
+      position: [235.5,-420.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-628,-324.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-628,-197,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-628,-445.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-628,-584.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [-701.5,-657,0.999999999999996]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [-638.5,-913.5,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-1446,-603.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-1990.5,-529,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2149,-702,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2056,-818,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2185.5,-942.5,1]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [-2178.5,-837.5,0.9999999999999973]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-2113.5,-529,0.9999999999999973]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1615.5,-489,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-1431,-431,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-193.5,-870,0.9999999999999987]
+      rotation: 0
+
+    #More Trees
+    - prefabId: nature:tree
+      position: [439,343.5,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [500.5,718,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [849.5,705,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [751.5,650.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [1384.5,114.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [1252,232,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [1373.5,379.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [1129,608,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [1294,738,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [1361.5,547.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [1195,455,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [1143.5,138,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [1377,-117.5,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1338,-942.5,1]
+      rotation: 2
+    - prefabId: nature:tree
+      position: [678.5,-522.5,1]
+      rotation: 2
+    - prefabId: nature:tree
+      position: [506.5,-337,0.9999999999999987]
+      rotation: 2
+    - prefabId: nature:tree
+      position: [547,-147.5,0.999999999999996]
+      rotation: 2
+    - prefabId: nature:tree
+      position: [882.5,193,0.9999999999999987]
+      rotation: 2
+    - prefabId: nature:tree-yello
+      position: [551,273.5,0.999999999999996]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [816.5,385,1]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [858.5,557,0.9999999999999947]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [1146.5,748,0.999999999999996]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [1264,339.5,0.9999999999999973]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [616.5,-336,1]
+      rotation: 3
+    #Pathways
+    - prefabId: gas:pump
+      position: [107.5,520.5,0.9999999999999978]
+      rotation: 0
+    - prefabId: gas:pump
+      position: [107.5,425,0.9999999999999987]
+      rotation: 0
+    - prefabId: car:sedan-d
+      position: [134,519,1]
+      rotation: 3
+    - prefabId: car:sedan-a
+      position: [134.5,439.5,1]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [-398,748.5,0]
+      rotation: 0
+    - prefabId: nature:road-a
+      position: [-398,780,-0.0000000000000013322676295501878]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [-595.5,780,0]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [-598,745.5,0]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [-793.5,731,-0.0000000000000026645352591003757]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [-793.5,759,0]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [-793.5,786,0]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [-794.5,575,-0.0000000000000013322676295501878]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [-595.5,578,-0.0000000000000013322676295501878]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [-397,578,0]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [311,597,-0.0000000000000013322676295501878]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [281.5,597,0]
+      rotation: 0
+    - prefabId: nature:road-a
+      position: [249,597,0]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [222,597,-0.0000000000000013322676295501878]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [189.5,597,0]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [158.9357725392711,597,0.0000000000000019984014443252818]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [127.5,597,-0.0000000000000013322676295501878]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [96,597,-0.0000000000000026645352591003757]
+      rotation: 0
+    - prefabId: nature:road-a
+      position: [65.5,597,0]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [125,755,-0.0000000000000013322676295501878]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [125,781,0]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [608.5,755.5,-0.0000000000000013322676295501878]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [578,755.5,-0.0000000000000026645352591003757]
+      rotation: 0
+    - prefabId: nature:road-a
+      position: [546.5,755.5,-0.0000000000000013322676295501878]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [523,755.5,0]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [522.5,727.5,0]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [522.5,697.5,0]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [590,162.5,-0.0000000000000026645352591003757]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [563.5,162.5,-0.0000000000000013322676295501878]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [538,162.5,0]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [510,162.5,0]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [479.5,162.5,0]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [479.5,187,0]
+      rotation: 0
+    - prefabId: nature:road-a
+      position: [571,-247,-0.0000000000000013322676295501878]
+      rotation: 0
+    - prefabId: nature:road-a
+      position: [541.5,-247,0]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [510.5,-247,-0.0000000000000026645352591003757]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [479,-247,0]
+      rotation: 1
+    - prefabId: nature:road-a
+      position: [447.5,-247,-0.0000000000000026645352591003757]
+      rotation: 0
+    - prefabId: nature:road-a
+      position: [418,-247,-0.0000000000000013322676295501878]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [624.5,-527.5,0]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [927,-525,0]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [437.5,-360,0]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [437.5,-328.5,-0.0000000000000013322676295501878]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [437.5,-297.5,0]
+      rotation: 3
+    - prefabId: nature:road-a
+      position: [437.5,-272.5,0]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [89,-733,-0.0000000000000026645352591003757]
+      rotation: 2
+    - prefabId: nature:road-a
+      position: [60,-733,0]
+      rotation: 1
+    #CarShop Interior
+    - prefabId: rv:blue
+      position: [552.5,370.5,0.9999999999999973]
+      rotation: 1
+    - prefabId: rv:blue
+      position: [912,-318,0.9999999999999987]
+      rotation: 2
+    - prefabId: car:sedan-e
+      position: [-1795.5,-628.5,1.9999999999999991]
+      rotation: 1
+    - prefabId: car:sedan-a
+      position: [-1857,-686.5,1.9999999999999991]
+      rotation: 2
+    - prefabId: car:sedan-b
+      position: [-1858,-750,1.0000000000000004]
+      rotation: 2
+    - prefabId: car:sedan-d
+      position: [-1858,-805.5,1.9999999999999998]
+      rotation: 2
+    - prefabId: car:sedan-c
+      position: [-1798,-860,1.9999999999999998]
+      rotation: 3
+    - prefabId: classic:drawer-center
+      position: [-1788.5,-725.5,1]
+      rotation: 0
+    - prefabId: classic:drawer-center
+      position: [-1788.5,-737.5,1]
+      rotation: 0
+    - prefabId: classic:drawer-center
+      position: [-1788.5,-749.5,0.9999999999999996]
+      rotation: 0
+    - prefabId: classic:drawer-center
+      position: [-1788.5,-761,1]
+      rotation: 0
+    - prefabId: modern:table-chair
+      position: [-1804.5,-742.5,1]
+      rotation: 2
+    - prefabId: apt:couch
+      position: [-1713.5,-707,1.0000000000000004]
+      rotation: 0
+    - prefabId: apt:couch
+      position: [-1713.5,-786,1.0000000000000004]
+      rotation: 0
+    - prefabId: apt:couch
+      position: [-1734,-862.5,1.9999999999999998]
+      rotation: 1
+    - prefabId: apt:couch
+      position: [-1734,-904.5,2.0000000000000004]
+      rotation: 3
+    - prefabId: apt:couch
+      position: [-1734,-636,2.0000000000000004]
+      rotation: 3
+    - prefabId: apt:couch
+      position: [-1734,-585,2]
+      rotation: 1
+    - prefabId: classic:magazine
+      position: [-1788.5,-759.5,12.86784969766405]
+      rotation: 0
+    - prefabId: classic:magazine
+      position: [-1788.5,-753,12.978386632795521]
+      rotation: 0
+    - prefabId: car:sedan-f
+      position: [-103,-625,0.9999999999999987]
+      rotation: 2
+    - prefabId: car:sedan-f
+      position: [552,222,1]
+      rotation: 0
+    - prefabId: car:sedan-f
+      position: [476.5,666.5,0.9999999999999987]
+      rotation: 1
+    - prefabId: car:sedan-f
+      position: [-1939.5,-748.5,2]
+      rotation: 1
+    - prefabId: rv:yellow
+      position: [-1910.5,-612,2]
+      rotation: 2
+    - prefabId: rv:blue
+      position: [-1906.5,-875.5,2]
+      rotation: 2
+    - prefabId: modern:table-small
+      position: [-1734,-610,1.9999999999999998]
+      rotation: 1
+    - prefabId: modern:table-small
+      position: [-1734,-884,2]
+      rotation: 1
+    - prefabId: modern:table-small
+      position: [-1733.5,-786.5,1]
+      rotation: 0
+    - prefabId: modern:table-small
+      position: [-1733.5,-707.5,1]
+      rotation: 0
+    #Trees on Outside
+    - prefabId: nature:tree
+      position: [-131.5,907.5,1.0000000000000009]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-256.5,983,0.9999999999999933]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-473.5,1038,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-754.5,1061.5,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-982.5,1015,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-1199,942.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-1326,1077,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-1116,1104,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-1525.5,1141.5,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-1777.5,1077.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-1943.5,1176.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2120.5,1039.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2374.5,1017.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2426,746,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2310,585.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2392.5,429,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2366,163.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2243.5,17.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2161,-158.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2399,-173.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2290,-335.5,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2200.5,-437.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2301.5,-598.5,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2361,-780,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2373,-982,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-2232.5,-1118,0.9999999999999973]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-1891,-1079,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-1734,-1021,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-1462.5,-1028,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-1287,-1090,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-1014,-1011.5,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-746,-1034.5,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-470,-1003.5,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [-142,-1003.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [158.5,-1026,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [377,-999.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [607.5,-1033,1]
+      rotation: 0
+    - prefabId: nature:tree
+      position: [908.5,-1004,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1104.5,-1026.5,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1273.5,-1057.5,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1513.5,-1005,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1577.5,-877,1]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1493.5,-705.5,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1542,-500.5,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1484,-337,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1534.5,-171,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1487.5,202.5,1]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1490.5,424,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1537.5,556.5,1]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1471.5,690,1]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1555,805,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1691.5,803.5,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1627,941,1]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1416,905,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [1046.5,891.5,1]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [870.5,981,1]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [693,898,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [476,944,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [191,894,0.9999999999999973]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [111.5,1010.5,1]
+      rotation: 3
+    - prefabId: nature:tree
+      position: [-117.5,598.5,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [273,765,1]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [374.5,889,1]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [582,918,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [822.5,899,1]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [959.5,934,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [1190,833.5,1]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [1427.5,787.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [1657.5,650,1]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [1663,397,59.322500000000005]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [1642.5,127.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [1630,-272.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [1608.5,-418,1]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [1598,-629.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [1611.5,-785.5,0.9999999999999987]
+      rotation: 0
+    - prefabId: nature:tree-yello
+      position: [1415,-1073,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [991.5,-1081.5,1]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [762.5,-1032,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [507,-1005.5,1]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-264,-984,0.9999999999999987]
+      rotation: 3
+    - prefabId: nature:tree-yello
+      position: [-575.5,-1088.5,0.9999999999999987]
+      rotation: 3
+    
+
+    - buildingName: graveyard
+      offset: [770,-750,0]
+      roomSize: 20
+      centered: true
+      lookupTable:
+        # Walls
+      
+        a:
+          prefabId: nature-gravestone1
+        
+        b:
+          prefabId: nature-gravestone2
+        
+        c:
+          prefabId: nature-gravestone3
+        
+        d:
+          prefabId: nature-gravestone4
+
+        e:
+          prefabId: nature:tree
+
+        f:
+          prefabId: nature:tree-yello
+
+        g:
+          prefabId: nature-wallside
+
+        h:
+          prefabId: nature-walledge
+ 
+        z:
+          prefabId: empty
+
+
+
+      map: |-
+        h   g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  h
+
+        g                                                                                           g  
+
+        g                                                                                           g
+
+        g                                                                                           g
+
+        g                                                                                           g  
+
+        h                                                                                           g
+
+        z                                                                                           g
+
+        z                                                                                           g  
+
+        h                                                                                           g
+
+        g                                                                                           g
+
+        g                                                                                           g  
+
+        g                                                                                           g
+
+        g                                                                                           g
+
+        h   g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  g1  h
+
+...
