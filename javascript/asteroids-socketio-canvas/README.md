@@ -1,8 +1,13 @@
 # Asteroids
 
+<p align="center">
+    <img src="./_media/preview_512.png" />
+</p>
 
 
-[Visit Tutorial](https://rivet.gg/learn/html5/tutorials/asteroids-canvas-socketio)
+
+
+[Live Demo](https://asteroids.staging2.boatbumpers.io/)
 
 
 |  Language | Networking | Rendering |
