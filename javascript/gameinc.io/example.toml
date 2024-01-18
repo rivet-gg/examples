@@ -1,0 +1,13 @@
+[display]
+title = "gameinc.io"
+demo_url = "https://gameinc.io"
+overview_weight = 70
+
+[meta]
+engine = "JavaScript"
+languages = ["TypeScript"]
+platforms = ["HTML5"]
+networking = "SocketIo"
+rendering = "HTML5DOM"
+features = ["Matchmaker", "DynamicServers"]
+

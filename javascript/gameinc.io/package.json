@@ -1,0 +1,21 @@
+{
+  "name": "gameinc.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node -r dotenv/config src/index.js",
+    "serve": "cd public && python -m http.server 8000"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rivet-gg/matchmaker": "^0.0.8",
+    "@types/socket.io": "^3.0.2",
+    "dotenv": "^16.0.3",
+    "socket.io": "^4.5.4"
+  },
+  "dependencies": {
+    "@rivet-gg/api": "^23.2.0-rc1"
+  }
+}

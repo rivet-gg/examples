@@ -3,7 +3,8 @@ title = "Core dump"
 
 [meta]
 engine = "Custom"
-language = "C"
+languages = ["C"]
+platforms = []
 features = ["DynamicServers"]
 
 

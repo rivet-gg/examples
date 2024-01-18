@@ -1,0 +1,13 @@
+[display]
+title = "Microgravity"
+demo_url = "https://microgravity.io"
+overview_weight = 80
+
+[meta]
+engine = "JavaScript"
+languages = ["TypeScript"]
+platforms = ["HTML5"]
+networking = "SocketIo"
+rendering = "HTML5Canvas"
+features = ["Matchmaker", "DynamicServers"]
+

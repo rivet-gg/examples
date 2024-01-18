@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-2119,-987.042)">
+        <g id="Artboard1" transform="matrix(1,0,0,1,2118.92,987.042)">
+            <rect x="0.084" y="0" width="255.916" height="256" style="fill:none;"/>
+            <clipPath id="_clip1">
+                <rect x="0.084" y="0" width="255.916" height="256"/>
+            </clipPath>
+            <g clip-path="url(#_clip1)">
+                <g transform="matrix(0.444883,0,0,0.444883,-7.03389,-7.11813)">
+                    <path d="M304,592C430.2,592 500.356,592 546.178,546.178C592,500.356 592,430.2 592,304C592,177.8 592,107.644 546.178,61.822C500.356,16 430.2,16 304,16C177.8,16 107.644,16 61.822,61.822C16,107.644 16,177.8 16,304C16,430.2 16,500.356 61.822,546.178C107.644,592 177.8,592 304,592Z" style="fill:url(#_Linear2);fill-rule:nonzero;"/>
+                </g>
+                <g transform="matrix(0.318596,0,0,0.318596,46.4815,46.3969)">
+                    <path d="M105.4,182.6C117.9,195.09 138.16,195.1 150.65,182.601L224,109.3L224,352C224,369.67 238.33,384 256,384C273.67,384 288,369.67 288,352L288,109.3L361.38,182.68C373.87,195.17 394.13,195.17 406.63,182.679C419.12,170.189 419.12,149.929 406.63,137.429L278.63,9.429C272.4,3.125 264.2,0 256,0C247.8,0 239.6,3.125 233.4,9.375L105.4,137.4C92.88,149.9 92.88,170.1 105.4,182.6ZM480,352L320,352C320,387.35 291.35,416 256,416C220.65,416 192,387.35 192,352L32,352C14.33,352 0,366.33 0,384L0,480C0,497.67 14.33,512 32,512L480,512C497.67,512 512,497.67 512,480L512,384C512,366.3 497.7,352 480,352ZM432,456C418.8,456 408,445.2 408,432C408,418.8 418.8,408 432,408C445.2,408 456,418.8 456,432C456,445.2 445.2,456 432,456Z" style="fill:url(#_Linear3);fill-rule:nonzero;"/>
+                </g>
+            </g>
+        </g>
+    </g>
+    <defs>
+        <linearGradient id="_Linear2" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.662747,575.432,-575.432,0.662747,303.621,15.9053)"><stop offset="0" style="stop-color:rgb(158,146,239);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(116,104,191);stop-opacity:1"/></linearGradient>
+        <linearGradient id="_Linear3" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(3.1351e-14,512,-512,3.1351e-14,258.807,0)"><stop offset="0" style="stop-color:rgb(252,252,252);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(246,240,255);stop-opacity:1"/></linearGradient>
+    </defs>
+</svg>

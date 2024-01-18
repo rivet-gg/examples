@@ -10,11 +10,11 @@
 - ♟️ = [Matchmaker](https://rivet.gg/docs/matchmaker)
 
 {% macro engine_table(engine, rendering) -%}
-| Preview | Name | Tutorial | Features | Language | Networking |{% if rendering %} Rendering |{% endif %}
-| ------- | ---- | -------- | -------- | -------- | ---------- |{% if rendering %} --------- |{% endif %}
+| Preview | Name | Tutorial | Features | Language | Platforms | Networking |{% if rendering %} Rendering |{% endif %}
+| ------- | ---- | -------- | -------- | -------- | --------- | ---------- |{% if rendering %} --------- |{% endif %}
 {% for ex in examples -%}
 {% if ex.engine_id == engine -%}
-| {% if ex.has_preview %}[![Preview]({{ ex.path }}/_media/preview_128.png)]({{ ex.path }}/){% endif %} | [{{ ex.config.display.title }}]({{ ex.path }}) | {% if ex.config.display.tutorial_url %}[Tutorial]({{ ex.config.display.tutorial_url }}){% endif %} | {{ ex.features }} | {{ ex.language }} | {{ex.networking }} |{% if rendering %} {{ ex.rendering }} |{% endif %}
+| {% if ex.has_preview %}[![Preview]({{ ex.path }}/_media/preview_200.png)]({{ ex.path }}/){% endif %} | [{{ ex.config.display.title }}]({{ ex.path }}) | {% if ex.config.display.tutorial_url %}[Tutorial]({{ ex.config.display.tutorial_url }}){% endif %} {% if ex.config.display.demo_url %}[Live Demo]({{ ex.config.display.demo_url }}){% endif %} | {{ ex.features }} | {{ ex.language }} | {{ ex.platforms }} | {{ex.networking }} |{% if rendering %} {{ ex.rendering }} |{% endif %}
 {% endif -%}
 {% endfor %}
 {% endmacro engine_table %}
@@ -27,9 +27,9 @@
 
 {{ self::engine_table(engine="Unity", rendering=false) }}
 
-### HTML5
+### JavaScript
 
-{{ self::engine_table(engine="HTML5", rendering=true) }}
+{{ self::engine_table(engine="JavaScript", rendering=true) }}
 
 ### Other
 

@@ -25,6 +25,7 @@ pub struct TemplateOverview {
     engine: String,
     engine_id: super::meta::Engine,
     language: String,
+    platforms: String,
     networking: String,
     rendering: String,
     features: String,
@@ -42,8 +43,14 @@ impl super::Config {
         }
         meta.push(Link {
             title: "Language".into(),
-            value: self.meta.language.to_string(),
-            url: Some(self.meta.language.url().to_owned()),
+            value: self
+                .meta
+                .languages
+                .iter()
+                .map(|x| x.to_string())
+                .collect::<Vec<_>>()
+                .join(" & "),
+            url: Some(self.meta.languages[0].url().to_owned()),
         });
         if let Some(networking) = &self.meta.networking {
             meta.push(Link {
@@ -81,7 +88,20 @@ impl super::Config {
             has_preview: path.join("_media").join("preview.png").exists(),
             engine: self.meta.engine.to_string(),
             engine_id: self.meta.engine.clone(),
-            language: self.meta.language.to_string(),
+            language: self
+                .meta
+                .languages
+                .iter()
+                .map(|x| x.to_string())
+                .collect::<Vec<_>>()
+                .join(" & "),
+            platforms: self
+                .meta
+                .platforms
+                .iter()
+                .map(|x| x.to_string())
+                .collect::<Vec<_>>()
+                .join(" "),
             networking: self
                 .meta
                 .networking
