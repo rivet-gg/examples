@@ -1,8 +1,8 @@
 import { RivetClient } from "@rivet-gg/api";
 
 export const RIVET = new RivetClient({
+    environment: process.env.RIVET_API_ENDPOINT,
     token: process.env.RIVET_TOKEN,
-    environment: process.env.RIVET_API_ENDPOINT
 });
 
 export async function ready() {
