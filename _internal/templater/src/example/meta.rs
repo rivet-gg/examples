@@ -152,6 +152,8 @@ impl std::fmt::Display for Networking {
 pub enum Rendering {
     HTML5Canvas,
     HTML5DOM,
+    PixiJS,
+    BabylonJS,
 }
 
 impl Rendering {
@@ -161,6 +163,8 @@ impl Rendering {
             Self::HTML5DOM => {
                 "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model"
             }
+            Self::PixiJS => "https://www.pixijs.com",
+            Self::BabylonJS => "https://www.babylonjs.com",
         }
     }
 }
@@ -170,6 +174,8 @@ impl std::fmt::Display for Rendering {
         match self {
             Self::HTML5Canvas => write!(f, "Canvas"),
             Self::HTML5DOM => write!(f, "DOM"),
+            Self::PixiJS => write!(f, "PixiJS"),
+            Self::BabylonJS => write!(f, "BabylonJS"),
         }
     }
 }
