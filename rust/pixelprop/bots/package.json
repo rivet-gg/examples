@@ -1,0 +1,16 @@
+{
+  "name": "galaxio-stress-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "msgpack-lite": "^0.1.26",
+    "redis": "^2.8.0",
+    "ws": "^3.0.0"
+  }
+}

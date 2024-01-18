@@ -1,0 +1,13 @@
+[display]
+title = "PixleProp.io"
+demo_url = "https://pixelprop-io.staging2.boatbumpers.io/"
+overview_weight = 60
+
+[meta]
+engine = "Custom"
+languages = ["Rust", "TypeScript"]
+platforms = ["HTML5"]
+networking = "WebSocket"
+rendering = "BabylonJS"
+features = ["Matchmaker", "DynamicServers"]
+

@@ -1,0 +1,26 @@
+[package]
+name = "pixelprop"
+version = "0.1.0"
+authors = ["Nathan Flurry <developer@nathanflurry.com>"]
+edition = "2018"
+
+[features]
+default = []
+profile = ["flame"]
+
+[dependencies]
+lazy_static = "1.4.0"
+maplit = "1.0.0"
+rand = "0.3.17"
+reqwest = { version = "0.11.23", features = ["blocking", "json"] }
+rmpv = "0.4.0"
+serde = { version = "1.0", features = ["derive", "rc"] }
+serde_json = "1.0.9"
+serde_yaml = "0.7.3"
+ws = "0.7.3"
+
+# Performance
+[dependencies.flame]
+git = "https://github.com/TyOverby/flame"
+rev = "3d07e2115d6ac5018fe7010afb288144b407e13b"
+optional = true
