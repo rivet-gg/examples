@@ -31,12 +31,12 @@
 
 | Preview | Name | Tutorial | Features | Language | Platforms | Networking | Rendering |
 | ------- | ---- | -------- | -------- | -------- | --------- | ---------- | --------- |
-| [![Preview](./javascript/tanks-socketio-canvas/_media/preview_200.png)](./javascript/tanks-socketio-canvas/) | [Tanks](./javascript/tanks-socketio-canvas) | [Tutorial](https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio)  | [♟️](https://rivet.gg/docs/matchmaker "♟️ Matchmaker")[🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | TypeScript | HTML5 | Socket.IO | Canvas |
+| [![Preview](./javascript/tanks-socketio-canvas/_media/preview_200.png)](./javascript/tanks-socketio-canvas/) | [Tanks](./javascript/tanks-socketio-canvas) | [Tutorial](https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio) [Live Demo](https://tanks.staging2.boatbumpers.io/) | [♟️](https://rivet.gg/docs/matchmaker "♟️ Matchmaker")[🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | TypeScript | HTML5 | Socket.IO | Canvas |
 | [![Preview](./javascript/microgravity.io/_media/preview_200.png)](./javascript/microgravity.io/) | [Microgravity](./javascript/microgravity.io) |  [Live Demo](https://microgravity.io) | [♟️](https://rivet.gg/docs/matchmaker "♟️ Matchmaker")[🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | TypeScript | HTML5 | Socket.IO | Canvas |
 | [![Preview](./javascript/gameinc.io/_media/preview_200.png)](./javascript/gameinc.io/) | [gameinc.io](./javascript/gameinc.io) |  [Live Demo](https://gameinc.io) | [♟️](https://rivet.gg/docs/matchmaker "♟️ Matchmaker")[🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | TypeScript | HTML5 | Socket.IO | DOM |
-| [![Preview](./javascript/sandbox/_media/preview_200.png)](./javascript/sandbox/) | [Sandbox](./javascript/sandbox) |   | [♟️](https://rivet.gg/docs/matchmaker "♟️ Matchmaker")[🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | TypeScript | HTML5 | Socket.IO | DOM |
-|  | [Colyseus](./javascript/colyseus) |   | [♟️](https://rivet.gg/docs/matchmaker "♟️ Matchmaker")[🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | TypeScript | HTML5 | Colyseus |  |
+| [![Preview](./javascript/sandbox/_media/preview_200.png)](./javascript/sandbox/) | [Sandbox](./javascript/sandbox) |  [Live Demo](https://sandbox.staging2.boatbumpers.io/) | [♟️](https://rivet.gg/docs/matchmaker "♟️ Matchmaker")[🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | TypeScript | HTML5 | Socket.IO | DOM |
 | [![Preview](./javascript/webrtc/_media/preview_200.png)](./javascript/webrtc/) | [WebRTC](./javascript/webrtc) |   | [🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | TypeScript | HTML5 | WebRTC |  |
+|  | [Colyseus](./javascript/colyseus) |   | [♟️](https://rivet.gg/docs/matchmaker "♟️ Matchmaker")[🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | TypeScript | HTML5 | Colyseus |  |
 
 
 
@@ -44,7 +44,9 @@
 
 | Preview | Name | Tutorial | Features | Language | Platforms | Networking | Rendering |
 | ------- | ---- | -------- | -------- | -------- | --------- | ---------- | --------- |
-|  | [CLI WebSocket](./rust/cli-websocket) |   | [🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | Rust |  | WebSocket |  |
+|  | [PixleProp.io](./rust/pixelprop) |  [Live Demo](https://pixelprop-io.staging2.boatbumpers.io/) | [♟️](https://rivet.gg/docs/matchmaker "♟️ Matchmaker")[🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | Rust & TypeScript | HTML5 | WebSocket | BabylonJS |
+| [![Preview](./rust/scrunch/_media/preview_200.png)](./rust/scrunch/) | [scrunch.io](./rust/scrunch) |  [Live Demo](https://scrunch.staging2.boatbumpers.io/) | [♟️](https://rivet.gg/docs/matchmaker "♟️ Matchmaker")[🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | Rust & TypeScript | HTML5 | WebSocket | PixiJS |
 |  | [Core dump](./c/coredump) |   | [🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | C |  |  |  |
+|  | [CLI WebSocket](./rust/cli-websocket) |   | [🌐](https://rivet.gg/docs/dynamic-servers "🌐 Dynamic Servers") | Rust |  | WebSocket |  |
 
 

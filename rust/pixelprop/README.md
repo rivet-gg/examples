@@ -1,19 +1,15 @@
-# Tanks
-
-<p align="center">
-    <img src="./_media/preview_512.png" />
-</p>
+# PixleProp.io
 
 
-[Visit Tutorial](https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio)
 
 
-[Live Demo](https://tanks.staging2.boatbumpers.io/)
+
+[Live Demo](https://pixelprop-io.staging2.boatbumpers.io/)
 
 
 |  Language | Networking | Rendering |
 |  --- | --- | --- |
-|  [TypeScript](https://www.typescriptlang.org) | [Socket.IO](https://socket.io) | [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) |
+|  [Rust & TypeScript](https://www.rust-lang.org) | [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) | [BabylonJS](https://www.babylonjs.com) |
 
 **Rivet Features**
 
