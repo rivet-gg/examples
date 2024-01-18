@@ -1,9 +1,12 @@
 # === Rivet Version Configuration ===
-# 
+#
 # - More info: https://docs.rivet.gg/general/concepts/rivet-version-config
 # - Reference: https://docs.rivet.gg/cloud/api/post-games-versions#body
 # - Publish a new version with `rivet publish`
 #
+
+[scripts]
+start = "yarn start"
 
 # How the game lobbies run and how players connect to the game.
 #
@@ -23,7 +26,7 @@
 #
 # Available regions: https://docs.rivet.gg/serverless-lobbies/concepts/available-regions
 [matchmaker.regions]
-	lnd-sfo = {}
+	lnd-atl = {}
 	lnd-fra = {}
 
 # Runtime configuration for the lobby's Docker container.

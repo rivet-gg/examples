@@ -5,6 +5,6 @@ title = "Core dump"
 engine = "Custom"
 languages = ["C"]
 platforms = []
-features = ["DynamicServers"]
+features = ["Matchmaker", "DynamicServers"]
 
 

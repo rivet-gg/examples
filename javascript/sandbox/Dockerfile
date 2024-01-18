@@ -19,4 +19,7 @@ COPY src/ src/
 COPY tsconfig.json .
 RUN yarn run build:server
 
+RUN adduser -D server
+USER server
+
 CMD ["node", "src/server.js"]

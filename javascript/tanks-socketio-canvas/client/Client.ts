@@ -8,9 +8,12 @@ import { renderBullet } from "../shared/Bullet";
 import { renderBarrel } from "../shared/Barrel";
 import { renderExplosion } from "../shared/Explosion";
 import { renderTurret } from "../shared/Turret";
-
 import { RivetClient } from "@rivet-gg/api";
-export const RIVET = new RivetClient({ token: process.env.RIVET_TOKEN });
+
+export const RIVET = new RivetClient({
+    environment: process.env.RIVET_API_ENDPOINT,
+    token: process.env.RIVET_TOKEN,
+});
 
 const TITLE_TEXT = "Tanks!";
 

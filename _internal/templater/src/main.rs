@@ -72,7 +72,7 @@ fn template_example(config: &example::Config, tera: &Tera, path: &Path) -> Resul
 
         let path_clone = preview_path.clone();
         let (a, b) = rayon::join(
-            || resize_and_save(&img, &path_clone, 200),
+            || resize_and_save(&img, &path_clone, 256),
             || resize_and_save(&img, &preview_path, 512),
         );
         a?;

@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -11,6 +9,7 @@ module.exports = (env) => {
 		},
 		output: {
 			path: path.join(__dirname, "dist"),
+            filename: '[name].[contenthash].js',
 		},
 		mode: "development",
 		context: path.join(__dirname, "client"),
@@ -48,9 +47,8 @@ module.exports = (env) => {
 				template: path.join(__dirname, "client", "index.html"),
 			}),
 			new webpack.DefinePlugin({
-				"process.env.RIVET_TOKEN": env.production
-					? "undefined"
-					: JSON.stringify(process.env.RIVET_TOKEN),
+				"process.env.RIVET_API_ENDPOINT": JSON.stringify(process.env.RIVET_API_ENDPOINT),
+				"process.env.RIVET_TOKEN": JSON.stringify(process.env.RIVET_TOKEN),
 			}),
 		],
 	};

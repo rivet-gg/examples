@@ -3,7 +3,10 @@ import { createGame, updateGame } from "../shared/Game";
 import { Connection } from "./Connection";
 
 import { RivetClient } from "@rivet-gg/api";
-export const RIVET = new RivetClient({ token: process.env.RIVET_TOKEN });
+export const RIVET = new RivetClient({
+    environment: process.env.RIVET_API_ENDPOINT,
+    token: process.env.RIVET_TOKEN,
+});
 
 // Notify Rivet that this lobby is ready to accept players
 RIVET.matchmaker.lobbies.ready();
