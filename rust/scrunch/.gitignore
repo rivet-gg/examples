@@ -1,0 +1,9 @@
+.idea/
+.git-old/
+*.iml
+target/
+**/*.rs.bk
+node_modules/
+public/index.html
+public/js
+*.log

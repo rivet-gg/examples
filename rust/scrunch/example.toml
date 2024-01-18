@@ -1,0 +1,13 @@
+[display]
+title = "scrunch.io"
+demo_url = "https://scrunch.staging2.boatbumpers.io/"
+overview_weight = 50
+
+[meta]
+engine = "Custom"
+languages = ["Rust", "TypeScript"]
+platforms = ["HTML5"]
+networking = "WebSocket"
+rendering = "PixiJS"
+features = ["Matchmaker", "DynamicServers"]
+
