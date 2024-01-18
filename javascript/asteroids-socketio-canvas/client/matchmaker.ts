@@ -8,7 +8,9 @@ export default interface ConnectionTarget {
 
 export const RIVET = new RivetClient({
     // @ts-ignore
-    token: import.meta.env.PROD ? undefined : import.meta.env.VITE_RIVET_DEV_TOKEN,
+    environment: process.env.RIVET_API_ENDPOINT,
+    // @ts-ignore
+    token: process.env.RIVET_TOKEN,
 });
 
 export async function getConnectionTarget(gameMode: string): Promise<ConnectionTarget> {

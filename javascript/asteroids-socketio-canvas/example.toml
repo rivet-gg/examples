@@ -1,0 +1,14 @@
+[display]
+title = "Asteroids"
+demo_url = "https://asteroids.staging2.boatbumpers.io/"
+overview_weight = 95
+
+[meta]
+engine = "JavaScript"
+languages = ["TypeScript"]
+platforms = ["HTML5"]
+networking = "SocketIo"
+rendering = "HTML5Canvas"
+features = ["Matchmaker", "DynamicServers"]
+
+
