@@ -1,6 +1,7 @@
 [display]
 title = "Tanks"
 tutorial_url = "https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio"
+demo_url = "https://tanks.staging2.boatbumpers.io/"
 overview_weight = 90
 
 [meta]

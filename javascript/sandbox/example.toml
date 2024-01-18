@@ -1,5 +1,6 @@
 [display]
 title = "Sandbox"
+demo_url = "https://sandbox.staging2.boatbumpers.io/"
 overview_weight = 30
 
 [meta]

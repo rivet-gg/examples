@@ -12,6 +12,7 @@
 
 **Rivet Features**
 
+- [♟️ Matchmaker](https://rivet.gg/docs/matchmaker)
 - [🌐 Dynamic Servers](https://rivet.gg/docs/dynamic-servers)
 
 

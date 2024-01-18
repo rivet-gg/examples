@@ -6,6 +6,6 @@ engine = "Custom"
 languages = ["Rust"]
 networking = "WebSocket"
 platforms = []
-features = ["DynamicServers"]
+features = ["Matchmaker", "DynamicServers"]
 
 
