@@ -1,6 +1,6 @@
 engine:
   html5: {}
-matchmaker: 
+matchmaker:
   max_players: 32
   tier: "basic-1d2"
   regions:
@@ -16,7 +16,7 @@ matchmaker:
         port: 3000
         protocol: "https"
 cdn:
-  build_command:  "npm install && rivet run build:client"
+  build_command: "yarn install && yarn run build:client"
   build_output: "build/client/"
 scripts:
   server: "npx nodemon -r dotenv/config --delay 1 --watch server --watch shared --ext ts --exec ts-node server/index.ts"
