@@ -4,15 +4,13 @@ import Connection, { createConnection, sendInput, sendRespawn, sendShoot, setupL
 import debug from "./display/debug";
 import blackScreen from "./display/black_screen";
 import game from "./display/game";
-import ConnectionTarget, { getConnectionTarget } from "./matchmaker";
+
 import { resizeClient } from "./screensize";
 import ParticleSet, { PARTICLE_TIME, fromPlayer } from "@shared/particles";
 import fade from "@display/fade";
 
 export default interface Client {
-    findingServer: boolean;
     dying: boolean;
-    connectionTarget: ConnectionTarget | null;
     connection: Connection | null;
 
     game: ClientGameState | null;
@@ -36,8 +34,6 @@ export function initClient(canvasId: string): Client {
     const client = {
         game: null,
         connection: null,
-        connectionTarget: null,
-        findingServer: false,
         dying: false,
         screenSize: {
             w: window.innerWidth, // * window.devicePixelRatio,
@@ -58,14 +54,9 @@ export function initClient(canvasId: string): Client {
 }
 
 export async function setup(client: Client) {
-    const gamemode = sessionStorage.getItem("gamemode") ?? "default";
-    sessionStorage.setItem("gamemode", gamemode);
+    const host = "localhost:3000";
 
-    client.findingServer = true;
-    const target = await getConnectionTarget(gamemode);
-    client.connectionTarget = target;
-
-    client.connection = createConnection(target, client.performance.now());
+    client.connection = createConnection(host, client.performance.now());
     setupListeners(client.connection, client, client.performance);
     client.connection.socket.connect();
 }
@@ -279,15 +270,13 @@ export enum ClientState {
 }
 
 export function getClientState(client: Client): ClientState {
-    const findingServer = client.findingServer;
-    const hasConnTarget = !!client.connectionTarget;
+    const hasConnection = !!client.connection;
     const hasId = !!client.id;
     const hasGame = !!client.game;
     const playerExists = !!client.game && !!client.id && !!client.game.clientGameState.players[client.id];
     const particlesExist = !!client.game && !!client.id && !!client.game.clientGameState.particleSets[client.id];
 
-    if (!findingServer) return ClientState.INITIAL;
-    if (!hasConnTarget) return ClientState.FINDING_SERVER;
+    if (!hasConnection) return ClientState.INITIAL;
     if (!hasId) return ClientState.CONNECTING;
 
     if (playerExists) return ClientState.PLAYING;

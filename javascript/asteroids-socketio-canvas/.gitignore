@@ -3,7 +3,6 @@ dist
 serverDist
 build
 
-.rivet
 .vscode
 
 .env

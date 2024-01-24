@@ -1,5 +1,4 @@
 import Connection, { checkForDeath, checkForSever, createConnection } from "./connection";
-import { ready as lobbyReady } from "./rivet";
 
 import { ServerOptions, Server } from "socket.io";
 import { ServerSideSocketServer, serverConfig } from "@shared/socket";
@@ -18,15 +17,15 @@ import { applyPlayerInput } from "../shared/player";
 configDotenv({ path: resolve(process.cwd(), ".env") });
 configDotenv({ path: resolve(process.cwd(), ".dev.env") });
 
-const gameModeName = process.env.RIVET_GAME_MODE_NAME ?? "default";
+const GAMEMODE_NAME = "default"; // Can also be "bullet-hell"
 
 function getGameModeGame() {
-    if (gameModeName === "default") return newRandomGame({ x: 2500, y: 2500 }, 45);
-    if (gameModeName === "bullet-hell") return newBulletHellGame({ x: 2500, y: 2500 }, 200);
+    if (GAMEMODE_NAME === "default") return newRandomGame({ x: 2500, y: 2500 }, 45);
+    if (GAMEMODE_NAME === "bullet-hell") return newBulletHellGame({ x: 2500, y: 2500 }, 200);
     throw new Error("Invalid game mode name.");
 }
 
-console.log(`Starting ${gameModeName} lobby...`);
+console.log(`Starting ${GAMEMODE_NAME} server...`);
 
 const globalGame = getGameModeGame();
 
@@ -85,5 +84,4 @@ setInterval(() => {
     }
 }, 1000 * dt);
 
-console.log("Lobby ready");
-lobbyReady().then(() => console.log("Lobby opened in Rivet"));
+console.log("Server running");

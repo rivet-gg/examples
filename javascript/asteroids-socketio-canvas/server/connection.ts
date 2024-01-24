@@ -1,4 +1,3 @@
-import { playerConnected, playerDisconnected } from "./rivet";
 import { ServerSideSocket, Input, Shoot, Respawn, Init } from "../shared/socket";
 import { canShootBullet, newRandomPlayer, shootBullet } from "../shared/player";
 
@@ -9,7 +8,6 @@ import { sequentialNumberName } from "../shared/names";
 // Lifetime data won't change for the entire time the player is on the page.
 // However, it will not persist across page reloads.
 interface LifetimeData {
-    playerToken: string;
     playerId: string;
     playerName: string;
 
@@ -32,11 +30,7 @@ export default interface Connection {
 }
 
 export function createConnection(socket: ServerSideSocket, game: GameState, takenNames: Set<string>): Connection {
-    const playerToken = socket.handshake.query.token;
-    const actingPlayerToken = !playerToken || Array.isArray(playerToken) ? "INVALID PLAYER" : playerToken;
-
     const lifetimeData: LifetimeData = {
-        playerToken: actingPlayerToken,
         playerId: nanoid(16),
         playerName: sequentialNumberName(takenNames),
 
@@ -56,11 +50,6 @@ export function createConnection(socket: ServerSideSocket, game: GameState, take
         lifetime: lifetimeData,
         stateful: statefulData,
     };
-
-    if (!playerToken || Array.isArray(playerToken)) {
-        handleFatalError(connection, "Invalid player token");
-        return connection;
-    }
 
     setupSocketListeners(connection, socket);
 
@@ -85,7 +74,7 @@ async function handleInitAck(connection: Connection, ackData: string) {
 
     const {
         stateful: { initialized },
-        lifetime: { playerId, playerName, playerToken, game },
+        lifetime: { playerId, playerName, game },
     } = connection;
 
     if (initialized) return handleFatalError(connection, "Connection already initialized");
@@ -93,12 +82,7 @@ async function handleInitAck(connection: Connection, ackData: string) {
     if (game.players[playerId]) return handleFatalError(connection, "Player ID already found in game");
     if (connection.stateful.disconnected) return handleFatalError(connection, "Socket already disconnected");
 
-    try {
-        await playerConnected(playerToken);
-    } catch (e) {
-        return handleFatalError(connection, e);
-    }
-    console.log(`Player ${playerId} join logged in Rivet`);
+    console.log(`Player ${playerId} joined`);
 
     game.players[playerId] = newRandomPlayer(playerId, playerName, game);
     const player = game.players[playerId];
@@ -209,7 +193,7 @@ export function checkForSever(connection: Connection) {
 function handleDisconnect(connection: Connection) {
     const {
         stateful: { initialized, alive },
-        lifetime: { playerId, playerName, playerToken, game, socket },
+        lifetime: { playerId, playerName, game, socket },
     } = connection;
 
     connection.stateful.disconnected = true;
@@ -219,8 +203,7 @@ function handleDisconnect(connection: Connection) {
     delete game.players[playerId];
 
     if (!initialized || !alive) {
-        playerDisconnected(playerToken);
-        console.log(`Player leave logged in Rivet`);
+        console.log(`Player left`);
     }
 
     if (!socket.disconnected) socket.disconnect();

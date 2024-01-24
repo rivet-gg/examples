@@ -2,7 +2,6 @@ import { ClientSideSocket, Init, Update, EndLife, StopUpdates } from "../shared/
 
 import { io } from "socket.io-client";
 import { PlayerInput } from "../shared/player";
-import ConnectionTarget from "./matchmaker";
 import { initClientGamestate, serverSync } from "./client-gamestate";
 import Client from "./state";
 
@@ -19,9 +18,9 @@ export default interface Connection {
     lastPhysicsUpdate: number | null;
 }
 
-export function createConnection(connectionTarget: ConnectionTarget, now: number): Connection {
+export function createConnection(host: string, now: number): Connection {
     return {
-        socket: getSocketForConnectionTarget(connectionTarget),
+        socket: getSocketForHost(host),
 
         createdAt: now,
         finishedSetup: null,
@@ -32,19 +31,12 @@ export function createConnection(connectionTarget: ConnectionTarget, now: number
     };
 }
 
-function getSocketForConnectionTarget(target: ConnectionTarget): ClientSideSocket {
-    const host = target.port.host;
-    const secure = target.port.isTls;
-    const token = target.player.token;
-
-    if (!host) throw new ConnectionError("Matchmaker did not provide a host to connect to.");
-
+function getSocketForHost(host: string): ClientSideSocket {
     try {
         const socket = io(host, {
             transports: ["websocket"],
             reconnection: true,
-            secure,
-            query: { token },
+            secure: true,
             autoConnect: false,
         });
 
