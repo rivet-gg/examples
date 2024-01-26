@@ -1,3 +1,5 @@
+scripts:
+  server: npx ts-node src/server.ts
 engine:
   html5: {}
 cdn:
@@ -6,9 +8,6 @@ cdn:
 matchmaker:
   max_players: 128
   tier: basic-1d8
-  regions:
-    lnd-atl: {}
-    lnd-fra: {}
   game_modes:
     default:
       taggable: true
