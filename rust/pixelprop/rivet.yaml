@@ -12,7 +12,7 @@
 engine:
   custom: {}
 scripts:
-  client: yarn run serve
+  client: yarn run assets:compress && yarn run serve
   server: cargo run
 cdn:
   build_command: rm -rf public/js && yarn install && yarn run assets:compress && yarn run build:prod

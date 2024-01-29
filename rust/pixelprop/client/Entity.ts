@@ -97,7 +97,7 @@ export class Entity {
 
     // Other parameters
     public autoPosition: boolean = true; // If the entity should automatically move to the given pos
-    public get isHunter(): boolean { return this.assetName.startsWith("player:"); }
+    public get isHunter(): boolean { return this.assetName.startsWith("player-"); }
     public get isShootable(): boolean { return this.assetName !== "boundary" && this.id !== Game.shared.mainPlayerId; }
 
     public constructor() {
@@ -406,9 +406,9 @@ export class Entity {
             // this.addMesh(grassTop);
         } else if (asset === "boundary") {
             // Do nothing
-        } else if (asset.startsWith("box:")) {
+        } else if (asset.startsWith("box-")) {
             // Parse the values
-            let [xRaw, yRaw, zRaw, widthRaw, heightRaw, depthRaw, colorRaw] = asset.split(":")[1].split(" ");
+            let [xRaw, yRaw, zRaw, widthRaw, heightRaw, depthRaw, colorRaw] = asset.split("-")[1].split(" ");
 
             // Add the object
             let box = BABYLON.MeshBuilder.CreateBox("Box Shape", {
@@ -426,9 +426,9 @@ export class Entity {
             material.diffuseColor = BABYLON.Color3.FromHexString(colorRaw);
             box.material = material;
 
-        } else if (asset.startsWith("video:")) {
+        } else if (asset.startsWith("video-")) {
             // Parse the values
-            let [url, widthRaw, heightRaw] = asset.split(":")[1].split(" ");
+            let [url, widthRaw, heightRaw] = asset.split("-")[1].split(" ");
             let [width, height] = [parseFloat(widthRaw), parseFloat(heightRaw)];
 
             // TODO: Sync the location with Date.now()
@@ -471,7 +471,7 @@ export class Entity {
              this.addMesh(mesh, false);
 
              // Add light components
-             if (asset.startsWith("player:")) {
+             if (asset.startsWith("player-")) {
                  // Create the flashlight
                  const light = new SpotLightPlaceholder(NodeNames.FLASHLIGHT);
                  if (light != undefined) {
