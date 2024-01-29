@@ -7,19 +7,14 @@ RUN apk add --no-cache git
 
 # Build Rivet libs
 COPY package.json yarn.lock ./
-COPY bin/build-libs.sh bin/build-libs.sh
-RUN SKIP_INSTALL=1 ./bin/build-libs.sh
-
-
-# Install libs
 RUN yarn install --production
 
 # Build server
 COPY src/ src/
-COPY tsconfig.json .
+COPY tsconfig.json tsconfig.server.json .
 RUN yarn run build:server
 
 RUN adduser -D server
 USER server
 
-CMD ["node", "src/server.js"]
+CMD ["node", "out/server.js"]

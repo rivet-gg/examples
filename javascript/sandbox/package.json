@@ -3,7 +3,7 @@
 		"start": "npx ts-node src/server.ts",
 		"build": "npx webpack",
 		"build:prod": "PROD=1 npx webpack",
-		"build:server": "tsc src/server.ts",
+		"build:server": "tsc --project tsconfig.server.json",
 		"serve": "npx webpack serve",
 		"format": "npx prettier --write ."
 	},
@@ -12,6 +12,7 @@
 		"@types/node-fetch": "^2.6.1",
 		"@types/ws": "^8.2.2",
 		"dotenv": "^16.0.0",
+		"express": "^4.18.2",
 		"ts-node": "^10.2.1",
 		"ws": "^7.5.4"
 	},

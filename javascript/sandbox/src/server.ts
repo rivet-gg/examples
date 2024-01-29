@@ -5,6 +5,8 @@ import 'dotenv/config';
 import { RivetClient } from '@rivet-gg/api-internal';
 import { URL } from 'url';
 import { WebSocket, Server as WebSocketServer } from 'ws';
+import * as http from 'http';
+import express from 'express';
 
 console.log(process.env);
 
@@ -56,10 +58,21 @@ const gameState: GameState = {
 	scores: {}
 };
 
+// Setup HTTP server
+const app = express();
+app.get('/health', (_req, res) => {
+    res.send('ok');
+});
+
+// Setup server
+const server = http.createServer(app);
+const wss = new WebSocketServer({ server });
+
 const port = parseInt(process.env.PORT!) || 8080;
 console.log(`Listening on port ${port}`);
-const wss = new WebSocketServer({ port });
+server.listen(port);
 
+// Handle connections
 let clients = new Map<number, WebSocket>();
 
 function broadcast(event: string, data: any) {
