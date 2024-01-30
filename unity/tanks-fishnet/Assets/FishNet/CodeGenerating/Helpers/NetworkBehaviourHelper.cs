@@ -23,17 +23,11 @@ namespace FishNet.CodeGenerating.Helping
         internal string FullName;
         //Prediction.
         public string ClearReplicateCache_MethodName = nameof(NetworkBehaviour.ClearReplicateCache_Virtual);
-#if PREDICTION_V2
-        public string Reconcile_Client_Start_MethodName = nameof(NetworkBehaviour.Reconcile_Client_Start);
-        public string Replicate_Replay_Start_MethodName = nameof(NetworkBehaviour.Replicate_Replay_Start);
-#endif 
         public MethodReference Replicate_NonOwner_MethodRef;
         public MethodReference Replicate_Owner_MethodRef;
         public MethodReference Replicate_Reader_MethodRef;
-#if !PREDICTION_V2
         public MethodReference Replicate_ExitEarly_A_MethodRef;
         public MethodReference Reconcile_ExitEarly_A_MethodRef;
-#endif
         public MethodReference Reconcile_Server_MethodRef;
         public FieldReference UsesPrediction_FieldRef;
         public MethodReference Replicate_Replay_Start_MethodRef;
@@ -56,9 +50,9 @@ namespace FishNet.CodeGenerating.Helping
         public MethodReference ServerRpcDelegate_Ctor_MethodRef;
         public MethodReference ClientRpcDelegate_Ctor_MethodRef;
         //Is checks.
-        public MethodReference IsClient_MethodRef;
+        public MethodReference IsClientInitialized_MethodRef;
         public MethodReference IsOwner_MethodRef;
-        public MethodReference IsServer_MethodRef;
+        public MethodReference IsServerInitialized_MethodRef;
         public MethodReference IsHost_MethodRef;
         public MethodReference IsNetworked_MethodRef;
         //Misc.
@@ -116,37 +110,22 @@ namespace FishNet.CodeGenerating.Helping
                 else if (mi.Name == nameof(NetworkBehaviour.SendTargetRpc))
                     SendTargetRpc_MethodRef = base.ImportReference(mi);
                 //Prediction.
-#if !PREDICTION_V2
                 else if (mi.Name == nameof(NetworkBehaviour.Replicate_ExitEarly_A))
                     Replicate_ExitEarly_A_MethodRef = base.ImportReference(mi);
-#endif
                 else if (mi.Name == nameof(NetworkBehaviour.Replicate_NonOwner))
                     Replicate_NonOwner_MethodRef = base.ImportReference(mi);
                 else if (mi.Name == nameof(NetworkBehaviour.Replicate_Reader))
                     Replicate_Reader_MethodRef = base.ImportReference(mi);
                 else if (mi.Name == nameof(NetworkBehaviour.Reconcile_Reader))
                     Reconcile_Reader_MethodRef = base.ImportReference(mi);
-#if PREDICTION_V2
-                else if (mi.Name == Replicate_Replay_Start_MethodName)
-                    Replicate_Replay_Start_MethodRef = base.ImportReference(mi);
-                else if (mi.Name == nameof(NetworkBehaviour.Replicate_Replay))
-                    Replicate_Replay_MethodRef = base.ImportReference(mi);
-#endif
-#if !PREDICTION_V2
                 else if (mi.Name == nameof(NetworkBehaviour.Reconcile_ExitEarly_A))
                     Reconcile_ExitEarly_A_MethodRef = base.ImportReference(mi);
-#endif
                 else if (mi.Name == nameof(NetworkBehaviour.Reconcile_Server))
                     Reconcile_Server_MethodRef = base.ImportReference(mi);
                 else if (mi.Name == nameof(NetworkBehaviour.Replicate_Owner))
                     Replicate_Owner_MethodRef = base.ImportReference(mi);
                 else if (mi.Name == nameof(NetworkBehaviour.Reconcile_Client))
                     Reconcile_Client_MethodRef = base.ImportReference(mi);
-                //#if PREDICTION_V2
-                //                else if (mi.Name == nameof(NetworkBehaviour.Replicate_Server_SendToSpectators_Internal))
-                //                    Replicate_Server_SendToSpectators_MethodRef = base.ImportReference(mi);
-                //#endif
-                //Misc.
                 else if (mi.Name == nameof(NetworkBehaviour.OwnerMatches))
                     OwnerMatches_MethodRef = base.ImportReference(mi);
                 else if (mi.Name == nameof(NetworkBehaviour.RegisterSyncVarRead))
@@ -160,10 +139,10 @@ namespace FishNet.CodeGenerating.Helping
             foreach (PropertyInfo pi in networkBehaviourType.GetProperties((BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic)))
             {
                 //Server/Client states.
-                if (pi.Name == nameof(NetworkBehaviour.IsClient))
-                    IsClient_MethodRef = base.ImportReference(pi.GetMethod);
-                else if (pi.Name == nameof(NetworkBehaviour.IsServer))
-                    IsServer_MethodRef = base.ImportReference(pi.GetMethod);
+                if (pi.Name == nameof(NetworkBehaviour.IsClientInitialized))
+                    IsClientInitialized_MethodRef = base.ImportReference(pi.GetMethod);
+                else if (pi.Name == nameof(NetworkBehaviour.IsServerInitialized))
+                    IsServerInitialized_MethodRef = base.ImportReference(pi.GetMethod);
                 else if (pi.Name == nameof(NetworkBehaviour.IsHost))
                     IsHost_MethodRef = base.ImportReference(pi.GetMethod);
                 else if (pi.Name == nameof(NetworkBehaviour.IsOwner))
@@ -179,17 +158,6 @@ namespace FishNet.CodeGenerating.Helping
                 else if (pi.Name == nameof(NetworkBehaviour.TimeManager))
                     TimeManager_MethodRef = base.ImportReference(pi.GetMethod);
             }
-
-#if PREDICTION_V2
-            foreach (FieldInfo fi in networkBehaviourType.GetFields((BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic)))
-            {
-                if (fi.Name == nameof(NetworkBehaviour.UsesPrediction))
-                {
-                    UsesPrediction_FieldRef = base.ImportReference(fi);
-                    break;
-                }
-            }
-#endif
 
             return true;
         }
@@ -358,9 +326,7 @@ namespace FishNet.CodeGenerating.Helping
         /// <summary>
         /// Creates exit method condition if not client.
         /// </summary>
-        /// <param name="processor"></param>
-        /// <param name="retInstruction"></param>
-        /// <param name="warn"></param>
+        /// <param name="useStatic">When true InstanceFinder.IsClient is used, when false base.IsClientInitialized is used.</param>
         internal void CreateIsClientCheck(MethodDefinition methodDef, LoggingType loggingType, bool useStatic, bool insertFirst, bool checkIsNetworked)
         {
             /* This is placed after the if check.
@@ -379,18 +345,18 @@ namespace FishNet.CodeGenerating.Helping
             {
                 instructions.Add(processor.Create(OpCodes.Ldarg_0)); //argument: this
                 //If (!base.IsClient)
-                instructions.Add(processor.Create(OpCodes.Call, IsClient_MethodRef));
+                instructions.Add(processor.Create(OpCodes.Call, IsClientInitialized_MethodRef));
             }
             //Checking instanceFinder.
             else
-            {
+            { 
                 instructions.Add(processor.Create(OpCodes.Call, base.GetClass<ObjectHelper>().InstanceFinder_IsClient_MethodRef));
             }
             instructions.Add(processor.Create(OpCodes.Brtrue, endIf));
             //If warning then also append warning text.
             if (loggingType != LoggingType.Off)
             {
-                string msg = $"Cannot complete action because client is not active. This may also occur if the object is not yet initialized or if it does not contain a NetworkObject component. {DISABLE_LOGGING_TEXT}.";
+                string msg = $"Cannot complete action because client is not active. This may also occur if the object is not yet initialized, has deinitialized, or if it does not contain a NetworkObject component.";
                 instructions.AddRange(base.GetClass<GeneralHelper>().LogMessage(methodDef, msg, loggingType));
             }
             //Add return.
@@ -412,8 +378,7 @@ namespace FishNet.CodeGenerating.Helping
         /// <summary>
         /// Creates exit method condition if not server.
         /// </summary>
-        /// <param name="processor"></param>
-        /// <param name="warn"></param>
+        /// <param name="useStatic">When true InstanceFinder.IsServer is used, when false base.IsServerInitialized is used.</param>
         internal void CreateIsServerCheck(MethodDefinition methodDef, LoggingType loggingType, bool useStatic, bool insertFirst, bool checkIsNetworked)
         {
             /* This is placed after the if check.
@@ -431,7 +396,7 @@ namespace FishNet.CodeGenerating.Helping
             {
                 instructions.Add(processor.Create(OpCodes.Ldarg_0)); //argument: this
                 //If (!base.IsServer)
-                instructions.Add(processor.Create(OpCodes.Call, IsServer_MethodRef));
+                instructions.Add(processor.Create(OpCodes.Call, IsServerInitialized_MethodRef));
             }
             //Checking instanceFinder.
             else
@@ -442,7 +407,7 @@ namespace FishNet.CodeGenerating.Helping
             //If warning then also append warning text.
             if (loggingType != LoggingType.Off)
             {
-                string msg = $"Cannot complete action because server is not active. This may also occur if the object is not yet initialized or if it does not contain a NetworkObject component. {DISABLE_LOGGING_TEXT}";
+                string msg = $"Cannot complete action because server is not active. This may also occur if the object is not yet initialized, has deinitialized, or if it does not contain a NetworkObject component.";
                 instructions.AddRange(base.GetClass<GeneralHelper>().LogMessage(methodDef, msg, loggingType));
             }
             //Add return.

@@ -172,6 +172,77 @@ namespace FishNet.Managing.Transporting
 #endif
         }
 
+
+        ///// <summary>
+        ///// Gets port for the first transport, or client transport if using Multipass.
+        ///// </summary>
+        //private ushort GetPort(bool asServer)
+        //{
+        //    if (Transport is Multipass mp)
+        //    {
+        //        if (asServer)
+        //            return mp.Transports[0].GetPort();
+        //        else
+        //            return mp.ClientTransport.GetPort();
+        //    }
+        //    else
+        //    {
+        //        return Transport.GetPort();
+        //    }
+        //}
+
+
+        ///// <summary>
+        ///// Stops the local server or client connection.
+        ///// </summary>
+        //internal bool StopConnection(bool asServer)
+        //{
+        //    return Transport.StopConnection(asServer);
+        //}
+
+        ///// <summary>
+        ///// Starts the local server or client connection.
+        ///// </summary>
+        //internal bool StartConnection(bool asServer)
+        //{
+        //    return Transport.StartConnection(asServer);
+        //}
+
+        ///// <summary>
+        ///// Starts the local server or client connection.
+        ///// </summary>
+        //internal bool StartConnection(string address, bool asServer)
+        //{
+        //    return StartConnection(address, GetPort(asServer), asServer);
+        //}
+
+        ///// <summary>
+        ///// Starts the local server or client connection on the first transport or ClientTransport if using Multipass and as client.
+        ///// </summary>
+        //internal bool StartConnection(string address, ushort port, bool asServer)
+        //{
+        //    Transport t;
+        //    if (Transport is Multipass mp)
+        //    {
+        //        if (asServer)
+        //            t = mp.Transports[0];
+        //        else
+        //            t = mp.ClientTransport;
+        //    }
+        //    else
+        //    {
+        //        t = Transport;
+        //    }
+
+        //    /* SetServerBindAddress must be called explictly. Only
+        //     * set address if for client. */
+        //    if (!asServer)
+        //        t.SetClientAddress(address);
+        //    t.SetPort(port);
+
+        //    return t.StartConnection(asServer);
+        //}
+
         /// <summary>
         /// Sets a connection from server to client dirty.
         /// </summary>
@@ -318,7 +389,7 @@ namespace FishNet.Managing.Transporting
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private ArraySegment<byte> ProcessIntermediateOutgoing(ArraySegment<byte> src, bool toServer)
         {
-            return _intermediateLayer.HandleOutoing(src, toServer);
+            return _intermediateLayer.HandleOutgoing(src, toServer);
         }
 
         /// <summary>
@@ -388,8 +459,6 @@ namespace FishNet.Managing.Transporting
             }
         }
 
-
-
         /// <summary>
         /// Sends data to all clients.
         /// </summary>
@@ -456,18 +525,45 @@ namespace FishNet.Managing.Transporting
                 SplitRequired(channelId, segment.Count, out requiredSplitMessages, out maxSplitMessageSize);
             }
         }
+
+        /// <summary>
+        /// Checks to set channel to reliable if dataLength is too long.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal void CheckSetReliableChannel(int dataLength, ref Channel channel)
+        {
+            if (channel == Channel.Reliable)
+                return;
+
+            bool requiresMultipleMessages = (GetRequiredMessageCount((byte)channel, dataLength, out _) > 1);
+            if (requiresMultipleMessages)
+                channel = Channel.Reliable;
+        }
+
+        /// <summary>
+        /// Gets the required number of messages needed for segmentSize and channel.
+        /// </summary>
+        private int GetRequiredMessageCount(byte channelId, int segmentSize, out int maxMessageSize)
+        {
+            maxMessageSize = GetLowestMTU(channelId) - (TransportManager.TICK_BYTES + SPLIT_INDICATOR_SIZE);
+            return Mathf.CeilToInt((float)segmentSize / maxMessageSize);
+        }
+
         /// <summary>
         /// True if data must be split.
         /// </summary>
         /// <param name="channelId"></param>
         /// <param name="segmentSize"></param>
-        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private bool SplitRequired(byte channelId, int segmentSize, out int requiredMessages, out int maxMessageSize)
         {
-            maxMessageSize = GetLowestMTU(channelId) - (TransportManager.TICK_BYTES + SPLIT_INDICATOR_SIZE);
-            requiredMessages = Mathf.CeilToInt((float)segmentSize / maxMessageSize);
+            requiredMessages = GetRequiredMessageCount(channelId, segmentSize, out maxMessageSize);
 
-            return (requiredMessages > 1);
+            bool splitRequired = (requiredMessages > 1);
+            if (splitRequired && channelId != (byte)Channel.Reliable)
+                _networkManager.LogError($"A message of length {segmentSize} requires the reliable channel but was sent on channel {(Channel)channelId}. Please file this stack trace as a bug report.");
+
+            return splitRequired;
         }
 
         /// <summary>

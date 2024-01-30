@@ -12,7 +12,6 @@ namespace FishNet.Component.Prediction
 {
     public partial class PredictedObject : NetworkBehaviour
     {
-#if !PREDICTION_V2
         #region Types.
         [System.Serializable]
         public struct SmoothingData
@@ -301,10 +300,6 @@ namespace FishNet.Component.Prediction
             bool is2D = (_predictionType == PredictionType.Rigidbody2D);
             uint lastNbTick = nb.GetLastReconcileTick();
             int stateIndex = GetCachedStateIndex(lastNbTick, is2D);
-            if (stateIndex == -1)
-            {
-                Debug.LogError($"StateIndex not found. LastNbTick {lastNbTick}. NB {nb.name}");
-            }
             /* If running again on the same reconcile or state is for a different
              * tick then do make RBs kinematic. Resetting to a different state
              * could cause a desync and there's no reason to run the same
@@ -1149,7 +1144,6 @@ namespace FishNet.Component.Prediction
             return true;
         }
         #endregion
-#endif
     }
 
 

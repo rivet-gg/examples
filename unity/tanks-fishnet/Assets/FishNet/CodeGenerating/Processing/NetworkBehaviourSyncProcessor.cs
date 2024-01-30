@@ -37,7 +37,7 @@ namespace FishNet.CodeGenerating.Processing
         #endregion
 
         #region Const.
-        private const string SYNCVAR_PREFIX = "syncVar___";
+        internal const string SYNCVAR_PREFIX = "syncVar___";
         private const string ACCESSOR_PREFIX = "sync___";
         private const string SETREGISTERED_METHOD_NAME = "SetRegistered";
         private const string INITIALIZEINSTANCE_METHOD_NAME = "InitializeInstance";
@@ -59,8 +59,6 @@ namespace FishNet.CodeGenerating.Processing
         /// <summary>
         /// Processes SyncVars and Objects.
         /// </summary>
-        /// <param name="typeDef"></param>
-        /// <param name="diagnostics"></param>
         internal bool ProcessLocal(TypeDefinition typeDef, List<(SyncType, ProcessedSync)> allProcessedSyncs)
         {
             bool modified = false;
@@ -160,13 +158,6 @@ namespace FishNet.CodeGenerating.Processing
             NetworkBehaviourHelper nbh = base.GetClass<NetworkBehaviourHelper>();
             ILProcessor processor = localReadMd.DeclaringType.GetMethod(NetworkBehaviourProcessor.NETWORKINITIALIZE_EARLY_INTERNAL_NAME).Body.GetILProcessor();
 
-
-        //IL_0000: ldarg.0
-        //IL_0001: ldarg.0
-        //IL_0002: ldftn instance bool C::MyRead(uint8, bool)
-        //IL_0008: newobj instance void SyncVarReadDelegate::.ctor(object, native int)
-        //IL_000d: call instance void D::RegisterDelegate(class SyncVarReadDelegate)
-
             List<Instruction> insts = new List<Instruction>();
             /* Create delegate and call NetworkBehaviour method. */
             insts.Add(processor.Create(OpCodes.Ldarg_0));
@@ -197,8 +188,6 @@ namespace FishNet.CodeGenerating.Processing
         /// <summary>
         /// Gets SyncType fieldDef is.
         /// </summary>
-        /// <param name="fieldDef"></param>
-        /// <param name="diagnostics"></param>
         /// <returns></returns>
         internal SyncType GetSyncType(FieldDefinition fieldDef, bool validate, out CustomAttribute syncAttribute)
         {
@@ -293,6 +282,83 @@ namespace FishNet.CodeGenerating.Processing
                 return SyncType.Unset;
             }
 
+        }
+
+
+        /// <summary>
+        /// Returns if fieldDef is a syncType.
+        /// </summary>
+        /// <param name="fieldDef"></param>
+        /// <returns></returns>
+        internal bool IsSyncType(FieldDefinition fieldDef)
+        {
+            TypeDefinition ftTypeDef = fieldDef.FieldType.CachedResolve(base.Session);
+            /* TypeDef may be null for certain generated types,
+             * as well for some normal types such as queue because Unity broke
+             * them in 2022+ and decided the issue was not worth resolving. */
+            if (ftTypeDef == null)
+                return false;
+
+            return ftTypeDef.ImplementsInterface<ISyncType>();
+        }
+
+
+        internal SyncType GetSyncType_V4(FieldDefinition fieldDef, out CustomAttribute syncAttribute)
+        {
+            syncAttribute = null;
+
+            //If the generated field for syncvars ignore it.
+            if (fieldDef.Name.StartsWith(SYNCVAR_PREFIX))
+                return SyncType.Unset;
+
+            bool syncObject;
+            bool error;
+            syncAttribute = GetSyncTypeAttribute(fieldDef, out syncObject, out error);
+            if (error)
+                return SyncType.Unset;
+
+            if (syncAttribute != null)
+            {
+                /* First check if it's a syncvar attribute. If so
+                 * then check if the field is SyncVar then log error
+                 * that the attributes are no longer used. If field is
+                 * not a syncvar then error that the user needs to convert to
+                 * SyncVar<T>.
+                 * 
+                 * This is to transition users into the new SyncVar. After they change
+                 * their field tp SyncVar<T> an error will appear that the
+                 * SyncVar/Object attributes are no longer used. */
+                if (!syncObject)
+                {
+                    TypeReference syncVarTr = base.ImportReference(typeof(SyncVar<>));
+                    //Not SyncVar<T>.
+                    if (fieldDef.FieldType != syncVarTr)
+                    {
+                        base.LogError($" SyncVar fields must be declared as SyncVar<T>.");
+                        return SyncType.Unset;
+                    }
+
+                }
+
+                base.LogError($"SyncVar and SyncObject attribute are no longer used. Initialize your SyncTypes in Awake using syncType.Initialize.");
+                return SyncType.Unset;
+            }
+
+            ObjectHelper oh = base.GetClass<ObjectHelper>();
+            string fdName = fieldDef.FieldType.Name;
+            if (fdName == oh.SyncVar_Name)
+                return SyncType.Variable;
+            else if (fdName == oh.SyncList_Name)
+                return SyncType.List;
+            else if (fdName == oh.SyncDictionary_Name)
+                return SyncType.Dictionary;
+            else if (fdName == oh.SyncHashSet_Name)
+                return SyncType.HashSet;
+            //Custom types must also implement ICustomSync.
+            else if (fieldDef.FieldType.CachedResolve(base.Session).ImplementsInterfaceRecursive<ICustomSync>(base.Session))
+                return SyncType.Custom;
+            else
+                return SyncType.Unset;
         }
 
 
@@ -521,7 +587,7 @@ namespace FishNet.CodeGenerating.Processing
                     {
                         base.LogError($"{fieldDef.Name} SyncObject must be readonly.");
                         error = true;
-                    }                    
+                    }
                 }
 
 
@@ -566,7 +632,7 @@ namespace FishNet.CodeGenerating.Processing
 
                 InitializeSyncVar(syncCount, createdSyncVarFd, typeDef, originalFieldDef, syncTypeAttribute, createdSyncVar);
 
-                MethodDefinition syncVarReadMd = CreateSyncVarRead(typeDef, syncCount, originalFieldDef, accessorSetValueMethodRef, ref readSyncVarMd);
+                MethodDefinition syncVarReadMd = CreateSyncVarRead(typeDef, syncCount, createdSyncVar, originalFieldDef, accessorSetValueMethodRef, ref readSyncVarMd);
                 if (syncVarReadMd != null)
                     _createdSyncTypeMethodDefinitions.Add(syncVarReadMd);
 
@@ -598,6 +664,8 @@ namespace FishNet.CodeGenerating.Processing
                 base.LogError($"Could not create field for Sync type {originalFieldDef.FieldType.FullName}, name of {originalFieldDef.Name}.");
                 return null;
             }
+            //Add to CreatedSyncVar.
+            createdSyncVar.SetSyncVarClassField(createdFieldDef);
 
             typeDef.Fields.Add(createdFieldDef);
             return createdFieldDef;
@@ -699,7 +767,7 @@ namespace FishNet.CodeGenerating.Processing
             processor.Emit(OpCodes.Ldarg, calledByUserParameterDef);
             processor.Emit(OpCodes.Brtrue, beforeChangeFieldInst);
             processor.Emit(OpCodes.Ldarg_0); //this.            
-            processor.Emit(OpCodes.Call, base.GetClass<NetworkBehaviourHelper>().IsServer_MethodRef);
+            processor.Emit(OpCodes.Call, base.GetClass<NetworkBehaviourHelper>().IsServerInitialized_MethodRef);
             processor.Emit(OpCodes.Brtrue, afterChangeFieldInst);
 
             //      _originalField = value;
@@ -1317,7 +1385,7 @@ namespace FishNet.CodeGenerating.Processing
         /// <param name="typeDef"></param>
         /// <param name="syncIndex"></param>
         /// <param name="originalFieldDef"></param>
-        private MethodDefinition CreateSyncVarRead(TypeDefinition typeDef, uint syncIndex, FieldDefinition originalFieldDef, MethodReference accessorSetMethodRef, ref MethodDefinition readSyncVarMd)
+        private MethodDefinition CreateSyncVarRead(TypeDefinition typeDef, uint syncIndex, CreatedSyncVar createdSyncVar, FieldDefinition originalFieldDef, MethodReference accessorSetMethodRef, ref MethodDefinition readSyncVarMd)
         {
             Instruction jmpGoalInst;
             ILProcessor processor;
@@ -1375,11 +1443,31 @@ namespace FishNet.CodeGenerating.Processing
             //Check index first. if (index != syncIndex) return
             Instruction nextLastReadInstruction = processor.Create(OpCodes.Ldarg, indexPd);
             processor.InsertBefore(jmpGoalInst, nextLastReadInstruction);
-
             uint hash = (uint)syncIndex;
             processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Ldc_I4, (int)hash));
             //processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Ldc_I4, syncIndex));
             processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Bne_Un, jmpGoalInst));
+
+            Instruction setValueInst = processor.Create(OpCodes.Nop);
+            /* This section will call GetValue from the SyncVar
+             * class and set it to the syncvar field. */
+            processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Ldarg_1));
+            processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Brtrue_S, setValueInst));
+            //Load field and class.
+
+            processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Ldarg_0));
+            processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Ldarg_0));
+            processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Ldfld, createdSyncVar.SyncVarClassFd));
+            processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Ldc_I4_1)); //True for calledByUser.
+            processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Call, createdSyncVar.GetValueMr));
+            processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Ldc_I4_1)); //True for calledByUser.
+            processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Call, accessorSetMethodRef));
+
+            InsertReturnTrue();
+
+            processor.InsertBefore(jmpGoalInst, setValueInst);
+            /* This section will pull data from the reader
+             * and call SetValue on the SyncVar class. */
             //PooledReader.ReadXXXX()
             readInsts = base.GetClass<ReaderProcessor>().CreateRead(readSyncVarMd, pooledReaderPd,
                  originalFieldDef.FieldType, out nextValueVariableDef);
@@ -1395,9 +1483,14 @@ namespace FishNet.CodeGenerating.Processing
             //processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Ldc_I4_0));
             processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Ldarg, asServerPd));
             processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Call, accessorSetMethodRef));
-            //Return true when able to process.
-            processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Ldc_I4_1));
-            processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Ret));
+            InsertReturnTrue();
+
+            void InsertReturnTrue()
+            {
+                //Return true when able to process.
+                processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Ldc_I4_1));
+                processor.InsertBefore(jmpGoalInst, processor.Create(OpCodes.Ret));
+            }
 
             _lastReadInstruction = nextLastReadInstruction;
             processor.Remove(nopPlaceHolderInst);

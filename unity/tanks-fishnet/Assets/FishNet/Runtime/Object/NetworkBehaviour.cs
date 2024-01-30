@@ -1,4 +1,5 @@
 ﻿using FishNet.Documenting;
+using FishNet.Managing.Transporting;
 using FishNet.Serializing.Helping;
 using FishNet.Utility.Constant;
 using System.Runtime.CompilerServices;
@@ -38,6 +39,10 @@ namespace FishNet.Object
         private NetworkObject _addedNetworkObject;
 #endif 
         /// <summary>
+        /// Cache of the TransportManager.
+        /// </summary>
+        private TransportManager _transportManagerCache;
+        /// <summary>
         /// 
         /// </summary>
         [SerializeField, HideInInspector]
@@ -61,12 +66,23 @@ namespace FishNet.Object
 #pragma warning restore CS0414
         #endregion
 
-#if !PREDICTION_V2
+        /// <summary>
+        /// Outputs data about this NetworkBehaviour to string.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"Name [{gameObject.name}] ComponentId [{ComponentIndex}] NetworkObject Name [{_networkObjectCache.name}] NetworkObject Id [{_networkObjectCache.ObjectId}]";
+        }
+
+
         /// <summary>
         /// Preinitializes this script for the network.
         /// </summary>
         internal void Preinitialize_Internal(NetworkObject nob, bool asServer)
         {
+            _transportManagerCache = nob.TransportManager;
+
             InitializeOnceSyncTypes(asServer);
             if (asServer)
             {                
@@ -78,42 +94,7 @@ namespace FishNet.Object
                 _initializedOnceClient = true;
             }
         }
-#else
-        /// <summary>
-        /// Preinitializes this script for the network.
-        /// </summary>
-        internal void Preinitialize_Internal(NetworkObject nob, bool asServer)
-        {
-            /* Guestimate the last replicate tick 
-             * based on latency and last packet tick.
-             * Going to try and send last input with spawn
-             * packet which will have definitive tick. //todo
-             */
-            if (!asServer && !nob.IsServer && !IsOwner)
-            {
-                long estimatedTickDelay = (TimeManager.Tick - TimeManager.LastPacketTick);
-                if (estimatedTickDelay < 0)
-                    estimatedTickDelay = 0;
 
-                _networkObjectCache.ReplicateTick.Update(nob.TimeManager, nob.TimeManager.LastPacketTick - (uint)estimatedTickDelay);
-            }
-
-            InitializeOnceSyncTypes(asServer);
-            if (asServer)
-            {
-                InitializeRpcLinks();
-                _initializedOnceServer = true;
-            }
-            else
-            {
-                if (!_initializedOnceClient && nob.EnablePrediction)
-                    nob.RegisterPredictionBehaviourOnce(this);
-
-                _initializedOnceClient = true;
-            }
-        }
-
-#endif
         internal void Deinitialize(bool asServer)
         {
 
@@ -171,7 +152,7 @@ namespace FishNet.Object
         /// </summary>
         internal void ResetState()
         {
-            ResetSyncTypes();
+            SyncTypes_ResetState();
             ClearReplicateCache();
             ClearBuffedRpcs();
         }

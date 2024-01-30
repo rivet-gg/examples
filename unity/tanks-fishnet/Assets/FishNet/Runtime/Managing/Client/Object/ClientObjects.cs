@@ -93,7 +93,10 @@ namespace FishNet.Managing.Client
                 else
                 {
                     foreach (NetworkObject n in Spawned.Values)
+                    { 
                         n.InvokeStopCallbacks(false);
+                        n.SetInitializedStatus(false, false);
+                    }
                 }
                 /* Clear spawned and scene objects as they will be rebuilt.
                  * Spawned would have already be cleared if DespawnSpawned
@@ -713,7 +716,7 @@ namespace FishNet.Managing.Client
             }
             else if (spt == SpawnParentType.NetworkBehaviour)
             {
-                reader.ReadNetworkBehaviour(out int objectId, out byte componentIndex);
+                reader.ReadNetworkBehaviour(out int objectId, out byte componentIndex, _objectCache.ReadSpawningObjects);
                 if (objectId != NetworkObject.UNSET_OBJECTID_VALUE)
                 {
                     parentObjectId = objectId;
