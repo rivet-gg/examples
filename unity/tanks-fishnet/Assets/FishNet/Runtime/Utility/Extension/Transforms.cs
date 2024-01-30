@@ -8,6 +8,26 @@ namespace FishNet.Utility.Extension
     public static class TransformFN
     {
         /// <summary>
+        /// Sets values of TransformProperties to a transforms world properties.
+        /// </summary>
+        public static TransformProperties GetWorldProperties(this Transform t)
+        {
+            TransformProperties tp = new TransformProperties(t.position, t.rotation, t.localScale);
+            return tp;
+        }
+
+        /// <summary>
+        /// Sets values of TransformPropertiesCls to a transforms world properties.
+        /// </summary>
+        public static void SetWorldProperties(this TransformPropertiesCls tp, Transform t)
+        {
+            tp.Position = t.position;
+            tp.Rotation = t.rotation;
+            tp.LocalScale = t.localScale;
+        }
+
+
+        /// <summary>
         /// Sets the offset values of target from a transform.
         /// </summary>
         /// <param name="pos">Position offset result.</param>
@@ -16,8 +36,8 @@ namespace FishNet.Utility.Extension
         {
             if (target == null)
                 return;
-            pos = (t.position - target.position);
-            rot = (t.rotation * Quaternion.Inverse(target.rotation));
+            pos = (target.position - t.position);
+            rot = (target.rotation * Quaternion.Inverse(t.rotation));
         }
 
         /// <summary>
@@ -25,15 +45,15 @@ namespace FishNet.Utility.Extension
         /// </summary>
         /// <param name="pos">Position offset result.</param>
         /// <param name="rot">Rotation offset result.</param>
-        internal static TransformProperties GetTransformOffsets(this Transform t, Transform target)
+        public static TransformProperties GetTransformOffsets(this Transform t, Transform target)
         {
             if (target == null)
                 return default;
 
             return new TransformProperties(
-                (t.position - target.position),
-                (t.rotation * Quaternion.Inverse(target.rotation)),
-                (t.localScale - target.localScale)
+                (target.position - t.position),
+                (target.rotation * Quaternion.Inverse(t.rotation)),
+                (target.localScale - t.localScale)
                 );
         }
 

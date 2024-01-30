@@ -256,7 +256,7 @@ namespace FishNet.Utility
         {
             get
             {
-                int offset = (Capacity - _written) + simulatedIndex + WriteIndex;                
+                int offset = (Capacity - _written) + simulatedIndex + WriteIndex;
                 if (offset >= Capacity)
                     offset -= Capacity;
                 return Collection[offset];

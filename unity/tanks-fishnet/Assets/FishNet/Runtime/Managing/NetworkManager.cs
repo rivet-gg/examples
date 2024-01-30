@@ -78,7 +78,7 @@ namespace FishNet.Managing
         private static List<NetworkManager> _instances = new List<NetworkManager>();
         /// <summary>
         /// Currently initialized NetworkManagers.
-        /// </summary>
+        /// </summary> //Remove on 2024/01/01 Convert to IReadOnlyList.
         public static IReadOnlyCollection<NetworkManager> Instances
         {
             get
@@ -97,30 +97,29 @@ namespace FishNet.Managing
                 }
                 return _instances;
             }
-        }
-
+        }  
         /// <summary>
-        /// True if server is active.
+        /// True if server is started.
         /// </summary>
         public bool IsServer => ServerManager.Started;
         /// <summary>
-        /// True if only the server is active.
+        /// True if only the server is started.
         /// </summary>
         public bool IsServerOnly => (IsServer && !IsClient);
         /// <summary>
-        /// True if the client is active and authenticated.
+        /// True if the client is started and authenticated.
         /// </summary>
         public bool IsClient => (ClientManager.Started && ClientManager.Connection.Authenticated);
         /// <summary>
-        /// True if only the client is active and authenticated.
+        /// True if only the client is started and authenticated.
         /// </summary>
         public bool IsClientOnly => (!IsServer && IsClient);
         /// <summary>
-        /// True if client and server are active.
+        /// True if client and server are started.
         /// </summary>
         public bool IsHost => (IsServer && IsClient);
         /// <summary>
-        /// True if client nor server are active.
+        /// True if client nor server are started.
         /// </summary>
         public bool IsOffline => (!IsServer && !IsClient);
         /// <summary>
