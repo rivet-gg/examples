@@ -1,0 +1,13 @@
+engine:
+  godot:
+
+matchmaker:
+  max_players: 12
+  docker:
+    dockerfile: 'Dockerfile'
+    ports:
+      default:
+        port: 10567
+        protocol: 'udp'
+  game_modes:
+    default: {}
