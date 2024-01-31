@@ -8,7 +8,12 @@
 # Godot-specific ignores
 .import/
 export.cfg
-export_presets.cfg
+
+# Godot 4.1 can let export_presets be commited. This can be changed on an
+# example level if any future examples work with Godot <4.1.
+# https://github.com/github/gitignore/pull/2827
+# https://github.com/godotengine/godot/pull/76165
+# export_presets.cfg
 
 # Imported translations (automatically generated from CSV files)
 *.translation
