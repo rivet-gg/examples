@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://djxiqhnjwr33t"]
+
+[node name="Game" type="Node2D"]
+
+[node name="GodotBalls" type="Node2D" parent="."]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://godot_ball.tscn")
+spawn_path = NodePath("../GodotBalls")

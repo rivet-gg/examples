@@ -24,6 +24,7 @@ gamestate="*res://scripts/gamestate.gd"
 RivetHelper="*res://addons/rivet/rivet_helper.gd"
 Rivet="*res://addons/rivet/rivet_global.gd"
 RivetGlobal="*res://addons/rivet/rivet_global.gd"
+RivetClient="*res://addons/rivet/rivet_client.gd"
 
 [display]
 
