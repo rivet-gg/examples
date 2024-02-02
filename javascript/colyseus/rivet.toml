@@ -23,8 +23,8 @@
 #
 # Available regions: https://docs.rivet.gg/serverless-lobbies/concepts/available-regions
 [matchmaker.regions]
-	lnd-sfo = {}
-	lnd-fra = {}
+	sfo = {}
+	fra = {}
 
 # Runtime configuration for the lobby's Docker container.
 [matchmaker.docker]
