@@ -26,8 +26,8 @@ start = "yarn start"
 #
 # Available regions: https://docs.rivet.gg/serverless-lobbies/concepts/available-regions
 [matchmaker.regions]
-	lnd-atl = {}
-	lnd-fra = {}
+	atl = {}
+	fra = {}
 
 # Runtime configuration for the lobby's Docker container.
 [matchmaker.docker]

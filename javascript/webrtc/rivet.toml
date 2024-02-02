@@ -7,8 +7,8 @@
 	max_players = 32
 
 [matchmaker.regions]
-	lnd-sfo = {}
-	lnd-fra = {}
+	sfo = {}
+	fra = {}
 
 [matchmaker.docker]
 	dockerfile = "Dockerfile"

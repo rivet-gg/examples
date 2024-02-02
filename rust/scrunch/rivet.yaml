@@ -25,8 +25,8 @@ matchmaker:
         port: 3000
         protocol: https
   regions:
-    lnd-atl: {}
-    lnd-fra: {}
+    atl: {}
+    fra: {}
   game_modes:
     default: {}
 

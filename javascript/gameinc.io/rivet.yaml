@@ -13,7 +13,7 @@ matchmaker:
       PORT: "8080"
   # Only use one region so everyone always gets the same lobby.
   regions:
-    lnd-atl: {}
+    atl: {}
   game_modes:
     default: {}
 

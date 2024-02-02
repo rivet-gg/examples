@@ -4,8 +4,8 @@ matchmaker:
   max_players: 32
   tier: "basic-1d2"
   regions:
-    lnd-atl: {}
-    lnd-fra: {}
+    atl: {}
+    fra: {}
   game_modes:
     default: {}
     bullet-hell: {}
