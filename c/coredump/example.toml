@@ -3,7 +3,6 @@ title = "Core dump"
 
 [meta]
 engine = "Custom"
-language = "C"
-features = ["DynamicServers"]
-
-
+languages = ["C"]
+platforms = []
+features = ["Matchmaker", "DynamicServers"]

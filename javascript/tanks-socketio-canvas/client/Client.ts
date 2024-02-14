@@ -9,9 +9,6 @@ import { renderBarrel } from "../shared/Barrel";
 import { renderExplosion } from "../shared/Explosion";
 import { renderTurret } from "../shared/Turret";
 
-import { RivetClient } from "@rivet-gg/api";
-export const RIVET = new RivetClient({ token: process.env.RIVET_TOKEN });
-
 const TITLE_TEXT = "Tanks!";
 
 export interface Client {
@@ -69,12 +66,8 @@ export async function createClient(): Promise<Client> {
 	return client;
 }
 
-async function connect(client: Client) {
-	const res = await RIVET.matchmaker.lobbies.find({ gameModes: ["default"] });
-	const port = res.ports["default"];
-	client.connection = new Connection(client, port.isTls, port.host, {
-		token: res.player.token,
-	});
+function connect(client: Client) {
+	client.connection = new Connection(client, false, 'localhost:3000', {});
 }
 
 export function getCurrentPlayer(client: Client): PlayerState | undefined {

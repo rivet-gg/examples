@@ -25,21 +25,16 @@ fn main() -> Result<()> {
     let mut example_configs = entries
         .par_iter()
         .filter(|entry| entry.file_name() == "example.toml")
-        .filter_map(|entry| {
-            let path = entry
-                .path()
-                .parent()
-                .context("path.parent")
-                .ok()?
-                .to_owned();
-            let config_str = fs::read_to_string(entry.path()).ok()?;
-            let config = toml::from_str::<example::Config>(&config_str).ok()?;
+        .map(|entry| {
+            let path = entry.path().parent().context("path.parent")?.to_owned();
+            let config_str = fs::read_to_string(entry.path())?;
+            let config = toml::from_str::<example::Config>(&config_str)?;
 
-            template_example(&config, &tera, &path).ok()?;
+            template_example(&config, &tera, &path)?;
 
-            Some((path, config))
+            Result::Ok((path, config))
         })
-        .collect::<Vec<(PathBuf, example::Config)>>();
+        .collect::<Result<Vec<(PathBuf, example::Config)>>>()?;
 
     // Sort examples & template for overview
     example_configs.sort_by_key(|(_, config)| -config.display.overview_weight.unwrap_or(0));
@@ -77,7 +72,7 @@ fn template_example(config: &example::Config, tera: &Tera, path: &Path) -> Resul
 
         let path_clone = preview_path.clone();
         let (a, b) = rayon::join(
-            || resize_and_save(&img, &path_clone, 128),
+            || resize_and_save(&img, &path_clone, 256),
             || resize_and_save(&img, &preview_path, 512),
         );
         a?;

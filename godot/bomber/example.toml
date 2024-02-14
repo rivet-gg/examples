@@ -6,8 +6,7 @@ overview_weight = 100
 [meta]
 engine = "Godot"
 engine_version = "4.0.0"
-language = "GDScript"
+languages = ["GDScript"]
 networking = "GodotHLMultiplayer"
+platforms = ["Desktop"]
 features = ["Matchmaker", "DynamicServers"]
-
-

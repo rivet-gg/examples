@@ -10,9 +10,8 @@ extra_steps = [
 ]
 
 [meta]
-engine = "HTML5"
-language = "TypeScript"
+engine = "JavaScript"
+languages = ["TypeScript"]
 networking = "WebRTC"
-features = ["DynamicServers"]
-
-
+platforms = ["HTML5"]
+features = ["Matchmaker", "DynamicServers"]

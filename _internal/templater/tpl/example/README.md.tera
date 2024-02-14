@@ -10,6 +10,10 @@
 [Visit Tutorial]({{ config.display.tutorial_url }})
 {% endif %}
 
+{% if config.display.demo_url -%}
+[Live Demo]({{ config.display.demo_url }})
+{% endif %}
+
 | {% for x in meta %} {{ x.title }} |{% endfor %}
 | {% for x in meta %} --- |{% endfor %}
 | {% for x in meta %} {% if x.url %}[{{ x.value }}]({{ x.url }}){% else %}{{ x.value }}{% endif %} |{% endfor %}

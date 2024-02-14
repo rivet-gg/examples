@@ -5,6 +5,9 @@
 [Visit Tutorial](https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio)
 
 
+[Live Demo](https://tanks.staging2.boatbumpers.io/)
+
+
 |  Language | Networking | Rendering |
 |  --- | --- | --- |
 |  [TypeScript](https://www.typescriptlang.org) | [Socket.IO](https://socket.io) | [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) |

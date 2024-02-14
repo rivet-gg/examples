@@ -8,9 +8,11 @@
 [Visit Tutorial](https://rivet.gg/learn/unity/tutorials/fishnet/crash-course)
 
 
+
+
 |  Engine Version | Language | Networking |
 |  --- | --- | --- |
-|  2020.3.0 | [C#](https://docs.microsoft.com/en-us/dotnet/csharp/) | [Fish-Networking](https://fish-networking.gitbook.io/docs/) |
+|  2022.3.18f1 | [C#](https://docs.microsoft.com/en-us/dotnet/csharp/) | [Fish-Networking](https://fish-networking.gitbook.io/docs/) |
 
 **Rivet Features**
 

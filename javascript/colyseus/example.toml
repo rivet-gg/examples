@@ -7,9 +7,8 @@ This repository provides examples of running Colyseus with the Rivet plugin.
 """"
 
 [meta]
-engine = "HTML5"
-language = "TypeScript"
+engine = "JavaScript"
+languages = ["TypeScript"]
 networking = "Colyseus"
+platforms = ["HTML5"]
 features = ["Matchmaker", "DynamicServers"]
-
-

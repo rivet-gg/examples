@@ -7,12 +7,15 @@
 
 
 
+
+
 |  Language | Networking |
 |  --- | --- |
 |  [TypeScript](https://www.typescriptlang.org) | [WebRTC](https://webrtc.org) |
 
 **Rivet Features**
 
+- [♟️ Matchmaker](https://rivet.gg/docs/matchmaker)
 - [🌐 Dynamic Servers](https://rivet.gg/docs/dynamic-servers)
 
 

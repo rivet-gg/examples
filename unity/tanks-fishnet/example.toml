@@ -5,9 +5,8 @@ overview_weight = 95
 
 [meta]
 engine = "Unity"
-engine_version = "2020.3.0"
-language = "CSharp"
+engine_version = "2022.3.18f1"
+languages = ["CSharp"]
 networking = "FishNet"
+platforms = ["Desktop"]
 features = ["Matchmaker", "DynamicServers"]
-
-

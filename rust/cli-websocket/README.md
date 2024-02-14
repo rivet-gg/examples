@@ -4,12 +4,15 @@
 
 
 
+
+
 |  Language | Networking |
 |  --- | --- |
 |  [Rust](https://www.rust-lang.org) | [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) |
 
 **Rivet Features**
 
+- [♟️ Matchmaker](https://rivet.gg/docs/matchmaker)
 - [🌐 Dynamic Servers](https://rivet.gg/docs/dynamic-servers)
 
 
