@@ -3,9 +3,9 @@
 	"version": "1.0.0",
 	"description": "",
 	"scripts": {
-		"start": "npm install && concurrently --kill-others \"npm:start:server\" \"npm:watch:client\"",
+		"start": "yarn install && concurrently --kill-others \"yarn run start:server\" \"yarn run watch:client\"",
 		"start:server": "kill-port -s 3000 && ts-node -r dotenv/config server/index.ts",
-		"watch": "npm install && concurrently --kill-others \"npm:watch:server\" \"npm:watch:client\"",
+		"watch": "yarn install && concurrently --kill-others \"yarn run watch:server\" \"yarn run watch:client\"",
 		"watch:server": "kill-port -s 3000 && nodemon -r dotenv/config --delay 1 --watch server --watch shared --ext ts --exec ts-node server/index.ts",
 		"watch:client": "kill-port -s 8080 && webpack serve --no-stats",
 		"build:client": "webpack",
@@ -18,7 +18,7 @@
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
-		"@rivet-gg/api": "^24.1.1-rc.1",
+		"@rivet-gg/api": "^23.2.0-rc1",
 		"socket.io": "^4.5.4"
 	},
 	"devDependencies": {
