@@ -49,9 +49,7 @@ module.exports = (env) => {
 				template: path.join(__dirname, "client", "index.html"),
 			}),
 			new webpack.DefinePlugin({
-				"process.env.RIVET_TOKEN": env.production
-					? "undefined"
-					: JSON.stringify(process.env.RIVET_TOKEN),
+				"process.env.RIVET_TOKEN": JSON.stringify(process.env.RIVET_TOKEN)
 			}),
 		],
 	};

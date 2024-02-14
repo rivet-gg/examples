@@ -1,8 +1,7 @@
 import { Server } from "./Server";
 import { Socket } from "socket.io";
-import { RTCPeerConnection, RTCDataChannel, RTCSessionDescription } from "wrtc";
+import { RTCPeerConnection, RTCDataChannel, RTCSessionDescription } from "@roamhq/wrtc";
 import * as sdpTransform from "sdp-transform";
-import { PORT_WEBRTC_MIN, PORT_WEBRTC_MAX } from "./env";
 
 export class Connection {
 	private name: string;
@@ -48,10 +47,6 @@ export class Connection {
 		// Create peer
 		this.peer = new RTCPeerConnection({
 			iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
-			portRange: {
-				min: PORT_WEBRTC_MIN,
-				max: PORT_WEBRTC_MAX,
-			},
 		});
 		this.peer.addEventListener("iceconnectionstatechange", (ev) => {
 			console.log("ICE connection state", this.peer.iceConnectionState);
