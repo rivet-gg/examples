@@ -4,6 +4,7 @@
         "module": "CommonJS",
         "moduleResolution": "Node",
         "lib": ["ES6", "DOM"],
+        "skipLibCheck": true,
         "outDir": "dist/"
     },
     "include": ["server/**/*.ts", "client/**/*.ts", "shared/**/*.ts"]

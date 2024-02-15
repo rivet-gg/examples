@@ -12,15 +12,8 @@ matchmaker:
     default: {}
   docker:
     dockerfile: Dockerfile
-    network_mode: host
     ports:
       signaling:
         protocol: https
         port: 3000
-      webrtc:
-        protocol: udp
-        proxy: none
-        port_range:
-          min: 26000
-          max: 31999
 

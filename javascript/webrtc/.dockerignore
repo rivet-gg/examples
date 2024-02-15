@@ -6,3 +6,5 @@ dist/
 .rivet/
 .env
 
+Dockerfile
+

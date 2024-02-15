@@ -31,14 +31,15 @@
 		"socket.io-client": "^4.5.2",
 		"ts-loader": "^9.3.1",
 		"ts-node": "^10.9.1",
+		"typescript": "^5.3.3",
 		"webpack": "^5.74.0",
 		"webpack-cli": "^4.10.0",
 		"webpack-dev-server": "^4.11.0"
 	},
 	"dependencies": {
-		"@rivet-gg/api": "^0.0.1-rc19",
+		"@rivet-gg/api": "^24.1.1-rc.1",
+		"@roamhq/wrtc": "^0.7.1",
 		"sdp-transform": "^2.14.1",
-		"socket.io": "^4.5.2",
-		"wrtc": "^0.4.7"
+		"socket.io": "^4.5.2"
 	}
 }
