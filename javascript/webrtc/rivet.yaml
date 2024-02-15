@@ -1,0 +1,26 @@
+engine:
+  html5: {}
+scripts:
+  start: npm start
+cdn:
+  build_command: npm install && npm run build:client:prod
+  build_output: ./dist
+matchmaker:
+  tier: basic-1d4
+  max_players: 32
+  game_modes:
+    default: {}
+  docker:
+    dockerfile: Dockerfile
+    network_mode: host
+    ports:
+      signaling:
+        protocol: https
+        port: 3000
+      webrtc:
+        protocol: udp
+        proxy: none
+        port_range:
+          min: 26000
+          max: 31999
+
