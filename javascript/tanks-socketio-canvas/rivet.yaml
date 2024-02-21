@@ -7,7 +7,7 @@
 #
 
 scripts:
-  start: yarn start
+  start: npm run start
 
 # How the game lobbies run and how players connect to the game.
 #
