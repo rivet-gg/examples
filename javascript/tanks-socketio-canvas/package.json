@@ -3,9 +3,9 @@
 	"version": "1.0.0",
 	"description": "",
 	"scripts": {
-		"start": "yarn install && concurrently --kill-others \"yarn run start:server\" \"yarn run watch:client\"",
+		"start": "npm install && concurrently --kill-others \"npm run start:server\" \"npm run watch:client\"",
 		"start:server": "kill-port -s 3000 && ts-node -r dotenv/config server/index.ts",
-		"watch": "yarn install && concurrently --kill-others \"yarn run watch:server\" \"yarn run watch:client\"",
+		"watch": "npm install && concurrently --kill-others \"npm run watch:server\" \"npm run watch:client\"",
 		"watch:server": "kill-port -s 3000 && nodemon -r dotenv/config --delay 1 --watch server --watch shared --ext ts --exec ts-node server/index.ts",
 		"watch:client": "kill-port -s 8080 && webpack serve --no-stats",
 		"build:client": "webpack",
