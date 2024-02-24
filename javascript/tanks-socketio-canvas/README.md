@@ -27,5 +27,5 @@
 
 ## Deploying to Rivet
 
-[Documentation](https://rivet.gg/learn/html5/tutorials/crash-course#step-3-publish-your-game)
+[Documentation](https://rivet.gg/learn/html5/tutorials/tanks-canvas-socketio)
 
