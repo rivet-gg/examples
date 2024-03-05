@@ -12,7 +12,7 @@
 		<!-- colyseus.js client -->
 		<script
 			type="text/javascript"
-			src="https://unpkg.com/@rivet-gg/plugin-colyseus-javascript@0.14.2/dist/colyseus.js"
+			src="https://unpkg.com/@rivet-gg/plugin-colyseus-javascript@0.14.4/dist/colyseus.js"
 		></script>
 	</head>
 	<body>
@@ -40,52 +40,47 @@
 		<div id="messages"></div>
 
 		<script>
-			var host = window.document.location.host.replace(/:.*/, "");
+            async function run() {
+                var host = window.document.location.host.replace(/:.*/, "");
 
-			if (
-				!localStorage.rivetToken &&
-				(location.hostname == "0.0.0.0" ||
-					location.hostname == "127.0.0.1" ||
-					location.hostname == "localhost")
-			) {
-				localStorage.rivetToken = prompt("Rivet token:");
-			}
-			var client = new Colyseus.Client({
-				rivetToken: localStorage.rivetToken,
-			});
-			client.joinOrCreate("chat").then((room) => {
-				console.log("joined");
-				room.onStateChange.once(function (state) {
-					console.log("initial room state:", state);
-				});
+                var rivetToken = await (await fetch('/rivet-public-token.txt')).text();
+                var client = new Colyseus.Client({ rivetToken });
+                client.joinOrCreate("chat").then((room) => {
+                    console.log("joined");
+                    room.onStateChange.once(function (state) {
+                        console.log("initial room state:", state);
+                    });
 
-				// new room state
-				room.onStateChange(function (state) {
-					// this signal is triggered on each patch
-				});
+                    // new room state
+                    room.onStateChange(function (state) {
+                        // this signal is triggered on each patch
+                    });
 
-				// listen to patches coming from the server
-				room.onMessage("messages", function (message) {
-					var p = document.createElement("p");
-					p.innerText = message;
-					document.querySelector("#messages").appendChild(p);
-				});
+                    // listen to patches coming from the server
+                    room.onMessage("messages", function (message) {
+                        var p = document.createElement("p");
+                        p.innerText = message;
+                        document.querySelector("#messages").appendChild(p);
+                    });
 
-				// send message to room on submit
-				document.querySelector("#form").onsubmit = function (e) {
-					e.preventDefault();
+                    // send message to room on submit
+                    document.querySelector("#form").onsubmit = function (e) {
+                        e.preventDefault();
 
-					var input = document.querySelector("#input");
+                        var input = document.querySelector("#input");
 
-					console.log("input:", input.value);
+                        console.log("input:", input.value);
 
-					// send data to room
-					room.send("message", input.value);
+                        // send data to room
+                        room.send("message", input.value);
 
-					// clear input
-					input.value = "";
-				};
-			});
+                        // clear input
+                        input.value = "";
+                    };
+                });
+            }
+
+            run();
 		</script>
 	</body>
 </html>

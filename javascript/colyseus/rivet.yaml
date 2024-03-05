@@ -1,0 +1,23 @@
+engine:
+  html5: {}
+scripts:
+  server: npm run start
+  client: ./scripts/generate-token.sh && npm run serve
+cdn:
+  build_command: ./scripts/generate-token.sh
+  build_output: static/
+matchmaker:
+  max_players: 32
+  tier: basic-1d1
+  regions:
+    lax: {}
+    fra: {}
+  docker:
+    dockerfile: Dockerfile
+    ports:
+      default:
+        port: 2567
+        protocol: https
+  game_modes:
+    default: {}
+
