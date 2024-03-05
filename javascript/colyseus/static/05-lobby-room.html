@@ -12,7 +12,7 @@
 		<!-- colyseus.js client -->
 		<script
 			type="text/javascript"
-			src="https://unpkg.com/@rivet-gg/plugin-colyseus-javascript@0.14.2/dist/colyseus.js"
+			src="https://unpkg.com/@rivet-gg/plugin-colyseus-javascript@0.14.4/dist/colyseus.js"
 		></script>
 	</head>
 	<body>
@@ -57,84 +57,82 @@
 		<ul id="all_rooms"></ul>
 
 		<script>
-			var host = window.document.location.host.replace(/:.*/, "");
-			if (!localStorage.rivetToken) {
-				localStorage.rivetToken = prompt("Rivet token:");
-			}
-			var client = new Colyseus.Client({
-				rivetToken: localStorage.rivetToken,
-			});
-			var lobby;
+            async function run() {
+                var host = window.document.location.host.replace(/:.*/, "");
+                var rivetToken = await (await fetch('/rivet-public-token.txt')).text();
+                var client = new Colyseus.Client({ rivetToken });
+                var lobby;
 
-			function join() {
-				// Logged into your app and Facebook.
-				client
-					.joinOrCreate("lobby")
-					.then((room_instance) => {
-						lobby = room_instance;
-						onjoin();
-						console.log("Joined lobby room!");
-					})
-					.catch((e) => {
-						console.error("Error", e);
-					});
-			}
+                function join() {
+                    // Logged into your app and Facebook.
+                    client
+                        .joinOrCreate("lobby")
+                        .then((room_instance) => {
+                            lobby = room_instance;
+                            onjoin();
+                            console.log("Joined lobby room!");
+                        })
+                        .catch((e) => {
+                            console.error("Error", e);
+                        });
+                }
 
-			function onjoin() {
-				lobby.onMessage("rooms", (rooms) => {
-					allRooms = rooms;
-					update_full_list();
+                function onjoin() {
+                    lobby.onMessage("rooms", (rooms) => {
+                        allRooms = rooms;
+                        update_full_list();
 
-					console.log("Received full list of rooms:", allRooms);
-				});
+                        console.log("Received full list of rooms:", allRooms);
+                    });
 
-				lobby.onMessage("+", ([roomId, room]) => {
-					const roomIndex = allRooms.findIndex(
-						(room) => room.roomId === roomId,
-					);
-					if (roomIndex !== -1) {
-						console.log("Room update:", room);
-						allRooms[roomIndex] = room;
-					} else {
-						console.log("New room", room);
-						allRooms.push(room);
-					}
-					update_full_list();
-				});
+                    lobby.onMessage("+", ([roomId, room]) => {
+                        const roomIndex = allRooms.findIndex(
+                            (room) => room.roomId === roomId,
+                        );
+                        if (roomIndex !== -1) {
+                            console.log("Room update:", room);
+                            allRooms[roomIndex] = room;
+                        } else {
+                            console.log("New room", room);
+                            allRooms.push(room);
+                        }
+                        update_full_list();
+                    });
 
-				lobby.onMessage("-", (roomId) => {
-					console.log("Room removed", roomId);
-					allRooms = allRooms.filter(
-						(room) => room.roomId !== roomId,
-					);
-					update_full_list();
-				});
+                    lobby.onMessage("-", (roomId) => {
+                        console.log("Room removed", roomId);
+                        allRooms = allRooms.filter(
+                            (room) => room.roomId !== roomId,
+                        );
+                        update_full_list();
+                    });
 
-				lobby.onLeave(() => {
-					allRooms = [];
-					update_full_list();
-					console.log("Bye, bye!");
-				});
-			}
+                    lobby.onLeave(() => {
+                        allRooms = [];
+                        update_full_list();
+                        console.log("Bye, bye!");
+                    });
+                }
 
-			function update_full_list() {
-				var el = document.getElementById("all_rooms");
-				el.innerHTML = allRooms
-					.map(function (room) {
-						return (
-							"<li><code>" + JSON.stringify(room) + "</code></li>"
-						);
-					})
-					.join("\n");
-			}
+                function update_full_list() {
+                    var el = document.getElementById("all_rooms");
+                    el.innerHTML = allRooms
+                        .map(function (room) {
+                            return (
+                                "<li><code>" + JSON.stringify(room) + "</code></li>"
+                            );
+                        })
+                        .join("\n");
+                }
 
-			function leave() {
-				if (lobby) {
-					lobby.leave();
-				} else {
-					console.warn("Not connected.");
-				}
-			}
+                function leave() {
+                    if (lobby) {
+                        lobby.leave();
+                    } else {
+                        console.warn("Not connected.");
+                    }
+                }
+            }
 		</script>
 	</body>
 </html>
