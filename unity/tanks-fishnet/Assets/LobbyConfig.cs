@@ -1,5 +1,6 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using Rivet;
 using UnityEngine;
 
 public enum GameMode
@@ -12,6 +13,7 @@ public enum GameMode
 public class LobbyConfig : NetworkBehaviour
 {
     private RivetManager _rm;
+    private Server _server;
 
     [SyncVar] public GameMode gameMode = GameMode.ModeA;
     [SyncVar] public float moveSpeed = 5f;
@@ -19,6 +21,7 @@ public class LobbyConfig : NetworkBehaviour
     void Start()
     {
         _rm = FindObjectOfType<RivetManager>();
+        _server = FindObjectOfType<Server>();
 
         if (IsServer)
         {
@@ -31,7 +34,7 @@ public class LobbyConfig : NetworkBehaviour
     public override void OnStartNetwork()
     {
         base.OnStartNetwork();
-        
+
         // Update UI
         if (IsClient)
         {
@@ -50,7 +53,7 @@ public class LobbyConfig : NetworkBehaviour
         // Update game mode
         if (!Application.isEditor)
         {
-            switch (_rm.gameModeName)
+            switch (_server.gameModeName)
             {
                 case "mode-a":
                     gameMode = GameMode.ModeA;
@@ -62,13 +65,13 @@ public class LobbyConfig : NetworkBehaviour
                     gameMode = GameMode.Custom;
                     break;
                 default:
-                    Debug.LogError("Invalid game mode name: " + _rm.gameModeName);
+                    Debug.LogError("Invalid game mode name: " + _server.gameModeName);
                     break;
             }
         }
 
         // Update properties
-        var lc = _rm.LobbyConfig;
+        var lc = _server.LobbyConfig;
         if (lc == null) return;
         moveSpeed = (float)lc["move_speed"];
     }

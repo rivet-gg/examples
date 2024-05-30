@@ -5,7 +5,7 @@ using FishNet.Broadcast;
 using FishNet.Connection;
 using FishNet.Managing;
 using FishNet.Transporting;
-using Unity.VisualScripting.Antlr3.Runtime;
+using Rivet;
 using UnityEngine;
 
 public class RivetAuthenticator : Authenticator

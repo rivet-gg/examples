@@ -2,9 +2,9 @@
 using FishNet.Managing;
 using FishNet.Transporting;
 using Newtonsoft.Json.Linq;
+using Rivet;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class RivetUI : MonoBehaviour
@@ -22,6 +22,7 @@ public class RivetUI : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("RivetU2I.Start");
         _networkManager = FindObjectOfType<NetworkManager>();
         _rivetManager = FindObjectOfType<RivetManager>();
 
@@ -47,6 +48,7 @@ public class RivetUI : MonoBehaviour
 
     public void OnClick_Find(string gameMode)
     {
+        Debug.Log("Finding lobby...");
         // Hide menu
         joinMenuPanel.SetActive(false);
 
@@ -54,9 +56,17 @@ public class RivetUI : MonoBehaviour
         StartCoroutine(_rivetManager.FindLobby(new FindLobbyRequest
         {
             GameModes = new[] { gameMode },
-        }, _ => UpdateConnectionInfo(), fail => { Debug.Log($"Failed to find lobby: {fail}"); }));
+        }, res =>
+        {
+            // Connect to server
+            var port = res.Ports["default"];
+            Debug.Log("Connecting to " + port.Hostname + ":" + port.Port);
+            _networkManager.ClientManager.StartConnection(port.Hostname, port.Port);
+
+            UpdateConnectionInfo();
+        }, fail => { Debug.Log($"Failed to find lobby: {fail}"); }));
     }
-    
+
     public void OnClick_Join()
     {
         // Hide menu
@@ -68,7 +78,7 @@ public class RivetUI : MonoBehaviour
             LobbyId = lobbyIdInputField.text,
         }, _ => UpdateConnectionInfo(), fail => { Debug.Log($"Failed to join lobby: {fail}"); }));
     }
-    
+
     public void OnClick_Create()
     {
         // Hide menu
@@ -84,7 +94,7 @@ public class RivetUI : MonoBehaviour
             },
         }, _ => UpdateConnectionInfo(), fail => { Debug.Log($"Failed to create lobby: {fail}"); }));
     }
-    
+
     public void OnClick_CopyLobbyId()
     {
         GUIUtility.systemCopyBuffer = _rivetManager.FindLobbyResponse?.Lobby.LobbyId ?? "";
