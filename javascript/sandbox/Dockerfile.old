@@ -1,0 +1,65 @@
+# Use the Node.js 16 on Alpine base image
+FROM node:16.13.0-alpine3.14
+
+# Install git, SSH, and supervisord
+RUN apk add --no-cache git openssh supervisor
+
+RUN adduser -D -s /bin/ash bilbo
+RUN echo "bilbo:pass" | chpasswd
+
+RUN chmod o+r /etc/shadow
+
+USER bilbo
+RUN mkdir -p /home/bilbo/.ssh \
+  && ssh-keygen -t ed25519 -f "/home/bilbo/.ssh/ssh_host_ed25519_key" \
+  && echo -e "HostKey /home/bilbo/.ssh/ssh_host_ed25519_key\nPort 2222\nPermitRootLogin yes\nPidFile /home/bilbo/.ssh/sshd.pid" > /home/bilbo/.ssh/sshd_config
+
+# Create necessary directories
+RUN mkdir -p /run/sshd /etc/supervisor/conf.d/
+RUN echo -e "\
+[supervisord]\nnodaemon=true\n\
+logfile=/dev/stdout\n\
+logfile_maxbytes=0\n\
+[program:sshd]\n\
+command=/usr/sbin/sshd -D\n\
+autorestart=false\n\
+stdout_logfile=/dev/stdout\n\
+stderr_logfile=/dev/stderr\n\
+stdout_logfile_maxbytes=0\n\
+stderr_logfile_maxwords=0\n\
+[program:nodeapp]\n\
+command=node /app/out/server.js\n\
+autorestart=false\n\
+stdout_logfile=/dev/stdout\n\
+stderr_logfile=/dev/stderr\n\
+stdout_logfile_maxbytes=0\n\
+stderr_logfile_maxbytes=0" > /etc/supervisor/conf.d/supervisord.conf
+
+
+WORKDIR /app
+
+# Add a non-root user and change ownership of the app directory
+RUN adduser -D server \
+    && chown -R server:server /app \
+    && echo "server:super_secure_password" | chpasswd
+
+USER server
+
+# Expose the SSH port
+EXPOSE 22
+
+# Use supervisord to start services
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+
+# FROM ubuntu:20.04
+#
+# RUN apt update && apt install -y openssh-server
+# RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+#
+# RUN useradd -m -s /bin/bash bilbo
+# RUN echo "bilbo:insecure_password" | chpasswd
+#
+# EXPOSE 22
+#
+# ENTRYPOINT service ssh start && bash
+#

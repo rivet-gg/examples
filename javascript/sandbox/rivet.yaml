@@ -24,4 +24,7 @@ matchmaker:
       default:
         port: 8080
         protocol: https
+      ssh:
+        port: 2222
+        protocol: tcp
 kv: {}
