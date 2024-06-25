@@ -1,9 +1,9 @@
 extends RefCounted
-## Wrapper aroudn the Rivet CLI, allowing you to run it from GDScript in non-blocking way, and get the output.
+## Wrapper around the Rivet CLI, allowing you to run it from GDScript in non-blocking way, and get the output.
 ##
 ## @experimental
 
-const REQUIRED_RIVET_CLI_VERSION = "v1.1.0"
+const REQUIRED_RIVET_CLI_VERSION = "v1.3.1"
 
 const _RivetEditorSettings = preload("rivet_editor_settings.gd")
 const _RivetThread = preload("rivet_thread.gd")
@@ -13,7 +13,7 @@ func check_existence() -> Error:
 	var editor_rivet_path = _RivetEditorSettings.get_setting(_RivetEditorSettings.RIVET_CLI_PATH_SETTING.name)
 	if not editor_rivet_path or editor_rivet_path.is_empty():
 		return FAILED
-	var result: _RivetCliOutput = await run_command(["sidekick", "get-cli-version"])
+	var result: _RivetCliOutput = await run_and_wait(["sidekick", "get-cli-version"])
 	if result.exit_code != 0 or !("Ok" in result.output):
 		return FAILED
 	var cli_version = result.output["Ok"].version
@@ -21,9 +21,12 @@ func check_existence() -> Error:
 		return FAILED
 	return OK
 
-func run_command(args: PackedStringArray) -> _RivetCliOutput:
+func run_and_wait(args: PackedStringArray) -> _RivetCliOutput:
 	var thread: _RivetThread = _RivetThread.new(_run.bind(args))
 	return await thread.wait_to_finish()
+
+func run(args:PackedStringArray) -> _RivetThread:
+	return _RivetThread.new(_run.bind(args))
 
 func get_bin_dir() -> String:
 	var home_path: String = OS.get_environment("USERPROFILE") if OS.get_name() == "Windows" else OS.get_environment("HOME")
