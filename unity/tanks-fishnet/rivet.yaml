@@ -29,7 +29,8 @@ matchmaker:
           enabled: true
 
   docker:
-    dockerfile: Dockerfile
+    dockerfile: Assets/Rivet/Dockerfile
+    # Specify that the build
     ports:
       default:
         port: 7770

@@ -51,6 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "tanks-fishnet.sln",
-    "cmake.sourceDirectory": "C:/Users/micro/Unity Projects/example-tanks-unity-mirror/Library/PackageCache/com.unity.ide.visualstudio@2.0.18/Editor/COMIntegration/COMIntegration~"
+    "dotnet.defaultSolution": "tanks-fishnet_clone_0.sln"
 }

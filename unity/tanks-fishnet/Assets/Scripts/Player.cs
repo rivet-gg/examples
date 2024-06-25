@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using FishNet.Managing.Logging;
 using UnityEngine;
 using FishNet.Object;

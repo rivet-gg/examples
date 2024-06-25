@@ -1,0 +1,16 @@
+{
+    "name": "com.rivet.rivet",
+    "displayName": "Rivet",
+    "version": "24.0.0",
+    "unity": "2021.3",
+    "description": "Description of the Rivet package",
+    "keywords": ["rivet", "unity", "package"],
+    "author": {
+        "name": "Forest Anderson",
+        "email": "forest@rivet.gg",
+        "url": "https://rivet.gg"
+    },
+    "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "2.0.2"
+    }
+}
