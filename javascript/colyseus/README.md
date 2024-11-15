@@ -15,6 +15,21 @@
 - [♟️ Matchmaker](https://rivet.gg/docs/matchmaker)
 - [🌐 Dynamic Servers](https://rivet.gg/docs/dynamic-servers)
 
+## Install Rivet CLI
+
+**macOS & Linux & WSL**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/rivet-gg/cli/v1.3.4/install/unix.sh | sh
+```
+
+**Windows**
+
+```bash
+powershell -Command "iwr https://raw.githubusercontent.com/rivet-gg/cli/v1.3.4/install/windows.ps1 -useb | iex"
+```
+
+Validate that the version of your CLI is 1.3.4 by running `rivet --version`.
 
 ## Running locally
 
@@ -25,5 +40,7 @@
 
 ## Deploying to Rivet
 
-[Documentation](https://rivet.gg/learn/html5/tutorials/crash-course#step-3-publish-your-game)
+```
+rivet deploy prod
+```
 
